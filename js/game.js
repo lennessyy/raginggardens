@@ -52,8 +52,8 @@ window.onload = function() {
 							w: 2, 
 							h: 5, 
 							rotation: this._rotation, 
-							xspeed: 20 * Math.sin(this._rotation / 57.3), 
-							yspeed: 20 * Math.cos(this._rotation / 57.3)
+							xspeed: 5 * Math.sin(this._rotation / 57.3), 
+							yspeed: 5 * Math.cos(this._rotation / 57.3)
 						})
 						.color("rgb(255, 0, 0)")
 						.bind("EnterFrame", function() {
