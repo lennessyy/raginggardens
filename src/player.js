@@ -21,14 +21,3 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-Config = Backbone.Model.extend({
-    defaults: {
-        'renderType' : 'Canvas',
-        'screen-width' : 1024,
-        'screen-height' : 768,
-        
-    },
-    initialize: function() {
-       
-    },
-});
