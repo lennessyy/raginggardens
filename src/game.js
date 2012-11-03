@@ -4,9 +4,9 @@ window.onload = function() {
     Crafty.canvas.init();
 
     //preload the needed assets
-	Crafty.load(["images/sprite.png", "images/bg1.png"], function() {
+	Crafty.load(["art/sprite1.png", "art/bg1.png"], function() {
 		//splice the spritemap
-		Crafty.sprite(64, "images/sprite1.png", {
+		Crafty.sprite(64, "art/sprite1.png", {
 			ship: [0,0],
 			big: [1,0],
 			medium: [2,0],
@@ -20,7 +20,7 @@ window.onload = function() {
 	});
 
     Crafty.scene("main", function() {
-		Crafty.background("url('images/bg1.png')");
+		Crafty.background("url('art/bg1.png')");
         
         //score display
     	var score = Crafty.e("2D, DOM, Text")
