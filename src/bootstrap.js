@@ -23,18 +23,27 @@
  */
 $(document).ready(function() {
     
-    Crafty.init(1024, 768, 25).canvas.init();
-    Crafty.background('rgb(0,0,0)')
-
-    //preload the needed assets
-	Crafty.load(["art/sprite1.png", "art/bg1.png"], function() {
-		//splice the spritemap
-		Crafty.sprite(64, "art/sprite1.png", {
-			ship: [0,0],
-			big: [1,0],
-			medium: [2,0],
-			small: [3,0]
-		});
+    // Init game engine
+    require(['src/config.js'], function() {
+        
+        Crafty.init(1024, 768, 25).canvas.init();
+        Crafty.background('rgb(0,0,0)');
+        
+        //preload the needed assets
+        Crafty.load(["art/sprite1.png", "art/bg1.png"], function() {
+		    
+            //splice the spritemap
+		    Crafty.sprite(64, "art/sprite1.png", {
+			    ship: [0,0],
+			    big: [1,0],
+			    medium: [2,0],
+			    small: [3,0]
+		    });
+        
+        
+        
+        });
+    
 
 		//Crafty.audio.add("Blaster", ["space-blaster.wav", "space-blaster.mp3"])
 

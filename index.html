@@ -18,13 +18,14 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
     <script type="text/javascript" src="lib/backbone-min.js"></script>
     <script type="text/javascript" src="lib/crafty-min.js"></script>
+    <script type="text/javascript" src="lib/require.js"></script>
     <!-- game -->
-    <script type="text/javascript" src="src/game.js"></script>
+    <script type="text/javascript" src="src/bootstrap.js"></script>
  
     <script type="text/javascript">
-    gameContainer = {
+    gameGlobals = {
         env : 'dev',
-        gameVersion : '0.0.1',
+        gameVersion : '0.9',
         scene : 'main'
         },
         sc    = [], // container for backbone scene elements
@@ -32,7 +33,7 @@
         
         Crafty.modules({ 'crafty-debug-bar': 'DEV' }, function () {
             Crafty.debugBar.show();
-            });
+        });
     </script> 
  
 </body>
