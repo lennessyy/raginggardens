@@ -81,6 +81,9 @@ $(document).ready(function() {
         
 		require([
             "src/scene.game.js",
+            "src/actor_object.js",
+            "src/asteroid.js",
+            "src/player.js"
         ], function() {
             
             Crafty.scene("loading");

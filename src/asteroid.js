@@ -21,28 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-Crafty.scene("main", function() {
+Crafty.c('Asteroid', {
     
-    Crafty.background("url('art/bg1.png')");
+    Asteroid: function(type) {
+    },
     
-//        var player = Crafty.e("2D, Canvas, Color")
-//          .color("red")
-//          .attr({x: 150, w:50, h:50});
-//    // Can use the arrow keys as well,
-//      // but we don't want to accidentally change slides
-//      player.addComponent("Fourway").fourway(5)
-//        
-    //score display
-	var score = Crafty.e("2D, DOM, Text")
-		.text("Score: 0")
-		.attr({x: Crafty.viewport.width - 300, y: Crafty.viewport.height - 50, w: 100, h:50})
-		.css({color: "#fff"});        
-    
-    //player entity
-    var player = new Player();
-    
-    var astro = new Asteroid({ size: 1 });
-    var astro2 = new Asteroid();
-     
-});    
+    evaluate: function(tick) {
+        
+    }
+});
 
+Asteroid = ActorObject.extend({
+    defaults: {
+        'size' : 2,
+    },
+    initialize: function() {
+        var model = this;
+        
+        var pos = {x: 50, y: 50};
+        if (model.get('size') == 1) {
+            var pos = {x: 150, y: 150};
+        }
+        
+        // Init Crafty entity
+    	var entity = Crafty.e("2D, Canvas, big, Controls, Collision, Asteroid")
+		
+        .attr({move: {left: false, right: false, up: false, down: false}, xspeed: 0, yspeed: 0, 
+            decay: 0.9, x: pos.x, y: pos.y, score: 0})
+		
+        .origin('center')
+        ;
+        
+        model.set({'entity' : entity });
+    }
+});

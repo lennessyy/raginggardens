@@ -21,28 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-Crafty.scene("main", function() {
+ActorObject = Backbone.Model.extend({
+    defaults: {
+        'entity' : null
+    },
+    initialize: function(){
     
-    Crafty.background("url('art/bg1.png')");
-    
-//        var player = Crafty.e("2D, Canvas, Color")
-//          .color("red")
-//          .attr({x: 150, w:50, h:50});
-//    // Can use the arrow keys as well,
-//      // but we don't want to accidentally change slides
-//      player.addComponent("Fourway").fourway(5)
-//        
-    //score display
-	var score = Crafty.e("2D, DOM, Text")
-		.text("Score: 0")
-		.attr({x: Crafty.viewport.width - 300, y: Crafty.viewport.height - 50, w: 100, h:50})
-		.css({color: "#fff"});        
-    
-    //player entity
-    var player = new Player();
-    
-    var astro = new Asteroid({ size: 1 });
-    var astro2 = new Asteroid();
-     
-});    
+    },
+    getEntity : function(){
+        return this.get('entity');
+    },
+    remove : function(){
+        var entity = this.getEntity();
 
+        if (entity){
+            entity.destroy();
+        }
+    }
+});
