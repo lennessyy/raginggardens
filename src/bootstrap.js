@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 $(document).ready(function() {
-    require(["src/config.js"], function() {
+    require(["src/config.js", "src/actor_object.js"], function() {
         
         /**
          * Global Registry
@@ -48,12 +48,22 @@ $(document).ready(function() {
             Crafty.load(["art/sprite1.png", "art/bg1.png"], function() {
         	    
                 // --- Graphics
+                
     		    Crafty.sprite(64, "art/sprite1.png", {
     			    ship: [0,0],
     			    big: [1,0],
     			    medium: [2,0],
     			    small: [3,0]
     		    });
+                
+        	    Crafty.sprite(64, "art/moosader_tiles.png", {
+    			    grass: [0,0],
+    			    stone_small: [1,0],
+    			    stone_big: [2,0],
+    			    tree: [0,1],
+                    barrel_big: [1,1],
+                    barrel_small: [2,1]
+    		    });                
                 
                 // --- Audio
                 //Crafty.audio.add("Blaster", ["space-blaster.wav", "space-blaster.mp3"]) 
@@ -64,7 +74,7 @@ $(document).ready(function() {
             console.log("Loading ...");
             
             Crafty.background("#000");
-            Crafty.e("2D, DOM, Text")
+            Crafty.e("2D, Canvas, Text")
             .attr({
                 w: 100,
                 h: 20,
@@ -77,17 +87,18 @@ $(document).ready(function() {
         
         /**
          * Load required scenes and game data
-        */           
-        
-		require([
-            "src/scene.game.js",
+         */           
+    	require([
             "src/actor_object.js",
             "src/asteroid.js",
-            "src/player.js"
-        ], function() {
+            "src/player.js",
+            "src/tilemap.js",
+            "src/scene.game.js"
+        ], function() {            
+                
+        Crafty.scene("loading");
             
-            Crafty.scene("loading");
-            
-            });        
+        });    
+        
 	});
 });

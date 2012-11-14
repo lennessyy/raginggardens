@@ -30,7 +30,7 @@ Player = ActorObject.extend({
     	var entity = Crafty.e("2D, Canvas, ship, Controls, Collision")
 		
         .attr({move: {left: false, right: false, up: false, down: false}, xspeed: 0, yspeed: 0, 
-            decay: 0.9, x: Crafty.viewport.width / 2, y: Crafty.viewport.height / 2, score: 0})
+            decay: 0.9, x: Crafty.viewport.width / 2, y: Crafty.viewport.height / 2, score: 0, z: 1})
 		
         .origin("center")
 		

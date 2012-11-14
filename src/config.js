@@ -23,12 +23,19 @@
  */
 Config = Backbone.Model.extend({
     defaults: {
+        'debug' : true,
         'renderType' : 'Canvas',
-        'screen-width' : 1024,
-        'screen-height' : 768,
+        'screen-width' : 832,
+        'screen-height' : 640
         
     },
     initialize: function() {
        
     },
+    
+    debug : function(obj) {
+        if (this.get('debug'))
+            console.log(obj);
+            //console.log('DEBUG:' + text);
+    }
 });

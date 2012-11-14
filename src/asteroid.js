@@ -28,6 +28,8 @@ Crafty.c('Asteroid', {
     
     evaluate: function(tick) {
         
+       this.rotation += 5;
+        
     }
 });
 
@@ -50,6 +52,7 @@ Asteroid = ActorObject.extend({
             decay: 0.9, x: pos.x, y: pos.y, score: 0})
 		
         .origin('center')
+        
         ;
         
         model.set({'entity' : entity });

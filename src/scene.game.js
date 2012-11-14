@@ -23,7 +23,7 @@
  */
 Crafty.scene("main", function() {
     
-    Crafty.background("url('art/bg1.png')");
+    //Crafty.background("url('art/bg1.png')");
     
 //        var player = Crafty.e("2D, Canvas, Color")
 //          .color("red")
@@ -39,6 +39,7 @@ Crafty.scene("main", function() {
 		.css({color: "#fff"});        
     
     //player entity
+    var tilemap = new Tilemap();
     var player = new Player();
     
     var astro = new Asteroid({ size: 1 });
