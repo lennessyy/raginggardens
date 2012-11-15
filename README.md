@@ -1,7 +1,7 @@
-.o: The Astronaut Diet :o.
+.o: Raging Garden :o.
 ==========================
 
-HTML5 game in space.
+HTML5 tile game.
 
 # Controls
 

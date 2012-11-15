@@ -45,17 +45,9 @@ $(document).ready(function() {
         */        
         
         Crafty.scene("loading", function() {
-            Crafty.load(["art/sprite1.png", "art/bg1.png"], function() {
+            Crafty.load(["art/moosader_tiles.png"], function() {
         	    
                 // --- Graphics
-                
-    		    Crafty.sprite(64, "art/sprite1.png", {
-    			    ship: [0,0],
-    			    big: [1,0],
-    			    medium: [2,0],
-    			    small: [3,0]
-    		    });
-                
         	    Crafty.sprite(64, "art/moosader_tiles.png", {
     			    grass: [0,0],
     			    stone_small: [1,0],
@@ -63,7 +55,11 @@ $(document).ready(function() {
     			    tree: [0,1],
                     barrel_big: [1,1],
                     barrel_small: [2,1]
-    		    });                
+    		    });
+                
+                Crafty.sprite("art/moosader_elliot.png", {
+    			    player: [0, 0, 32, 48],
+    		    });                  
                 
                 // --- Audio
                 //Crafty.audio.add("Blaster", ["space-blaster.wav", "space-blaster.mp3"]) 

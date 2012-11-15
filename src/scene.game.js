@@ -41,9 +41,6 @@ Crafty.scene("main", function() {
     //player entity
     var tilemap = new Tilemap();
     var player = new Player();
-    
-    var astro = new Asteroid({ size: 1 });
-    var astro2 = new Asteroid();
      
 });    
 

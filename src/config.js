@@ -25,8 +25,8 @@ Config = Backbone.Model.extend({
     defaults: {
         'debug' : true,
         'renderType' : 'Canvas',
-        'screen-width' : 832,
-        'screen-height' : 640
+        'screen-width' : 1024,
+        'screen-height' : 768
         
     },
     initialize: function() {
