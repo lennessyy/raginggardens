@@ -22,38 +22,54 @@
  * THE SOFTWARE.
  */
  
-Crafty.c("LeftControls", {
-    init: function() {
-        this.requires('Multiway');
-    },
-    
-    leftControls: function(speed) {
-        this.multiway(speed, {W: -90, S: 90, D: 0, A: 180})
-        return this;
-    }
-    
-});
-
-Crafty.c("MouseMove", {
+Crafty.c("MouseDirection", {
+    _dirAngle: 0, // simple type -> not shared
 
     _onmousemove: function (e) {
         if (this.disableControls || this.disregardMouseInput) {
             return;
         }
         
-        // set new direction
-        var nx = e.realX - this.x;
-        var ny = e.realY - this.y;
-        this.trigger('NewDirection', { x: nx, y: ny });
-        console.log('x: ' + nx + ' y: ' + ny);
-        return;
+    	var dx = e.realX - this.x, 
+            dy = e.realY - this.y;
+            
+        //_dirAngle = Math.asin(dy / Math.sqrt(dx * dx + dy * dy)) * 2 * Math.PI;
+        this._dirAngle = Math.atan2(dy, dx);
+        
+        if (Crafty.math.withinRange(this._dirAngle, this._pi_4, this.pi_4)) { // RIGHT
+            this._dirMove = this._directions.right;
+        } else if (Crafty.math.withinRange(this._dirAngle, this.pi_4, this.pi_34)) { // DOWN
+            this._dirMove = this._directions.down;
+        } else if (Crafty.math.withinRange(this._dirAngle, this.pi_34, this.pi)) { // LEFT
+            this._dirMove = this._directions.left;
+        }
+        
+        if (Crafty.math.withinRange(this._dirAngle, this._pi, this._pi_34)) { // LEFT
+            this._dirMove = this._directions.left;
+        } else if (Crafty.math.withinRange(this._dirAngle, this._pi_34, this._pi_4)) { // UP
+            this._dirMove = this._directions.up;
+        } else if (Crafty.math.withinRange(this._dirAngle, this._pi_4, 0)) { // RIGHT
+            this._dirMove = this._directions.right;
+        }    
     },
 
     init: function () {
         this.requires("Mouse");
+        
+        // init radian angular measurements with respect to atan2 (arctangent) calculations
+        // this would mean in the ranges of (0, -pi) and (0, pi).
+        // This was helpful :P - http://en.wikipedia.org/wiki/File:Degree-Radian_Conversion.svg
+        this.pi = Math.PI;
+        this._pi = -1 * Math.PI;
+        this.pi_4 = Math.PI / 4;
+        this._pi_4 = -1 * this.pi_4;
+        this.pi_34 = 3 * Math.PI / 4;
+        this._pi_34 = -1 * this.pi_34;
+        
+        this._directions = {none: 0, left : -1, right : 1, up : -2, down : 2};
+        this._dirMove = this._directions.none;
 
         Crafty.addEvent(this, Crafty.stage.elem, "mousemove", this._onmousemove);
-
     }
 });
 
@@ -72,13 +88,17 @@ Crafty.c('Dude', {
 Player = ActorObject.extend({
     defaults: {
         'speed' : 2,
+        'spriteHeight' : 48,
+        'z-index' : 10,
     },
     initialize: function() {
     	var model = this;
         
-    	var entity = Crafty.e("2D, Canvas, Dude, player")
+        model.set('sprite-z', model.get('spriteHeight') + model.get('z-index'));
+        
+    	var entity = Crafty.e("2D, Canvas, Dude, player, MouseDirection")
 		
-        .attr({move: {left: false, right: false, forward: false, backward: false},
+        .attr({move: {left: false, right: false, up: false, down: false},
                 x: 16, y: 304, z: 10,
                 speed: 2
         })
@@ -92,9 +112,9 @@ Player = ActorObject.extend({
 			} else if(e.keyCode === Crafty.keys.A) {
 				this.move.left = true;
 			} else if(e.keyCode === Crafty.keys.W) {
-				this.move.forward = true;            
+				this.move.up = true;            
 			} else if(e.keyCode === Crafty.keys.S) { 
-                this.move.backward = true;
+                this.move.down = true;
 			}
         })
     	.bind("KeyUp", function(e) {
@@ -103,9 +123,9 @@ Player = ActorObject.extend({
 			} else if(e.keyCode === Crafty.keys.A) {
 				this.move.left = false;
 			} else if(e.keyCode === Crafty.keys.W) {
-				this.move.forward = false;            
+				this.move.up = false;            
 			} else if(e.keyCode === Crafty.keys.S) { 
-                this.move.backward = false;
+                this.move.down = false;
 			}      
     	})
         // updates
@@ -113,11 +133,14 @@ Player = ActorObject.extend({
             
             var oldx = this.x;
             var oldy = this.y;
+            var moving = this.move.up || this.move.down || this.move.left || this.move.right;
 
-			if (this.move.forward) {
+			if (this.move.up) {
+//                this.x += Math.cos(this._dirAngle) * this.speed;
+//                this.y += Math.sin(this._dirAngle) * this.speed;
                 this.y -= this.speed;
 			} 
-            if (this.move.backward) {
+            if (this.move.down) {
                 this.y += this.speed;
 			} 
             if (this.move.left) {
@@ -127,13 +150,39 @@ Player = ActorObject.extend({
                 this.x += this.speed;
 			}
             
+            // determine which animation to show depending on the angle of movement
+            if (moving) {
+                var animation = undefined;
+                
+                if (this._dirMove == this._directions.up) {
+                    animation = 'walk_up';
+                } else if (this._dirMove == this._directions.down) {
+                    animation = 'walk_down';
+                } else if (this._dirMove == this._directions.left) {
+                    animation = 'walk_left';
+                } else if (this._dirMove == this._directions.right) {
+                    animation = 'walk_right';
+                }
+                
+//                _Globals.conf.debug('walk=' + animation + ' / angle=' + this._dirAngle);
+
+                if (animation && !this.isPlaying(animation))
+                    this.stop().animate(animation, 5, -1);
+                
+            } else {
+                this.stop();
+            }
+            
+            // check for collisions
             if(this.hit('stone_small') || this.hit('tree') 
             || this.hit('barrel_small') || this.hit('stone_big')) {
                 console.log("Hit ");
                 this.attr({x: oldx, y: oldy});
                 return;
             }
-            this.attr({z: 10 + this.y + 48});
+            
+            // determine how to Z-index
+            this.attr({z: this.y + model.get('sprite-z')});
 
 			//if ship goes out of bounds, put him back
 			if(this._x > Crafty.viewport.width) {
@@ -150,29 +199,6 @@ Player = ActorObject.extend({
 			}   
     	})
         
-        //change direction when a direction change event is received
-        .bind("NewDirection",
-            function (direction) {
-                if (direction.x < 0) {
-                    if (!this.isPlaying("walk_left"))
-                        this.stop().animate("walk_left", 5, -1);
-                }
-                if (direction.x > 0) {
-                    if (!this.isPlaying("walk_right"))
-                        this.stop().animate("walk_right", 5, -1);
-                }
-                if (direction.y < 0) {
-                    if (!this.isPlaying("walk_up"))
-                        this.stop().animate("walk_up", 5, -1);
-                }
-                if (direction.y > 0) {
-                    if (!this.isPlaying("walk_down"))
-                        this.stop().animate("walk_down", 5, -1);
-                }
-                if(!direction.x && !direction.y) {
-                    this.stop();
-                }
-        })
         // collision detection
         .bind('Move', function(from) {
 

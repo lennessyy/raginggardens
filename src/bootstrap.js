@@ -54,11 +54,16 @@ $(document).ready(function() {
     			    stone_big: [2,0],
     			    tree: [0,1],
                     barrel_big: [1,1],
-                    barrel_small: [2,1]
+                    barrel_small: [2,1],
     		    });
                 
                 Crafty.sprite("art/moosader_elliot.png", {
     			    player: [0, 0, 32, 48],
+    		    });
+                
+                Crafty.sprite(32, "art/crosshairs_small_32x32", {
+        		    crosshair: [0, 0],
+                    crosshair_target: [0, 1],
     		    });                  
                 
                 // --- Audio
