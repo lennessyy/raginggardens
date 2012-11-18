@@ -33,10 +33,18 @@ Crafty.c("MouseDirection", {
         if (this.disableControls || this.disregardMouseInput) {
             return;
         }
-        
-        this._mouseButton = e.mouseButton;
+        if (e.mouseButton == Crafty.mouseButtons.LEFT) {
+            this._mouseButtonLeft = this._mouseButtonState.up;
+        }
     },
-
+    _onmousedown: function (e) {
+        if (this.disableControls || this.disregardMouseInput) {
+            return;
+        }
+        if (e.mouseButton == Crafty.mouseButtons.LEFT) {
+            this._mouseButtonLeft = this._mouseButtonState.down;
+        }
+    },
     _onmousemove: function (e) {
         if (this.disableControls || this.disregardMouseInput) {
             return;
@@ -67,7 +75,6 @@ Crafty.c("MouseDirection", {
             this._dirMove = this._directions.right;
         }    
     },
-
     init: function () {
         this.requires("Mouse");
         
@@ -85,9 +92,13 @@ Crafty.c("MouseDirection", {
         
         this._directions = {none: 0, left: -1, right: 1, up: -2, down: 2};
         this._dirMove = this._directions.none;
+        this._mouseButtonState = {none: 0, up: 1, down: 2};
+        this._mouseButtonLeft = this._mouseButtonState.none;
+        this._mouseButtonRight = this._mouseButtonState.none;
 
         Crafty.addEvent(this, Crafty.stage.elem, "mousemove", this._onmousemove);
         Crafty.addEvent(this, Crafty.stage.elem, "mouseup", this._onmouseup);
+        Crafty.addEvent(this, Crafty.stage.elem, "mousedown", this._onmousedown);
     }
 });
 
@@ -170,12 +181,15 @@ Crafty.c('Shoot', {
     }    
 });
 
-
+/**
+ * Creates and handles all Player properties and actions - appearance, movement, score.
+ */
 Player = ActorObject.extend({
     defaults: {
-        'speed' : 2,
-        'spriteHeight' : 48,
-        'z-index' : 10,
+        'speed': 2,
+        'spriteHeight': 48,
+        'z-index': 10,
+        'pullSpeed': 2,
     },
     initialize: function() {
     	var model = this;
@@ -184,13 +198,15 @@ Player = ActorObject.extend({
         
         // generate player position
         // TODO:
+        var px = 120,
+            py = 304;
         
     	var entity = Crafty.e("2D, Canvas, Dude, player, Mouse, MouseDirection")
         .attr({move: {left: false, right: false, up: false, down: false},
-                x: 16, y: 304, z: model.get('sprite-z'),
-                speed: 2
+            digCarrot: {pulling: false, obj: undefined },
+            x: px, y: py, z: model.get('sprite-z'),
+            speed: model.get('speed')
         })
-        //.leftControls(model.get('speed'))
         .Dude()
         // movement
         .bind("KeyDown", function(e) {
@@ -250,7 +266,6 @@ Player = ActorObject.extend({
                 } else if (this._dirMove == this._directions.right) {
                     animation = 'walk_right';
                 }
-                
 //                _Globals.conf.debug('walk=' + animation + ' / angle=' + this._dirAngle);
 
                 if (animation && !this.isPlaying(animation))
@@ -260,38 +275,52 @@ Player = ActorObject.extend({
                 this.stop();
             }
             
-            // Shoot !
-            if (this._mouseButton == Crafty.mouseButtons.LEFT) {
-                this._mouseButton = -1;
-                // create shoot animation
+            // Pull!!
+            if (this.digCarrot.pulling) {
+                if (this._mouseButtonLeft == this._mouseButtonState.down) {
+                    this.digCarrot.obj.health -= model.get('pullSpeed');
+                    
+                    if (_Globals.conf.get('debug'))
+                        console.log('extracting ...' + this.digCarrot.obj.health);
+                    
+                    // if pulled, simply destroy entity, the hit check should determine if we
+                    // are about to pull another one or not
+                    if (this.digCarrot.obj.health <= 0) {
+                        this.digCarrot.obj.destroy();
+                        this._mouseButtonLeft = this._mouseButtonState.none; 
+                    }
+                }
+            } else if (this._mouseButtonLeft == this._mouseButtonState.up) {
+                // reset
+                this._mouseButtonLeft = this._mouseButtonState.none; 
+                // Shoot!! create shoot animation
                 var eShot = Crafty.e("Shoot")
                 .Shoot(this.x, this.y, this.z, this.move);
             }            
             
-            // check for collisions
+            // --- check for collisions --- 
             if(this.hit('stone_small') || this.hit('tree') 
-            || this.hit('barrel_small') || this.hit('stone_big')) {
-                console.log("Hit ");
+            || this.hit('barrel_small') || this.hit('stone_big') 
+            || this._x > Crafty.viewport.width || this._x < -64
+            || this._y > Crafty.viewport.height || this._y < -64) {
+                console.log("Hit object or wall");
                 this.attr({x: oldx, y: oldy});
                 return;
             }
             
+            // nearby carrot -> rise extracting flag
+            var hits = this.hit('carrot');
+            if (hits) {
+                // we are pulling the first found
+                this.digCarrot.pulling = true;
+                this.digCarrot.obj = hits[0].obj;
+            } else {
+                this.digCarrot.pulling = false;
+                this.digCarrot.obj = undefined;
+            }
+            
             // determine how to Z-index
             this.attr({z: this.y + model.get('sprite-z')});
-            
-			// if ship goes out of bounds, put him back
-			if(this._x > Crafty.viewport.width) {
-				this.x = -64;
-			}
-			if(this._x < -64) {
-				this.x =  Crafty.viewport.width;
-			}
-			if(this._y > Crafty.viewport.height) {
-				this.y = -64;
-			}
-			if(this._y < -64) {
-				this.y = Crafty.viewport.height;
-			}   
     	})
         // define player collision properties
         .collision(

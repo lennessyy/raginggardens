@@ -23,20 +23,10 @@
  */
 Crafty.scene("main", function() {
     
-    //Crafty.background("url('art/bg1.png')");
-    
-//        var player = Crafty.e("2D, Canvas, Color")
-//          .color("red")
-//          .attr({x: 150, w:50, h:50});
-//    // Can use the arrow keys as well,
-//      // but we don't want to accidentally change slides
-//      player.addComponent("Fourway").fourway(5)
-//        
     //score display
 	var score = Crafty.e("2D, DOM, Text")
 		.text("Score: 0")
-		.attr({x: Crafty.viewport.width - 300, y: Crafty.viewport.height - 50, w: 100, h:50})
-		.css({color: "#fff"});        
+		.attr({x: Crafty.viewport.width - 300, y: Crafty.viewport.height - 50, w: 100, h:50});
     
     //player entity
     var tilemap = new Tilemap();

@@ -31,7 +31,12 @@ Tilemap = ActorObject.extend({
         'tileSize' : 64,
         'width' : _Globals.conf.get('screen-width') / 64,
         'height' : _Globals.conf.get('screen-height') / 64,
-        'maxObstacles' : 20
+        'base-z' : 10,
+        'maxObstacles' : 20,
+        // Carrots 
+        'maxCarrots' : 10,
+        'currentCarrots' : 0,
+        'carrotSpawnTime' : 2000,
     },
     initialize: function() {
         var model = this;
@@ -73,16 +78,16 @@ Tilemap = ActorObject.extend({
             
             if (type == 1) { // small stone
                 spriteName = 'stone_small';
-                oz = 10 + oy + model.get('tileSize') - 16;
+                oz = model.get('base-z') + oy + model.get('tileSize') - 16;
             } else if (type == 2) {
                 spriteName = 'stone_big';
-                oz = 10 + oy + model.get('tileSize') - 8;
+                oz = model.get('base-z') + oy + model.get('tileSize') - 8;
             } else if (type == 3) {
                 spriteName = 'tree';
-                oz = 10 + oy + model.get('tileSize');
+                oz = model.get('base-z') + oy + model.get('tileSize');
             } else if (type == 4) {
                 spriteName = 'barrel_small';
-                oz = 10 + oy + model.get('tileSize') - 16;
+                oz = model.get('base-z') + oy + model.get('tileSize') - 16;
 //            } else if (type == 5) {
 //                spriteName = 'barrel_big';
             } else {
@@ -126,39 +131,39 @@ Tilemap = ActorObject.extend({
         //_Globals.conf.debug(obstaclesCoords);
         
         Crafty.c('MapLogic', {
-            
-            _maxCarrots: 2,
-            
-            MapLogic: function(type) {
-            },
-            
+            _zIndex: model.get('base-z') + 24, // precalculate Z
             init: function () {
                 this.requires("RealDelay");
                 
-                var ox = Crafty.math.randomInt(1, cx) * model.get('tileSize');
-                var oy = Crafty.math.randomInt(1, cy) * model.get('tileSize');
-//                var ox = Crafty.math.randomInt(1, 13) * 64;
-//                var oy = Crafty.math.randomInt(1, 12) * 64;                
+                // Create new carrot only if maximum is not reached
+                if (Crafty("carrot").length < model.get('maxCarrots')) {
+                    var ox = Crafty.math.randomInt(1, cx) * model.get('tileSize');
+                    var oy = Crafty.math.randomInt(1, cy) * model.get('tileSize');
+                            
+                    Crafty.e("2D, Canvas, carrot, SpriteAnimation, Collision, Grid")
+                    .attr({x: ox, y: oy, z: oy + this._zIndex, health: 100})
+                    .animate('wind', 0, 0, 3) // setup animation
+                    .animate('wind', 15, -1); // play animation
+                    
+//                    model.set('currentCarrots', model.get('currentCarrots') + 1);
+                    //console.log('carrots = ' + model.get('currentCarrots'));
+                }
+                
+                var mapLogic = this;
                         
-                Crafty.e("2D, Canvas, carrot, SpriteAnimation, Collision, Grid")
-                .attr({x: ox, y: oy, z: 10 + oy + 24})
-                .animate('wind', 0, 0, 3) // setup animation
-                .animate('wind', 15, -1); // play animation        
-                
-                console.log("created");
-                
-                // call map logic every 2 seconds
-                Crafty.e("RealDelay")
+                // Spawn new carrot every 60 seconds
+                var logic = Crafty.e("RealDelay")
                 .realDelay(function() {
+                    console.log("MapLogic= " + Crafty("MapLogic").length + " RDelay=" + Crafty("RealDelay").length);
                     
-                    //Crafty.e("MapLogic");
-                    
-                }, 2000);
+                    // cleanup and create new logic entity
+                    mapLogic.destroy();
+                    Crafty.e("MapLogic");
+                    this.destroy();
+                }, model.get('carrotSpawnTime'));                
             }
-        });        
-        
-        // Map items spawn & other logic goes here
+        });
+        // Start Carrot spawning logic
         var logic = Crafty.e("MapLogic");
-        
     }
 });
