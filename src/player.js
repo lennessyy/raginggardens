@@ -22,13 +22,28 @@
  * THE SOFTWARE.
  */
  
+/**
+ * Component that monitors mouse movement and calculates angular position relative to the 
+ * position of the entity
+ */
 Crafty.c("MouseDirection", {
     _dirAngle: 0, // simple type -> not shared
+    
+    _onmouseup: function (e) {
+        if (this.disableControls || this.disregardMouseInput) {
+            return;
+        }
+        
+        this._mouseButton = e.mouseButton;
+    },
 
     _onmousemove: function (e) {
         if (this.disableControls || this.disregardMouseInput) {
             return;
         }
+        
+        this._pos.x = e.realX;
+        this._pos.y = e.realY;        
         
     	var dx = e.realX - this.x, 
             dy = e.realY - this.y;
@@ -56,6 +71,8 @@ Crafty.c("MouseDirection", {
     init: function () {
         this.requires("Mouse");
         
+        this._pos = {x: 0, y: 0};
+        
         // init radian angular measurements with respect to atan2 (arctangent) calculations
         // this would mean in the ranges of (0, -pi) and (0, pi).
         // This was helpful :P - http://en.wikipedia.org/wiki/File:Degree-Radian_Conversion.svg
@@ -66,24 +83,93 @@ Crafty.c("MouseDirection", {
         this.pi_34 = 3 * Math.PI / 4;
         this._pi_34 = -1 * this.pi_34;
         
-        this._directions = {none: 0, left : -1, right : 1, up : -2, down : 2};
+        this._directions = {none: 0, left: -1, right: 1, up: -2, down: 2};
         this._dirMove = this._directions.none;
 
+        Crafty.addEvent(this, Crafty.stage.elem, "mousemove", this._onmousemove);
+        Crafty.addEvent(this, Crafty.stage.elem, "mouseup", this._onmouseup);
+    }
+});
+
+/**
+ * This component monitors the mouse movement
+ */
+Crafty.c('Crosshair', {
+    _onmousemove: function (e) {
+        if (this.disableControls || this.disregardMouseInput) {
+            return;
+        }
+        
+        this._pos.x = e.realX;
+        this._pos.y = e.realY;        
+    },
+    init: function () {
+        this.requires("Mouse");
+        
+        this._pos = {x: 0, y: 0};
+        
         Crafty.addEvent(this, Crafty.stage.elem, "mousemove", this._onmousemove);
     }
 });
 
+/**
+ * Component that initilizes player animation tweens
+ */
 Crafty.c('Dude', {
     Dude: function() {
-            //setup animations
-            this.requires("SpriteAnimation, Collision, Grid")
-            .animate("walk_left", [ [0, 96], [32, 96], [64, 96] ])
-            .animate("walk_right", [ [0, 144], [32, 144], [64, 144] ])
-            .animate("walk_up", [ [0, 48], [32, 48], [64, 48] ])
-            .animate("walk_down", [ [0, 0], [32, 0], [64, 0] ])
-            return this;
+        //setup animations
+        this.requires("SpriteAnimation, Collision, Grid")
+        .animate("walk_left", [ [0, 96], [32, 96], [64, 96] ])
+        .animate("walk_right", [ [0, 144], [32, 144], [64, 144] ])
+        .animate("walk_up", [ [0, 48], [32, 48], [64, 48] ])
+        .animate("walk_down", [ [0, 0], [32, 0], [64, 0] ])
+        return this;
     }
 });
+
+/**
+ * Displays shooting animation depending on player facing
+ */
+Crafty.c('Shoot', {
+    _halfWidth: 16,
+    _halfHeight: 16,
+    
+    Shoot: function(px, py, pz, move) {
+        this.x = px;
+        this.y = py;
+        this.z = pz;
+        
+        if (move.left && move.up) {
+            this._anim = 'shot_nwse';
+        } else if (move.left && move.down) {
+            this._anim = 'shot_nesw';
+        } else if (move.right && move.up) {
+            this._anim = 'shot_nesw';
+        } else if (move.right && move.down) {
+            this._anim = 'shot_nwse';
+        } else if (move.up || move.down) {
+            this._anim = 'shot_ns';
+        } else if (move.left || move.right) {
+            this._anim = 'shot_ew';
+        }
+        
+        //console.log(this._anim + ' ' + move);
+        
+        var eShot = Crafty.e("2D, Canvas, " +  this._anim  + ", RealDelay")
+        .attr({z: this.z - 1, x: this.x + 24 - 16, y: this.y + 24 - 16})
+        .realDelay(function() {
+            //this._parent.detach(this);  // doesn't work :(
+            this.destroy();
+        }, 70);    
+        
+        return this;
+    },
+    init: function () {
+        this.requires("RealDelay");
+         
+    }    
+});
+
 
 Player = ActorObject.extend({
     defaults: {
@@ -96,15 +182,16 @@ Player = ActorObject.extend({
         
         model.set('sprite-z', model.get('spriteHeight') + model.get('z-index'));
         
-    	var entity = Crafty.e("2D, Canvas, Dude, player, MouseDirection")
-		
+        // generate player position
+        // TODO:
+        
+    	var entity = Crafty.e("2D, Canvas, Dude, player, Mouse, MouseDirection")
         .attr({move: {left: false, right: false, up: false, down: false},
-                x: 16, y: 304, z: 10,
+                x: 16, y: 304, z: model.get('sprite-z'),
                 speed: 2
         })
         //.leftControls(model.get('speed'))
         .Dude()
-        
         // movement
         .bind("KeyDown", function(e) {
     		if (e.keyCode === Crafty.keys.D) {
@@ -173,6 +260,14 @@ Player = ActorObject.extend({
                 this.stop();
             }
             
+            // Shoot !
+            if (this._mouseButton == Crafty.mouseButtons.LEFT) {
+                this._mouseButton = -1;
+                // create shoot animation
+                var eShot = Crafty.e("Shoot")
+                .Shoot(this.x, this.y, this.z, this.move);
+            }            
+            
             // check for collisions
             if(this.hit('stone_small') || this.hit('tree') 
             || this.hit('barrel_small') || this.hit('stone_big')) {
@@ -183,8 +278,8 @@ Player = ActorObject.extend({
             
             // determine how to Z-index
             this.attr({z: this.y + model.get('sprite-z')});
-
-			//if ship goes out of bounds, put him back
+            
+			// if ship goes out of bounds, put him back
 			if(this._x > Crafty.viewport.width) {
 				this.x = -64;
 			}
@@ -198,19 +293,23 @@ Player = ActorObject.extend({
 				this.y = Crafty.viewport.height;
 			}   
     	})
-        
-        // collision detection
-        .bind('Move', function(from) {
-
-        })
         // define player collision properties
         .collision(
             [8, 40], 
             [24, 40], 
             [24, 48], 
             [8, 48]
-        );         
+        );
+        
+        // Cross-hair
+        var entity = Crafty.e("2D, Canvas, crosshair, Crosshair")
+        .attr({z: 999})
+        .bind('EnterFrame', function() {
+            this.x = this._pos.x - this.w / 2;
+            this.y = this._pos.y - this.h / 2;
+        });
 
+        // bind to object
     	model.set({'entity' : entity });
     }
 });

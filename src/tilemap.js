@@ -22,17 +22,6 @@
  * THE SOFTWARE.
  */
  
-Crafty.c('Tilemap', {
-    
-    Tilemap: function(type) {
-    },
-    
-    evaluate: function(tick) {
-        
-        console.log("tick");
-    }
-});
-
 Tilemap = ActorObject.extend({
     defaults: {
         // pixel size
@@ -134,16 +123,42 @@ Tilemap = ActorObject.extend({
             }
         }
         
-        _Globals.conf.debug(obstaclesCoords);
+        //_Globals.conf.debug(obstaclesCoords);
+        
+        Crafty.c('MapLogic', {
+            
+            _maxCarrots: 2,
+            
+            MapLogic: function(type) {
+            },
+            
+            init: function () {
+                this.requires("RealDelay");
+                
+                var ox = Crafty.math.randomInt(1, cx) * model.get('tileSize');
+                var oy = Crafty.math.randomInt(1, cy) * model.get('tileSize');
+//                var ox = Crafty.math.randomInt(1, 13) * 64;
+//                var oy = Crafty.math.randomInt(1, 12) * 64;                
+                        
+                Crafty.e("2D, Canvas, carrot, SpriteAnimation, Collision, Grid")
+                .attr({x: ox, y: oy, z: 10 + oy + 24})
+                .animate('wind', 0, 0, 3) // setup animation
+                .animate('wind', 15, -1); // play animation        
+                
+                console.log("created");
+                
+                // call map logic every 2 seconds
+                Crafty.e("RealDelay")
+                .realDelay(function() {
+                    
+                    //Crafty.e("MapLogic");
+                    
+                }, 2000);
+            }
+        });        
         
         // Map items spawn & other logic goes here
-         var entity2 = Crafty.e("Tilemap")
-         .bind('EnterFrame', function() {
-             
-             // TODO: game map logic here
-         });
+        var logic = Crafty.e("MapLogic");
         
-        // bind
-        model.set({'entity' : entity });
     }
 });

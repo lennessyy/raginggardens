@@ -45,7 +45,15 @@ $(document).ready(function() {
         */        
         
         Crafty.scene("loading", function() {
-            Crafty.load(["art/moosader_tiles.png"], function() {
+            Crafty.load([
+                "art/moosader_tiles.png", 
+                "art/moosader_elliot.png",
+                "art/crosshairs_small_32x32.png",
+                "art/moosader_laser.png",
+                "art/moosader_flower.png",
+                ], 
+            
+            function() {
         	    
                 // --- Graphics
         	    Crafty.sprite(64, "art/moosader_tiles.png", {
@@ -61,15 +69,34 @@ $(document).ready(function() {
     			    player: [0, 0, 32, 48],
     		    });
                 
-                Crafty.sprite(32, "art/crosshairs_small_32x32", {
+                Crafty.sprite(32, "art/crosshairs_small_32x32.png", {
         		    crosshair: [0, 0],
                     crosshair_target: [0, 1],
+    		    });   
+                
+                Crafty.sprite(20, "art/moosader_laser.png", {
+            	    shot_ew: [0, 0],
+                    shot_nesw: [1, 0],
+                    shot_ns: [2, 0],
+                    shot_nwse: [3, 0],
+    		    }); 
+                
+                Crafty.sprite(32, "art/moosader_flower.png", {
+                    carrot: [0, 0],
     		    });                  
                 
                 // --- Audio
                 //Crafty.audio.add("Blaster", ["space-blaster.wav", "space-blaster.mp3"]) 
                 
     		    Crafty.scene("main");
+            },
+            // On Progress
+            function(e) {
+                // TODO:
+            },
+            // On Error
+            function(e) {
+                // TODO
             });
             
             console.log("Loading ...");
@@ -82,8 +109,8 @@ $(document).ready(function() {
                 x: 150,
                 y: 120
             })
-            .text("Loading")
-            .css({"text-align": "center", "color" : "#fff"});            
+            .text("Loading");
+//            .css({"text-align": "center", "color" : "#fff"});            
         });
         
         /**
