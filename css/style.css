@@ -1,0 +1,53 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body, html { overflow:hidden; background: #000000; } 
+
+#cr-stage { 
+    margin: 0 auto; 
+}
+
+.info{
+    text-align: center;
+}
+.clear{
+    clear:both;
+}
+.skip{
+    color:#990000;
+    text-decoration: underline;
+    cursor:pointer;
+}
+#interface,#loading{
+  
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index:3;
+}
+.bars{
+    position: absolute;
+    padding:5px;
+    height:auto;
+}
+div.text{
+    line-height: 24px;
+    font-size: 12px;
+    color:#ffffff;
+    padding:5px;
+}
+div.text.center{
+    width:100%;
+    text-align: center;
+}
+.bars span.text{
+    position: absolute;
+    width: 100%;
+    display:block;
+    text-align: center;
+    line-height: 24px;
+    font-size: 12px;
+    color:#333333;
+}

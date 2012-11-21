@@ -26,17 +26,22 @@ Tilemap = ActorObject.extend({
     defaults: {
         // pixel size
         'pxWidth' : _Globals.conf.get('screen-width'),
-        'pxHeight' : _Globals.conf.get('screen-height'),        
+        'pxHeight' : _Globals.conf.get('screen-height'),   
+        
         // tilemap width & height
         'tileSize' : 64,
         'width' : _Globals.conf.get('screen-width') / 64,
         'height' : _Globals.conf.get('screen-height') / 64,
         'base-z' : 10,
-        'maxObstacles' : 20,
+        'maxObstacles' : 25,
+        
         // Carrots 
         'maxCarrots' : 10,
         'currentCarrots' : 0,
         'carrotSpawnTime' : 2000,
+        
+        // globals
+        obstaclesMap: undefined,
     },
     initialize: function() {
         var model = this;
@@ -64,17 +69,21 @@ Tilemap = ActorObject.extend({
             var spriteName = '';
             
             do {
-                ox = Crafty.math.randomInt(1, cx) * model.get('tileSize');
-                oy = Crafty.math.randomInt(1, cy) * model.get('tileSize');
+                ox = Crafty.math.randomInt(1, cx);
+                oy = Crafty.math.randomInt(1, cy);
                 occupiedTile = _.size(_.where(obstaclesCoords, {x: ox, y: oy})) > 0;
                 
-                if (occupiedTile)
-                    _Globals.conf.debug("calculating " + i + " occupied: " + occupiedTile);
+                if (_Globals.conf.get('debug') && occupiedTile)
+                    console.log("Calculate new obstalce position for " + i);
                 
             } while (occupiedTile);
             
+            // save into tile map
             obstaclesCoords.push({x: ox, y: oy});
             
+            // get absolute position
+            ox *= model.get('tileSize');
+            oy *= model.get('tileSize');
             
             if (type == 1) { // small stone
                 spriteName = 'stone_small';
@@ -128,7 +137,8 @@ Tilemap = ActorObject.extend({
             }
         }
         
-        //_Globals.conf.debug(obstaclesCoords);
+        // set into local var
+        model.set('obstaclesMap', obstaclesCoords);
         
         Crafty.c('MapLogic', {
             _zIndex: model.get('base-z') + 24, // precalculate Z
@@ -140,7 +150,7 @@ Tilemap = ActorObject.extend({
                     var ox = Crafty.math.randomInt(1, cx) * model.get('tileSize');
                     var oy = Crafty.math.randomInt(1, cy) * model.get('tileSize');
                             
-                    Crafty.e("2D, Canvas, carrot, SpriteAnimation, Collision, Grid")
+                    Crafty.e("2D, Canvas, carrot, SpriteAnimation, Collision")
                     .attr({x: ox, y: oy, z: oy + this._zIndex, health: 100})
                     .animate('wind', 0, 0, 3) // setup animation
                     .animate('wind', 15, -1); // play animation
@@ -152,9 +162,10 @@ Tilemap = ActorObject.extend({
                 var mapLogic = this;
                         
                 // Spawn new carrot every 60 seconds
-                var logic = Crafty.e("RealDelay")
-                .realDelay(function() {
-                    console.log("MapLogic= " + Crafty("MapLogic").length + " RDelay=" + Crafty("RealDelay").length);
+                Crafty.e("RealDelay").realDelay(function() {
+                    
+                    if (_Globals.conf.get('debug'))
+                        console.log("MapLogic= " + Crafty("MapLogic").length + " RDelay=" + Crafty("RealDelay").length);
                     
                     // cleanup and create new logic entity
                     mapLogic.destroy();
@@ -165,5 +176,44 @@ Tilemap = ActorObject.extend({
         });
         // Start Carrot spawning logic
         var logic = Crafty.e("MapLogic");
+    },
+    
+    // get unoccupied map position given start coordinates
+    spawnAt: function(startX, startY) {
+        
+        var cx = startX,
+            cy = startY;
+            
+        var occupiedTile = false;
+        var nextX = [1, 0, -1, 0];
+        var nextY = [0, 1, 0, -1];
+        var i = 0, m = 1;
+        
+        do {
+            occupiedTile = _.size(_.where(this.get('obstaclesMap'), {x: cx, y: cy})) > 0;
+                
+            if (occupiedTile) {
+                // nadebugvaj gooo ....
+                if (_Globals.conf.get('debug'))
+                    console.log("Cannot spawn player at " + cx + "," + cy);
+                    
+                cx = startX + nextX[i] * m;
+                cy = startY + nextY[i] * m;
+                
+                if ( ++i > 3 ) {
+                    i = 0;
+                    m++; 
+                }
+            }
+                
+        } while (occupiedTile);
+        
+        return {x: cx * this.get('tileSize'), y: cy * this.get('tileSize')};
+    }, 
+    // try to spawn at the central tile map position
+    spawnAtCentre: function() {
+        return this.spawnAt(
+            this.get('width') * 0.5, 
+            this.get('height') * 0.5);
     }
 });

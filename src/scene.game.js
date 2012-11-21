@@ -23,14 +23,59 @@
  */
 Crafty.scene("main", function() {
     
-    //score display
-	var score = Crafty.e("2D, DOM, Text")
-		.text("Score: 0")
-		.attr({x: Crafty.viewport.width - 300, y: Crafty.viewport.height - 50, w: 100, h:50});
-    
-    //player entity
+    // game map
     var tilemap = new Tilemap();
-    var player = new Player();
+    // player
+    var player = new Player({'tileMap': tilemap});
+    
+    /**
+     * Triggers to update various game states
+     */
+    
+    // UpdateStats Event
+    Crafty.bind("UpdateScore",function(){
+//        //calculate percents
+//        player.heat.percent = Math.round(player.heat.current/player.heat.max * 100);
+//        player.hp.percent = Math.round(player.hp.current/player.hp.max * 100);
+//        player.shield.percent = Math.round(player.shield.current/player.shield.max * 100);
+//       
+//        //display the values
+//        infos.heat.text('Heat: '+player.heat.current+ '/'+player.heat.max);
+//        infos.hp.text('HP: '+player.hp.current+ '/'+player.hp.max);
+//        infos.shield.text('Shield: '+player.shield.current+ '/'+player.shield.max);
+//        infos.score.text("Score: "+player.score);
+//        infos.lives.text("Lives: "+player.lives);
+//        
+//        //Update progressbars
+//        bars.heat.progressbar({
+//            value:player.heat.percent
+//        });
+//        bars.hp.progressbar({
+//            value:player.hp.percent
+//        });
+//        bars.shield.progressbar({
+//            value:player.shield.percent
+//        });
+
+    });  
+    
+    // Gameloop
+    Crafty.bind("EnterFrame",function(frame){
+        
+        //console.log('gameloop');
+        
+        $('#timer').text('Score: ' + frame.frame);
+        $('#carrots').text('Carrots: ' + player.get('carrotsCount'));
+        
+    });
+    
+    // display active FPS (only in DEBUG mode)
+    if (_Globals.conf.get('debug')) {
+        Crafty.e("2D, Canvas, FPS").attr({maxValues:10}).bind("MessureFPS", function(fps) {
+            $('#fps').text('FPS: ' + fps.value);
+            //console.log(this.values); // Display last x Values
+        })
+    }
      
 });    
 

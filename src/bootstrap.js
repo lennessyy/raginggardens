@@ -37,7 +37,7 @@ $(document).ready(function() {
         Crafty.init(
             _Globals.conf.get('screen-width'), 
             _Globals.conf.get('screen-height'), 
-            25).canvas.init();
+            50).canvas.init();
         Crafty.background('rgb(0,0,0)');
 
         /**

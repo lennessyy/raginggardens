@@ -22,109 +22,20 @@
  * THE SOFTWARE.
  */
  
-/**
- * Component that monitors mouse movement and calculates angular position relative to the 
- * position of the entity
- */
-Crafty.c("MouseDirection", {
-    _dirAngle: 0, // simple type -> not shared
+Crafty.c("LeftControls", {
+    init: function() {
+        this.requires('Multiway');
+    },
     
-    _onmouseup: function (e) {
-        if (this.disableControls || this.disregardMouseInput) {
-            return;
-        }
-        if (e.mouseButton == Crafty.mouseButtons.LEFT) {
-            this._mouseButtonLeft = this._mouseButtonState.up;
-        }
-    },
-    _onmousedown: function (e) {
-        if (this.disableControls || this.disregardMouseInput) {
-            return;
-        }
-        if (e.mouseButton == Crafty.mouseButtons.LEFT) {
-            this._mouseButtonLeft = this._mouseButtonState.down;
-        }
-    },
-    _onmousemove: function (e) {
-        if (this.disableControls || this.disregardMouseInput) {
-            return;
-        }
-        
-        this._pos.x = e.realX;
-        this._pos.y = e.realY;        
-        
-    	var dx = e.realX - this.x, 
-            dy = e.realY - this.y;
-            
-        //_dirAngle = Math.asin(dy / Math.sqrt(dx * dx + dy * dy)) * 2 * Math.PI;
-        this._dirAngle = Math.atan2(dy, dx);
-        
-        if (Crafty.math.withinRange(this._dirAngle, this._pi_4, this.pi_4)) { // RIGHT
-            this._dirMove = this._directions.right;
-        } else if (Crafty.math.withinRange(this._dirAngle, this.pi_4, this.pi_34)) { // DOWN
-            this._dirMove = this._directions.down;
-        } else if (Crafty.math.withinRange(this._dirAngle, this.pi_34, this.pi)) { // LEFT
-            this._dirMove = this._directions.left;
-        }
-        
-        if (Crafty.math.withinRange(this._dirAngle, this._pi, this._pi_34)) { // LEFT
-            this._dirMove = this._directions.left;
-        } else if (Crafty.math.withinRange(this._dirAngle, this._pi_34, this._pi_4)) { // UP
-            this._dirMove = this._directions.up;
-        } else if (Crafty.math.withinRange(this._dirAngle, this._pi_4, 0)) { // RIGHT
-            this._dirMove = this._directions.right;
-        }    
-    },
-    init: function () {
-        this.requires("Mouse");
-        
-        this._pos = {x: 0, y: 0};
-        
-        // init radian angular measurements with respect to atan2 (arctangent) calculations
-        // this would mean in the ranges of (0, -pi) and (0, pi).
-        // This was helpful :P - http://en.wikipedia.org/wiki/File:Degree-Radian_Conversion.svg
-        this.pi = Math.PI;
-        this._pi = -1 * Math.PI;
-        this.pi_4 = Math.PI / 4;
-        this._pi_4 = -1 * this.pi_4;
-        this.pi_34 = 3 * Math.PI / 4;
-        this._pi_34 = -1 * this.pi_34;
-        
-        this._directions = {none: 0, left: -1, right: 1, up: -2, down: 2};
-        this._dirMove = this._directions.none;
-        this._mouseButtonState = {none: 0, up: 1, down: 2};
-        this._mouseButtonLeft = this._mouseButtonState.none;
-        this._mouseButtonRight = this._mouseButtonState.none;
-
-        Crafty.addEvent(this, Crafty.stage.elem, "mousemove", this._onmousemove);
-        Crafty.addEvent(this, Crafty.stage.elem, "mouseup", this._onmouseup);
-        Crafty.addEvent(this, Crafty.stage.elem, "mousedown", this._onmousedown);
+    leftControls: function(speed) {
+        this.multiway(speed, {UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180})
+        return this;
     }
-});
+    
+}); 
 
 /**
- * This component monitors the mouse movement
- */
-Crafty.c('Crosshair', {
-    _onmousemove: function (e) {
-        if (this.disableControls || this.disregardMouseInput) {
-            return;
-        }
-        
-        this._pos.x = e.realX;
-        this._pos.y = e.realY;        
-    },
-    init: function () {
-        this.requires("Mouse");
-        
-        this._pos = {x: 0, y: 0};
-        
-        Crafty.addEvent(this, Crafty.stage.elem, "mousemove", this._onmousemove);
-    }
-});
-
-/**
- * Component that initilizes player animation tweens
+ * Component that initilizes player animation tweets
  */
 Crafty.c('Dude', {
     Dude: function() {
@@ -141,95 +52,116 @@ Crafty.c('Dude', {
 /**
  * Displays shooting animation depending on player facing
  */
-Crafty.c('Shoot', {
-    _halfWidth: 16,
-    _halfHeight: 16,
-    
-    Shoot: function(px, py, pz, move) {
-        this.x = px;
-        this.y = py;
-        this.z = pz;
-        
-        if (move.left && move.up) {
-            this._anim = 'shot_nwse';
-        } else if (move.left && move.down) {
-            this._anim = 'shot_nesw';
-        } else if (move.right && move.up) {
-            this._anim = 'shot_nesw';
-        } else if (move.right && move.down) {
-            this._anim = 'shot_nwse';
-        } else if (move.up || move.down) {
-            this._anim = 'shot_ns';
-        } else if (move.left || move.right) {
-            this._anim = 'shot_ew';
-        }
-        
-        //console.log(this._anim + ' ' + move);
-        
-        var eShot = Crafty.e("2D, Canvas, " +  this._anim  + ", RealDelay")
-        .attr({z: this.z - 1, x: this.x + 24 - 16, y: this.y + 24 - 16})
-        .realDelay(function() {
-            //this._parent.detach(this);  // doesn't work :(
-            this.destroy();
-        }, 70);    
-        
-        return this;
-    },
-    init: function () {
-        this.requires("RealDelay");
-         
-    }    
-});
+//Crafty.c('Shoot', {
+//    _halfWidth: 16,
+//    _halfHeight: 16,
+//    
+//    Shoot: function(px, py, pz, move) {
+//        this.x = px;
+//        this.y = py;
+//        this.z = pz;
+//        
+//        if (move.left && move.up) {
+//            this._anim = 'shot_nwse';
+//        } else if (move.left && move.down) {
+//            this._anim = 'shot_nesw';
+//        } else if (move.right && move.up) {
+//            this._anim = 'shot_nesw';
+//        } else if (move.right && move.down) {
+//            this._anim = 'shot_nwse';
+//        } else if (move.up || move.down) {
+//            this._anim = 'shot_ns';
+//        } else if (move.left || move.right) {
+//            this._anim = 'shot_ew';
+//        }
+//        
+//        //console.log(this._anim + ' ' + move);
+//        
+//        var eShot = Crafty.e("2D, Canvas, " +  this._anim  + ", RealDelay")
+//        .attr({z: this.z - 1, x: this.x + 24 - 16, y: this.y + 24 - 16})
+//        .realDelay(function() {
+//            //this._parent.detach(this);  // doesn't work :(
+//            this.destroy();
+//        }, 70);    
+//        
+//        return this;
+//    },
+//    init: function () {
+//        this.requires("RealDelay");
+//         
+//    }    
+//});
 
 /**
  * Creates and handles all Player properties and actions - appearance, movement, score.
  */
 Player = ActorObject.extend({
     defaults: {
+        // references
+        'tileMap': undefined,
+        
+        // behavior
         'speed': 2,
+        'pullSpeed': 10,
+        
+        // gfx properties
+        'animSpeed': 5,
         'spriteHeight': 48,
         'z-index': 10,
-        'pullSpeed': 2,
+        
+        // scores
+        'carrotsCount': 0,
+        'killsCount': 0
     },
     initialize: function() {
     	var model = this;
         
         model.set('sprite-z', model.get('spriteHeight') + model.get('z-index'));
+        var keyState = {none: 0, down: 1, up: 2};
         
         // generate player position
-        // TODO:
-        var px = 120,
-            py = 304;
-        
-    	var entity = Crafty.e("2D, Canvas, Dude, player, Mouse, MouseDirection")
-        .attr({move: {left: false, right: false, up: false, down: false},
-            digCarrot: {pulling: false, obj: undefined },
-            x: px, y: py, z: model.get('sprite-z'),
+        var spawnPos = model.get('tileMap').spawnAtCentre();
+            
+        // init player entity
+    	var entity = Crafty.e("2D, Canvas, Dude, player, LeftControls")
+        .attr({
+            move: {left: false, right: false, up: false, down: false},
+            digCarrot: {canPull: false, obj: undefined },
+            actions: {action1: keyState.none, action2: keyState.none},
+            x: spawnPos.x, y: spawnPos.y, z: model.get('sprite-z'),
             speed: model.get('speed')
         })
         .Dude()
         // movement
         .bind("KeyDown", function(e) {
-    		if (e.keyCode === Crafty.keys.D) {
+    		if (e.keyCode === Crafty.keys.RIGHT_ARROW) {
 				this.move.right = true;
-			} else if(e.keyCode === Crafty.keys.A) {
+			} else if(e.keyCode === Crafty.keys.LEFT_ARROW) {
 				this.move.left = true;
-			} else if(e.keyCode === Crafty.keys.W) {
+			} else if(e.keyCode === Crafty.keys.UP_ARROW) {
 				this.move.up = true;            
-			} else if(e.keyCode === Crafty.keys.S) { 
+			} else if(e.keyCode === Crafty.keys.DOWN_ARROW) { 
                 this.move.down = true;
+			} else if (e.keyCode === Crafty.keys.Z) {
+                this.actions.action1 = keyState.down;
 			}
+            
+            //this.preventTypeaheadFind(e);
         })
     	.bind("KeyUp", function(e) {
-        	if (e.keyCode === Crafty.keys.D) {
+        	if (e.keyCode === Crafty.keys.RIGHT_ARROW) {
 				this.move.right = false;
-			} else if(e.keyCode === Crafty.keys.A) {
+			} else if(e.keyCode === Crafty.keys.LEFT_ARROW) {
 				this.move.left = false;
-			} else if(e.keyCode === Crafty.keys.W) {
+			} else if(e.keyCode === Crafty.keys.UP_ARROW) {
 				this.move.up = false;            
-			} else if(e.keyCode === Crafty.keys.S) { 
+			} else if(e.keyCode === Crafty.keys.DOWN_ARROW) { 
                 this.move.down = false;
-			}      
+    	    } else if (e.keyCode === Crafty.keys.Z) {
+                this.actions.action1 = keyState.up;
+			}            
+            
+            //this.preventTypeaheadFind(e);
     	})
         // updates
     	.bind("EnterFrame", function() {
@@ -239,8 +171,6 @@ Player = ActorObject.extend({
             var moving = this.move.up || this.move.down || this.move.left || this.move.right;
 
 			if (this.move.up) {
-//                this.x += Math.cos(this._dirAngle) * this.speed;
-//                this.y += Math.sin(this._dirAngle) * this.speed;
                 this.y -= this.speed;
 			} 
             if (this.move.down) {
@@ -253,31 +183,31 @@ Player = ActorObject.extend({
                 this.x += this.speed;
 			}
             
-            // determine which animation to show depending on the angle of movement
+            // --- determine which animation to show depending on the angle of movement
+            
             if (moving) {
-                var animation = undefined;
-                
-                if (this._dirMove == this._directions.up) {
-                    animation = 'walk_up';
-                } else if (this._dirMove == this._directions.down) {
-                    animation = 'walk_down';
-                } else if (this._dirMove == this._directions.left) {
-                    animation = 'walk_left';
-                } else if (this._dirMove == this._directions.right) {
-                    animation = 'walk_right';
+                if (this.move.left) {
+                    if (!this.isPlaying("walk_left"))
+                        this.stop().animate("walk_left", model.get('animSpeed'), -1);
+                } else if (this.move.right) {
+                    if (!this.isPlaying("walk_right"))
+                        this.stop().animate("walk_right", model.get('animSpeed'), -1);
+                } else if (this.move.up) {
+                    if (!this.isPlaying("walk_up"))
+                        this.stop().animate("walk_up", model.get('animSpeed'), -1);
+                } else if (this.move.down) {
+                    if (!this.isPlaying("walk_down"))
+                        this.stop().animate("walk_down", model.get('animSpeed'), -1);
                 }
-//                _Globals.conf.debug('walk=' + animation + ' / angle=' + this._dirAngle);
-
-                if (animation && !this.isPlaying(animation))
-                    this.stop().animate(animation, 5, -1);
-                
             } else {
                 this.stop();
             }
             
-            // Pull!!
-            if (this.digCarrot.pulling) {
-                if (this._mouseButtonLeft == this._mouseButtonState.down) {
+            // --- Pull ---
+            
+            if (this.digCarrot.canPull) {
+                if (this.actions.action1 === keyState.up) {
+                    this.actions.action1 = keyState.none; // reset
                     this.digCarrot.obj.health -= model.get('pullSpeed');
                     
                     if (_Globals.conf.get('debug'))
@@ -286,19 +216,14 @@ Player = ActorObject.extend({
                     // if pulled, simply destroy entity, the hit check should determine if we
                     // are about to pull another one or not
                     if (this.digCarrot.obj.health <= 0) {
+                        model.set('carrotsCount', model.get('carrotsCount') + 1);
                         this.digCarrot.obj.destroy();
-                        this._mouseButtonLeft = this._mouseButtonState.none; 
                     }
                 }
-            } else if (this._mouseButtonLeft == this._mouseButtonState.up) {
-                // reset
-                this._mouseButtonLeft = this._mouseButtonState.none; 
-                // Shoot!! create shoot animation
-                var eShot = Crafty.e("Shoot")
-                .Shoot(this.x, this.y, this.z, this.move);
             }            
             
             // --- check for collisions --- 
+            
             if(this.hit('stone_small') || this.hit('tree') 
             || this.hit('barrel_small') || this.hit('stone_big') 
             || this._x > Crafty.viewport.width || this._x < -64
@@ -312,14 +237,14 @@ Player = ActorObject.extend({
             var hits = this.hit('carrot');
             if (hits) {
                 // we are pulling the first found
-                this.digCarrot.pulling = true;
+                this.digCarrot.canPull = true;
                 this.digCarrot.obj = hits[0].obj;
             } else {
-                this.digCarrot.pulling = false;
+                this.digCarrot.canPull = false;
                 this.digCarrot.obj = undefined;
             }
             
-            // determine how to Z-index
+            // determine sprite Z-index
             this.attr({z: this.y + model.get('sprite-z')});
     	})
         // define player collision properties
@@ -330,114 +255,7 @@ Player = ActorObject.extend({
             [8, 48]
         );
         
-        // Cross-hair
-        var entity = Crafty.e("2D, Canvas, crosshair, Crosshair")
-        .attr({z: 999})
-        .bind('EnterFrame', function() {
-            this.x = this._pos.x - this.w / 2;
-            this.y = this._pos.y - this.h / 2;
-        });
-
         // bind to object
     	model.set({'entity' : entity });
     }
 });
-
-
-//var entity = Crafty.e("2D, Canvas, ship, Controls, Collision")
-//
-//       .attr({move: {left: false, right: false, up: false, down: false}, xspeed: 0, yspeed: 0, 
-//            decay: 0.9, x: Crafty.viewport.width / 2, y: Crafty.viewport.height / 2, score: 0, z: 1})
-//    	
-//        .origin("center")
-//		
-//        .bind("KeyDown", function(e) {
-//			//on keydown, set the move booleans
-//			if(e.keyCode === Crafty.keys.RIGHT_ARROW) {
-//				this.move.right = true;
-//			} else if(e.keyCode === Crafty.keys.LEFT_ARROW) {
-//				this.move.left = true;
-//			} else if(e.keyCode === Crafty.keys.UP_ARROW) {
-//				this.move.up = true;
-//			} else if (e.keyCode === Crafty.keys.SPACE) {
-//				console.log("Blast");
-//                
-//				Crafty.audio.play("Blaster");
-//                
-//				//create a bullet entity
-//				Crafty.e("2D, DOM, Color, bullet")
-//					.attr({
-//						x: this._x, 
-//						y: this._y, 
-//						w: 2, 
-//						h: 5, 
-//						rotation: this._rotation, 
-//						xspeed: 5 * Math.sin(this._rotation / 57.3), 
-//						yspeed: 5 * Math.cos(this._rotation / 57.3)
-//					})
-//					.color("rgb(255, 0, 0)")
-//					.bind("EnterFrame", function() {
-//						this.x += this.xspeed;
-//						this.y -= this.yspeed;
-//
-//						//destroy if it goes out of bounds
-//						if(this._x > Crafty.viewport.width || this._x < 0 || this._y > Crafty.viewport.height || this._y < 0) {
-//							this.destroy();
-//						}
-//					});
-//			}
-//		}).bind("KeyUp", function(e) {
-//			//on key up, set the move booleans to false
-//			if(e.keyCode === Crafty.keys.RIGHT_ARROW) {
-//				this.move.right = false;
-//			} else if(e.keyCode === Crafty.keys.LEFT_ARROW) {
-//				this.move.left = false;
-//			} else if(e.keyCode === Crafty.keys.UP_ARROW) {
-//				this.move.up = false;
-//			}
-//		}).bind("EnterFrame", function() {
-//			if(this.move.right) this.rotation += 5;
-//			if(this.move.left) this.rotation -= 5;
-//
-//			//acceleration and movement vector
-//			var vx = Math.sin(this._rotation * Math.PI / 180) * 0.3,
-//				vy = Math.cos(this._rotation * Math.PI / 180) * 0.3;
-//
-//			//if the move up is true, increment the y/xspeeds
-//			if(this.move.up) {
-//				this.yspeed -= vy;
-//				this.xspeed += vx;
-//			} else {
-//				//if released, slow down the ship
-//				this.xspeed *= this.decay;
-//				this.yspeed *= this.decay;
-//			}
-//
-//			//move the ship by the x and y speeds or movement vector
-//			this.x += this.xspeed;
-//			this.y += this.yspeed;
-//
-//			//if ship goes out of bounds, put him back
-//			if(this._x > Crafty.viewport.width) {
-//				this.x = -64;
-//			}
-//			if(this._x < -64) {
-//				this.x =  Crafty.viewport.width;
-//			}
-//			if(this._y > Crafty.viewport.height) {
-//				this.y = -64;
-//			}
-//			if(this._y < -64) {
-//				this.y = Crafty.viewport.height;
-//			}
-//
-////				//if all asteroids are gone, start again with more
-////				if(asteroidCount <= 0) {
-////					initRocks(lastCount, lastCount * 2);
-////				}
-//		});
-////            .collision()
-////			.onHit("asteroid", function() {
-////				//if player gets hit, restart the game
-////				Crafty.scene("main");
-////			});   
