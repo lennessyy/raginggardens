@@ -60,12 +60,22 @@ Crafty.scene("main", function() {
     });  
     
     // Gameloop
+    var startTime = Date.now();
+    
     Crafty.bind("EnterFrame",function(frame){
         
         //console.log('gameloop');
         
         $('#timer').text('Score: ' + frame.frame);
         $('#carrots').text('Carrots: ' + player.get('carrotsCount'));
+        
+        // game logic
+        var currentTime = Date.now();
+        
+        if (currentTime - startTime > 1500) {
+            tilemap.spawnCarrot();
+            startTime = Date.now();
+        }
         
     });
     

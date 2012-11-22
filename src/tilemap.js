@@ -32,11 +32,16 @@ Tilemap = ActorObject.extend({
         'tileSize' : 64,
         'width' : _Globals.conf.get('screen-width') / 64,
         'height' : _Globals.conf.get('screen-height') / 64,
+        'spawnArea': {top: 1, left: 1, 
+            right: _Globals.conf.get('screen-width') / 64 - 1,
+            bottom: _Globals.conf.get('screen-width') / 64 - 1
+        },
         'base-z' : 10,
         'maxObstacles' : 25,
         
         // Carrots 
         'maxCarrots' : 10,
+        'carrotHealth': 100,
         'currentCarrots' : 0,
         'carrotSpawnTime' : 2000,
         
@@ -56,8 +61,6 @@ Tilemap = ActorObject.extend({
         
         // generate layer #2 - obstacles
         var obstaclesCoords = [];
-        var cx = model.get('width') - 2;
-        var cy = model.get('height') - 2;
         
         for (var i = 0; i < model.get('maxObstacles'); i++) {
             
@@ -69,8 +72,8 @@ Tilemap = ActorObject.extend({
             var spriteName = '';
             
             do {
-                ox = Crafty.math.randomInt(1, cx);
-                oy = Crafty.math.randomInt(1, cy);
+                ox = Crafty.math.randomInt(model.get('spawnArea').left, model.get('spawnArea').right);
+                oy = Crafty.math.randomInt(model.get('spawnArea').top, model.get('spawnArea').bottom);
                 occupiedTile = _.size(_.where(obstaclesCoords, {x: ox, y: oy})) > 0;
                 
                 if (_Globals.conf.get('debug') && occupiedTile)
@@ -139,45 +142,26 @@ Tilemap = ActorObject.extend({
         
         // set into local var
         model.set('obstaclesMap', obstaclesCoords);
-        
-        Crafty.c('MapLogic', {
-            _zIndex: model.get('base-z') + 24, // precalculate Z
-            init: function () {
-                this.requires("RealDelay");
-                
-                // Create new carrot only if maximum is not reached
-                if (Crafty("carrot").length < model.get('maxCarrots')) {
-                    var ox = Crafty.math.randomInt(1, cx) * model.get('tileSize');
-                    var oy = Crafty.math.randomInt(1, cy) * model.get('tileSize');
-                            
-                    Crafty.e("2D, Canvas, carrot, SpriteAnimation, Collision")
-                    .attr({x: ox, y: oy, z: oy + this._zIndex, health: 100})
-                    .animate('wind', 0, 0, 3) // setup animation
-                    .animate('wind', 15, -1); // play animation
-                    
-//                    model.set('currentCarrots', model.get('currentCarrots') + 1);
-                    //console.log('carrots = ' + model.get('currentCarrots'));
-                }
-                
-                var mapLogic = this;
-                        
-                // Spawn new carrot every 60 seconds
-                Crafty.e("RealDelay").realDelay(function() {
-                    
-                    if (_Globals.conf.get('debug'))
-                        console.log("MapLogic= " + Crafty("MapLogic").length + " RDelay=" + Crafty("RealDelay").length);
-                    
-                    // cleanup and create new logic entity
-                    mapLogic.destroy();
-                    Crafty.e("MapLogic");
-                    this.destroy();
-                }, model.get('carrotSpawnTime'));                
-            }
-        });
-        // Start Carrot spawning logic
-        var logic = Crafty.e("MapLogic");
     },
-    
+    // Spawn new carrot only if maximum is not reached
+    spawnCarrot: function() {
+        if (Crafty("carrot").length < this.get('maxCarrots')) {
+            var ox = Crafty.math.randomInt(this.get('spawnArea').left, this.get('spawnArea').right);
+            var oy = Crafty.math.randomInt(this.get('spawnArea').top, this.get('spawnArea').bottom);
+            var pos = this.spawnAt(ox, oy);
+            
+            console.log('This: ' + ox + ',' + oy);
+            var oz = this.get('base-z') + 24 + pos.y;
+                    
+            Crafty.e("2D, Canvas, carrot, SpriteAnimation, Collision")
+                .attr({x: pos.x, y: pos.y, z: oz, health: this.get('carrotHealth')})
+                .animate('wind', 0, 0, 3) // setup animation
+                .animate('wind', 15, -1); // play animation
+                
+            if (_Globals.conf['debug']) 
+                console.log('Carrots: ' + Crafty("carrot").length + ' New: ' + pos.x + ',' + pos.y);
+        }
+    },
     // get unoccupied map position given start coordinates
     spawnAt: function(startX, startY) {
         
@@ -195,7 +179,7 @@ Tilemap = ActorObject.extend({
             if (occupiedTile) {
                 // nadebugvaj gooo ....
                 if (_Globals.conf.get('debug'))
-                    console.log("Cannot spawn player at " + cx + "," + cy);
+                    console.log("Cannot spawn item at " + cx + "," + cy);
                     
                 cx = startX + nextX[i] * m;
                 cy = startY + nextY[i] * m;
