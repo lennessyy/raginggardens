@@ -69,6 +69,10 @@ $(document).ready(function() {
     			    player: [0, 0, 32, 48],
     		    });
                 
+                Crafty.sprite("art/moosader_ayne.png", {
+        		    enemy: [0, 0, 32, 48],
+    		    });                
+                
 //                Crafty.sprite(32, "art/crosshairs_small_32x32.png", {
 //        		    crosshair: [0, 0],
 //                    crosshair_target: [0, 1],
@@ -119,8 +123,9 @@ $(document).ready(function() {
     	require([
             "src/actor_object.js",
             "src/asteroid.js",
-            "src/player.js",
             "src/tilemap.js",
+            "src/player.js",
+            "src/enemy.js",
             "src/scene.game.js"
         ], function() {            
                 

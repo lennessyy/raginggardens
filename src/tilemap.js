@@ -55,6 +55,12 @@ Tilemap = ActorObject.extend({
             right: model.get('width') - 1,
             bottom: model.get('height') - 1
         });
+        model.set('spawnAreaPx', {
+            top: model.get('tileSize') * model.get('spawnArea').top, 
+            left: model.get('tileSize') * model.get('spawnArea').left, 
+            right: model.get('tileSize') * model.get('spawnArea').right,
+            bottom: model.get('tileSize') * model.get('spawnArea').bottom
+        });        
         
         // generate layer #1 - ground tiles
         for (var i = 0; i < model.get('width'); i++) {
@@ -68,8 +74,6 @@ Tilemap = ActorObject.extend({
         var obstaclesCoords = [];
         
         for (var i = 0; i < model.get('maxObstacles'); i++) {
-            console.log("new obstacle");
-            
             var type = Crafty.math.randomInt(1, 4);
             var occupiedTile = false;
             var ox;
@@ -156,7 +160,6 @@ Tilemap = ActorObject.extend({
             var oy = Crafty.math.randomInt(this.get('spawnArea').top, this.get('spawnArea').bottom);
             var pos = this.spawnAt(ox, oy);
             
-            console.log('This: ' + ox + ',' + oy);
             var oz = this.get('base-z') + 24 + pos.y + 1;
                     
             Crafty.e("2D, Canvas, carrot, SpriteAnimation, Collision")
@@ -164,8 +167,8 @@ Tilemap = ActorObject.extend({
                 .animate('wind', 0, 0, 3) // setup animation
                 .animate('wind', 15, -1); // play animation
                 
-            if (_Globals.conf['debug']) 
-                console.log('Carrots: ' + Crafty("carrot").length + ' New: ' + pos.x + ',' + pos.y);
+            //if (_Globals.conf['debug']) 
+            //    console.log('Carrots: ' + Crafty("carrot").length + ' New: ' + pos.x + ',' + pos.y);
         }
     },
     // get unoccupied map position given start coordinates
@@ -205,5 +208,51 @@ Tilemap = ActorObject.extend({
         return this.spawnAt(
             this.get('width') * 0.5, 
             this.get('height') * 0.5);
+    },
+    // spawn (enemy) object at an edge of the map 
+    spawnRelativeToCarrot: function() {
+        var carrotsCount = Crafty("carrot").length;
+        if (carrotsCount > 0) {
+            var idx = Crafty.math.randomInt(0, carrotsCount - 1);
+            var obj = Crafty(Crafty("carrot")[idx]);
+            console.log("Spawning close to: " + idx + " " + obj + " count:" + idx);
+            if (obj != undefined) {
+                console.log("Obj: " + obj.x + "," + obj.y);                
+                
+                var sx, sy;
+                var dxl = obj.x - this.get('spawnAreaPx').left;
+                var dxr = this.get('spawnAreaPx').right - obj.x;
+                
+                // get random X position
+                if (dxl < dxr) {
+                    sx = Crafty.math.randomInt(0, this.get('spawnArea').left);
+                } else {
+                    sx = Crafty.math.randomInt(this.get('spawnArea').right, this.get('spawnArea').right + 2);
+                }
+                
+                // get random Y position
+                var dyt = obj.y - this.get('spawnAreaPx').top;
+                var dyb = this.get('spawnAreaPx').bottom - obj.y;
+                
+                if (dyt < dyb) {
+                    sy = Crafty.math.randomInt(0, this.get('spawnArea').top);
+                } else {
+                    sy = Crafty.math.randomInt(this.get('spawnArea').bottom, this.get('spawnArea').bottom + 2);
+                }
+                
+                console.log("dxl,dxr " + dxl + " " + dxr);
+                console.log("dyt,dyb " + dyt + " " + dyb);
+                
+                sx *= this.get('tileSize');
+                sy *= this.get('tileSize');
+                
+                //if (_Globals.conf.get('debug'))
+                //    console.log("Spawning close to carrot at: " + sx + "," + sy);                
+                    
+                return {x: sx, y: sy};
+            }
+        }
+        
+        // return undefined;
     }
 });

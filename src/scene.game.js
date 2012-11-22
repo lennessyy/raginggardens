@@ -60,7 +60,8 @@ Crafty.scene("main", function() {
     });  
     
     // Gameloop
-    var startTime = Date.now();
+    var carrotSpawnTime = Date.now();
+    var enemySpawnTime = Date.now();
     
     Crafty.bind("EnterFrame",function(frame){
         
@@ -69,14 +70,18 @@ Crafty.scene("main", function() {
         $('#timer').text('Score: ' + frame.frame);
         $('#carrots').text('Carrots: ' + player.get('carrotsCount'));
         
-        // game logic
+        // --- game logic ---
         var currentTime = Date.now();
         
-        if (currentTime - startTime > 1500) {
+        if (currentTime - carrotSpawnTime > 1500) {
             tilemap.spawnCarrot();
-            startTime = Date.now();
+            carrotSpawnTime = Date.now();
         }
         
+        if (currentTime - enemySpawnTime > 2000) {
+            var enemy = new Enemy({'tileMap': tilemap});
+            enemySpawnTime = Date.now();
+        }        
     });
     
     // display active FPS (only in DEBUG mode)
