@@ -34,7 +34,7 @@ Tilemap = ActorObject.extend({
         'height' : _Globals.conf.get('screen-height') / 64,
         'spawnArea': undefined,
         'base-z' : 10,
-        'maxObstacles' : 5,
+        'maxObstacles' : 25,
         
         // Carrots 
         'maxCarrots' : 10,
@@ -249,7 +249,7 @@ Tilemap = ActorObject.extend({
                 //if (_Globals.conf.get('debug'))
                 //    console.log("Spawning close to carrot at: " + sx + "," + sy);                
                     
-                return {x: sx, y: sy};
+                return {x: sx, y: sy, targetX: obj.x, targetY: obj.y};
             }
         }
         

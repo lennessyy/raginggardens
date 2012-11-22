@@ -78,7 +78,7 @@ Crafty.scene("main", function() {
             carrotSpawnTime = Date.now();
         }
         
-        if (currentTime - enemySpawnTime > 2000) {
+        if (currentTime - enemySpawnTime > 1000) {
             var enemy = new Enemy({'tileMap': tilemap});
             enemySpawnTime = Date.now();
         }        
