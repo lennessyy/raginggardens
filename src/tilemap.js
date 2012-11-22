@@ -32,12 +32,9 @@ Tilemap = ActorObject.extend({
         'tileSize' : 64,
         'width' : _Globals.conf.get('screen-width') / 64,
         'height' : _Globals.conf.get('screen-height') / 64,
-        'spawnArea': {top: 1, left: 1, 
-            right: _Globals.conf.get('screen-width') / 64 - 1,
-            bottom: _Globals.conf.get('screen-width') / 64 - 1
-        },
+        'spawnArea': undefined,
         'base-z' : 10,
-        'maxObstacles' : 25,
+        'maxObstacles' : 5,
         
         // Carrots 
         'maxCarrots' : 10,
@@ -51,6 +48,14 @@ Tilemap = ActorObject.extend({
     initialize: function() {
         var model = this;
         
+        // items spawning area
+        model.set('spawnArea', {
+            top: 1, 
+            left: 1, 
+            right: model.get('width') - 1,
+            bottom: model.get('height') - 1
+        });
+        
         // generate layer #1 - ground tiles
         for (var i = 0; i < model.get('width'); i++) {
             for (var j = 0; j < model.get('height'); j++) {
@@ -63,6 +68,7 @@ Tilemap = ActorObject.extend({
         var obstaclesCoords = [];
         
         for (var i = 0; i < model.get('maxObstacles'); i++) {
+            console.log("new obstacle");
             
             var type = Crafty.math.randomInt(1, 4);
             var occupiedTile = false;
@@ -151,7 +157,7 @@ Tilemap = ActorObject.extend({
             var pos = this.spawnAt(ox, oy);
             
             console.log('This: ' + ox + ',' + oy);
-            var oz = this.get('base-z') + 24 + pos.y;
+            var oz = this.get('base-z') + 24 + pos.y + 1;
                     
             Crafty.e("2D, Canvas, carrot, SpriteAnimation, Collision")
                 .attr({x: pos.x, y: pos.y, z: oz, health: this.get('carrotHealth')})

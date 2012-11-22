@@ -48,7 +48,7 @@ $(document).ready(function() {
             Crafty.load([
                 "art/moosader_tiles.png", 
                 "art/moosader_elliot.png",
-                "art/crosshairs_small_32x32.png",
+               // "art/crosshairs_small_32x32.png",
                 "art/moosader_laser.png",
                 "art/moosader_flower.png",
                 ], 
@@ -69,10 +69,10 @@ $(document).ready(function() {
     			    player: [0, 0, 32, 48],
     		    });
                 
-                Crafty.sprite(32, "art/crosshairs_small_32x32.png", {
-        		    crosshair: [0, 0],
-                    crosshair_target: [0, 1],
-    		    });   
+//                Crafty.sprite(32, "art/crosshairs_small_32x32.png", {
+//        		    crosshair: [0, 0],
+//                    crosshair_target: [0, 1],
+//    		    });   
                 
                 Crafty.sprite(20, "art/moosader_laser.png", {
             	    shot_ew: [0, 0],
