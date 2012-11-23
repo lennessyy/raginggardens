@@ -73,7 +73,7 @@ Crafty.scene("main", function() {
         // --- game logic ---
         var currentTime = Date.now();
         
-        if (currentTime - carrotSpawnTime > 1500) {
+        if (currentTime - carrotSpawnTime > 2500) {
             tilemap.spawnCarrot();
             carrotSpawnTime = Date.now();
         }

@@ -58,7 +58,7 @@ Enemy = ActorObject.extend({
     initialize: function() {
         var model = this;
         
-        if (Crafty("enemy").length > 15) {
+        if (Crafty("enemy").length > 2) {
             return;
         }
         
@@ -76,7 +76,12 @@ Enemy = ActorObject.extend({
         .attr({
             move: {left: false, right: false, up: false, down: false},
             digCarrot: {canPull: false, obj: undefined },
-            target: {x: spawnPos.targetX, y: spawnPos.targetY},
+            target: {
+                x: spawnPos.targetX, 
+                // fix Y pos to allow for proper distance calculation
+                y: spawnPos.targetY - model.get('tileMap').get('carrotHeightOffset'), 
+                obj: undefined
+                },
             //actions: {action1: keyState.none, action2: keyState.none},
             x: spawnPos.x, y: spawnPos.y, z: model.get('sprite-z'),
             speed: model.get('speed')
@@ -85,10 +90,31 @@ Enemy = ActorObject.extend({
         // updates
     	.bind("EnterFrame", function() {
             
+            // --- Pull ---
+            
+            if (this.digCarrot.canPull) {
+                this.stop();
+                return;
+//                if (this.actions.action1 === keyState.up) {
+//                    this.actions.action1 = keyState.none; // reset
+//                    this.digCarrot.obj.health -= model.get('pullSpeed');
+//                    
+//                    if (_Globals.conf.get('debug'))
+//                        console.log('extracting ...' + this.digCarrot.obj.health);
+//                    
+//                    // if pulled, simply destroy entity, the hit check should determine if we
+//                    // are about to pull another one or not
+//                    if (this.digCarrot.obj.health <= 0) {
+//                        model.set('carrotsCount', model.get('carrotsCount') + 1);
+//                        this.digCarrot.obj.destroy();
+//                    }
+//                }
+            }             
+            
             // see if we need to move
-            var dx = this.x - this.target.x;
-            var dy = this.y + 24 - this.target.y;
-            if ((dx * dx + dy * dy) > 64) {
+           // if (dist > 4) {
+               // console.log(this.id + " - distane: " + dx + " " + dy + " " + dist + " XY: " + this.x + "," + this.y);
+                
                 if (this.x < this.target.x) {
                     this.move.right = true;
                 } else if (this.x > this.target.x) {
@@ -100,9 +126,11 @@ Enemy = ActorObject.extend({
                 } else if (this.y > this.target.y) {
                     this.move.up = true;
                 }
-            } else {
-                return;
-            }
+            //} else {
+                
+               // return;
+           // }
+            
             // ---
             
             var oldx = this.x;
@@ -144,29 +172,10 @@ Enemy = ActorObject.extend({
             
             this.move.up = this.move.down = this.move.left = this.move.right = false;
             
-            // --- Pull ---
-            
-//            if (this.digCarrot.canPull) {
-//                if (this.actions.action1 === keyState.up) {
-//                    this.actions.action1 = keyState.none; // reset
-//                    this.digCarrot.obj.health -= model.get('pullSpeed');
-//                    
-//                    if (_Globals.conf.get('debug'))
-//                        console.log('extracting ...' + this.digCarrot.obj.health);
-//                    
-//                    // if pulled, simply destroy entity, the hit check should determine if we
-//                    // are about to pull another one or not
-//                    if (this.digCarrot.obj.health <= 0) {
-//                        model.set('carrotsCount', model.get('carrotsCount') + 1);
-//                        this.digCarrot.obj.destroy();
-//                    }
-//                }
-//            }            
-            
             // --- check for collisions --- 
             if (this.hit('stone_small') || this.hit('tree') 
             || this.hit('barrel_small') || this.hit('stone_big'))  {
-                this.attr({x: oldx, y: oldy + 2});
+                this.attr({x: oldx - 1, y: oldy + 1});
                 return;
             }
             
@@ -174,20 +183,63 @@ Enemy = ActorObject.extend({
 //            || this._y > Crafty.viewport.height || this._y < -32) {
 //                
 //            }
+
+            // determine sprite Z-index
+            this.attr({z: this.y + model.get('sprite-z')});
             
             // nearby carrot -> rise extracting flag
-            var hits = this.hit('carrot');
-            if (hits) {
+            var dx = this.x - this.target.x;
+            var dy = this.y - this.target.y;
+            var dist = (dx * dx + dy * dy);
+            
+            if (dist < 16) {
+                var hits = this.hit('carrot');
+                
+                // check if we actually are on a carrot
+                if (!hits)
+                    return;
+                    
                 // we are pulling the first found
-                this.digCarrot.canPull = true;
-                this.digCarrot.obj = hits[0].obj;
+                var obj = hits[0].obj;
+                
+                // TRACE
+                if (_Globals.conf.get('trace'))
+                    console.log('Enemy: ' + this[0] + ' has reached ' + obj[0]);
+                
+                if (obj.occupied) {
+                    var newObj = model.get('tileMap').findFreeCarrot();
+                    if (newObj != undefined) {
+                        
+                        // TRACE
+                        if (_Globals.conf.get('trace')) {
+                            console.log('Enemy:' + this[0] + ' new target coords ' + newObj[0] 
+                            + ' XY:' + newObj.x + ',' + newObj.y + ' occ: ' + newObj.occupied);
+                        }
+                        
+                        this.target.x = newObj.x;
+                        this.target.y = newObj.y - model.get('tileMap').get('carrotHeightOffset');
+                        this.target.obj = newObj;
+                    } else {
+                        // no available carrots, so let's go to the map centre
+                        var newPos = model.get('tileMap').spawnAtCentre();
+                        this.target.x = newPos.x;
+                        this.target.y = newPos.y;
+                        this.target.obj = undefined;                        
+                    }
+                } else {
+                    
+                    // TRACE
+                    if (_Globals.conf.get('trace'))
+                        console.log("Enemy: carrot " + obj[0] + " hit & occupied!");
+                        
+                    obj.occupied = true;
+                    this.digCarrot.obj = obj;
+                    this.digCarrot.canPull = true;
+                }
             } else {
                 this.digCarrot.canPull = false;
                 this.digCarrot.obj = undefined;
             }
-            
-            // determine sprite Z-index
-            this.attr({z: this.y + model.get('sprite-z')});
     	})
         // define player collision properties
         .collision(

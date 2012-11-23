@@ -23,6 +23,7 @@
  */
 Config = Backbone.Model.extend({
     defaults: {
+        'trace' : true,
         'debug' : true,
         'renderType' : 'Canvas',
         'screen-width' : 1024,
@@ -33,9 +34,9 @@ Config = Backbone.Model.extend({
        
     },
     
-    debug : function(obj) {
-        if (this.get('debug'))
-            console.log(obj);
-            //console.log('DEBUG:' + text);
-    }
+//    debug : function(obj) {
+//        if (this.get('debug'))
+//            console.log(obj);
+//            //console.log('DEBUG:' + text);
+//    }
 });

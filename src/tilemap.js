@@ -34,10 +34,11 @@ Tilemap = ActorObject.extend({
         'height' : _Globals.conf.get('screen-height') / 64,
         'spawnArea': undefined,
         'base-z' : 10,
-        'maxObstacles' : 25,
+        'maxObstacles' : 5,
         
         // Carrots 
-        'maxCarrots' : 10,
+        'carrotHeightOffset': 16,
+        'maxCarrots' : 2,
         'carrotHealth': 100,
         'currentCarrots' : 0,
         'carrotSpawnTime' : 2000,
@@ -156,6 +157,7 @@ Tilemap = ActorObject.extend({
     // Spawn new carrot only if maximum is not reached
     spawnCarrot: function() {
         if (Crafty("carrot").length < this.get('maxCarrots')) {
+            
             var ox = Crafty.math.randomInt(this.get('spawnArea').left, this.get('spawnArea').right);
             var oy = Crafty.math.randomInt(this.get('spawnArea').top, this.get('spawnArea').bottom);
             var pos = this.spawnAt(ox, oy);
@@ -163,12 +165,13 @@ Tilemap = ActorObject.extend({
             var oz = this.get('base-z') + 24 + pos.y + 1;
                     
             Crafty.e("2D, Canvas, carrot, SpriteAnimation, Collision")
-                .attr({x: pos.x, y: pos.y, z: oz, health: this.get('carrotHealth')})
+                .attr({
+                    x: pos.x, y: pos.y, z: oz, 
+                    health: this.get('carrotHealth'),
+                    occupied: false,
+                })
                 .animate('wind', 0, 0, 3) // setup animation
                 .animate('wind', 15, -1); // play animation
-                
-            //if (_Globals.conf['debug']) 
-            //    console.log('Carrots: ' + Crafty("carrot").length + ' New: ' + pos.x + ',' + pos.y);
         }
     },
     // get unoccupied map position given start coordinates
@@ -187,8 +190,8 @@ Tilemap = ActorObject.extend({
                 
             if (occupiedTile) {
                 // nadebugvaj gooo ....
-                if (_Globals.conf.get('debug'))
-                    console.log("Cannot spawn item at " + cx + "," + cy);
+                if (_Globals.conf.get('trace'))
+                    console.log("spawnAt: Cannot spawn at " + cx + "," + cy);
                     
                 cx = startX + nextX[i] * m;
                 cy = startY + nextY[i] * m;
@@ -203,56 +206,67 @@ Tilemap = ActorObject.extend({
         
         return {x: cx * this.get('tileSize'), y: cy * this.get('tileSize')};
     }, 
-    // try to spawn at the central tile map position
+    // try to spawn coords at the central tile map position
     spawnAtCentre: function() {
         return this.spawnAt(
             this.get('width') * 0.5, 
             this.get('height') * 0.5);
     },
+    // try to spawn coords at random free position
+    spawnAtCentre: function() {
+        return this.spawnAt(
+            this.get('width') * 0.5, 
+            this.get('height') * 0.5);
+    },    
     // spawn (enemy) object at an edge of the map 
     spawnRelativeToCarrot: function() {
-        var carrotsCount = Crafty("carrot").length;
-        if (carrotsCount > 0) {
-            var idx = Crafty.math.randomInt(0, carrotsCount - 1);
-            var obj = Crafty(Crafty("carrot")[idx]);
-            console.log("Spawning close to: " + idx + " " + obj + " count:" + idx);
-            if (obj != undefined) {
-                console.log("Obj: " + obj.x + "," + obj.y);                
-                
-                var sx, sy;
-                var dxl = obj.x - this.get('spawnAreaPx').left;
-                var dxr = this.get('spawnAreaPx').right - obj.x;
-                
-                // get random X position
-                if (dxl < dxr) {
-                    sx = Crafty.math.randomInt(0, this.get('spawnArea').left);
-                } else {
-                    sx = Crafty.math.randomInt(this.get('spawnArea').right, this.get('spawnArea').right + 2);
-                }
-                
-                // get random Y position
-                var dyt = obj.y - this.get('spawnAreaPx').top;
-                var dyb = this.get('spawnAreaPx').bottom - obj.y;
-                
-                if (dyt < dyb) {
-                    sy = Crafty.math.randomInt(0, this.get('spawnArea').top);
-                } else {
-                    sy = Crafty.math.randomInt(this.get('spawnArea').bottom, this.get('spawnArea').bottom + 2);
-                }
-                
-                console.log("dxl,dxr " + dxl + " " + dxr);
-                console.log("dyt,dyb " + dyt + " " + dyb);
-                
-                sx *= this.get('tileSize');
-                sy *= this.get('tileSize');
-                
-                //if (_Globals.conf.get('debug'))
-                //    console.log("Spawning close to carrot at: " + sx + "," + sy);                
-                    
-                return {x: sx, y: sy, targetX: obj.x, targetY: obj.y};
+        var obj = this.findFreeCarrot();
+        if (obj != undefined) {
+            var sx, sy;
+            var dxl = obj.x - this.get('spawnAreaPx').left;
+            var dxr = this.get('spawnAreaPx').right - obj.x;
+            
+            // get random X position
+            if (dxl < dxr) {
+                sx = Crafty.math.randomInt(0, this.get('spawnArea').left);
+            } else {
+                sx = Crafty.math.randomInt(this.get('spawnArea').right, this.get('spawnArea').right + 2);
             }
+            
+            // get random Y position
+            var dyt = obj.y - this.get('spawnAreaPx').top;
+            var dyb = this.get('spawnAreaPx').bottom - obj.y;
+            
+            if (dyt < dyb) {
+                sy = Crafty.math.randomInt(0, this.get('spawnArea').top);
+            } else {
+                sy = Crafty.math.randomInt(this.get('spawnArea').bottom, this.get('spawnArea').bottom + 2);
+            }
+            
+            // console.log("dxl,dxr " + dxl + " " + dxr);
+            // console.log("dyt,dyb " + dyt + " " + dyb);
+            
+            sx *= this.get('tileSize');
+            sy *= this.get('tileSize');
+            
+            //if (_Globals.conf.get('debug'))
+            //    console.log("Spawning close to carrot at: " + sx + "," + sy);                
+                
+            return {x: sx, y: sy, targetX: obj.x, targetY: obj.y};
         }
         
         // return undefined;
+    },
+    // get non-occupied carrot entity
+    findFreeCarrot: function() {
+        var carrotsArray = _.shuffle(Crafty("carrot"));  
+        var ret = _.find(carrotsArray, function(carrotObj) { 
+            var obj = Crafty(carrotObj);
+            return (obj != undefined) && (!obj.occupied);
+        });
+        
+        if (ret != undefined)
+            return Crafty(ret);
     }
 });
+ 
