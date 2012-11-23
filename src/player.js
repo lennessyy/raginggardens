@@ -211,7 +211,7 @@ Player = ActorObject.extend({
                     this.digCarrot.obj.health -= model.get('pullSpeed');
                     
                     if (_Globals.conf.get('debug'))
-                        console.log('extracting ...' + this.digCarrot.obj.health);
+                        console.log('Player: extracting ...' + this.digCarrot.obj.health);
                     
                     // if pulled, simply destroy entity, the hit check should determine if we
                     // are about to pull another one or not
@@ -224,11 +224,12 @@ Player = ActorObject.extend({
             
             // --- check for collisions --- 
             
-            if(this.hit('stone_small') || this.hit('tree') 
-            || this.hit('barrel_small') || this.hit('stone_big') 
-            || this._x > Crafty.viewport.width || this._x < -64
-            || this._y > Crafty.viewport.height || this._y < -64) {
-                console.log("Hit object or wall");
+            if (this.hit('Layer2Tile') || this._x > Crafty.viewport.width || this._x < -64
+                || this._y > Crafty.viewport.height || this._y < -64) {
+                    
+                if (_Globals.conf.get('trace'))
+                    console.log("Player: Hit object or wall");
+                
                 this.attr({x: oldx, y: oldy});
                 return;
             }

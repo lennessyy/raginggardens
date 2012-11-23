@@ -22,6 +22,12 @@
  * THE SOFTWARE.
  */
  
+Crafty.c("Layer2Tile", {
+    init: function() {
+        //this.requires('Multiway');
+    }
+});
+ 
 Tilemap = ActorObject.extend({
     defaults: {
         // pixel size
@@ -34,7 +40,7 @@ Tilemap = ActorObject.extend({
         'height' : _Globals.conf.get('screen-height') / 64,
         'spawnArea': undefined,
         'base-z' : 10,
-        'maxObstacles' : 5,
+        'maxObstacles' : 25,
         
         // Carrots 
         'carrotHeightOffset': 16,
@@ -117,7 +123,7 @@ Tilemap = ActorObject.extend({
                 continue;
             }
             
-             var entity = Crafty.e("2D, Canvas, " + spriteName + ", Collision")
+             var entity = Crafty.e("2D, Canvas, " + spriteName + ", Collision, Layer2Tile")
                 .attr({x: ox, y: oy, z: oz});
                 
             if (type == 1) { // stone_small
