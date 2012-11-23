@@ -213,18 +213,16 @@ Tilemap = ActorObject.extend({
             this.get('height') * 0.5);
     },
     // try to spawn coords at random free position
-    spawnAtCentre: function() {
-        return this.spawnAt(
-            this.get('width') * 0.5, 
-            this.get('height') * 0.5);
+    spawnAtRandom: function() {
+        var ox = Crafty.math.randomInt(this.get('spawnArea').left, this.get('spawnArea').right);
+        var oy = Crafty.math.randomInt(this.get('spawnArea').top, this.get('spawnArea').bottom);        
+        return this.spawnAt(ox, oy);
     },    
-    // spawn (enemy) object at an edge of the map 
-    spawnRelativeToCarrot: function() {
-        var obj = this.findFreeCarrot();
-        if (obj != undefined) {
+    // get spawn position relative to coordinates rx, ry
+    spawnRelativeTo: function(rx, ry) {
             var sx, sy;
-            var dxl = obj.x - this.get('spawnAreaPx').left;
-            var dxr = this.get('spawnAreaPx').right - obj.x;
+            var dxl = rx - this.get('spawnAreaPx').left;
+            var dxr = this.get('spawnAreaPx').right - rx;
             
             // get random X position
             if (dxl < dxr) {
@@ -234,8 +232,8 @@ Tilemap = ActorObject.extend({
             }
             
             // get random Y position
-            var dyt = obj.y - this.get('spawnAreaPx').top;
-            var dyb = this.get('spawnAreaPx').bottom - obj.y;
+            var dyt = ry - this.get('spawnAreaPx').top;
+            var dyb = this.get('spawnAreaPx').bottom - ry;
             
             if (dyt < dyb) {
                 sy = Crafty.math.randomInt(0, this.get('spawnArea').top);
@@ -249,10 +247,16 @@ Tilemap = ActorObject.extend({
             sx *= this.get('tileSize');
             sy *= this.get('tileSize');
             
-            //if (_Globals.conf.get('debug'))
-            //    console.log("Spawning close to carrot at: " + sx + "," + sy);                
-                
-            return {x: sx, y: sy, targetX: obj.x, targetY: obj.y};
+            return {x: sx, y: sy};        
+    },
+    // get spawn coords to carrot pos. additionally get target carrot coords 
+    spawnRelativeToCarrot: function() {
+        var obj = this.findFreeCarrot();
+        if (obj != undefined) {
+            var pos = this.spawnRelativeTo(obj.x, obj.y);
+            return {
+                origin: {x: pos.x, y: pos.y}, 
+                target: {x: obj.x, y: obj.y}};
         }
         
         // return undefined;

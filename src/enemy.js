@@ -58,7 +58,7 @@ Enemy = ActorObject.extend({
     initialize: function() {
         var model = this;
         
-        if (Crafty("enemy").length > 2) {
+        if (Crafty("enemy").length > 12) {
             return;
         }
         
@@ -67,8 +67,14 @@ Enemy = ActorObject.extend({
         // generate player position
         var spawnPos = model.get('tileMap').spawnRelativeToCarrot();
         if (spawnPos == undefined) {
-            console.log("Cannot spawn, no carrots!");
-            return;
+            // TRACE
+            if (_Globals.conf.get('trace'))
+                console.log('Enemy: Spawn failed, No carrots! Spawning @random.');
+                
+            var spawnOrigin = model.get('tileMap').spawnRelativeTo(0, 0);
+            var spawnDest = model.get('tileMap').spawnAtRandom();
+            
+            spawnPos = {origin: spawnOrigin, target: spawnDest};
         }
             
         // init player entity
@@ -77,13 +83,13 @@ Enemy = ActorObject.extend({
             move: {left: false, right: false, up: false, down: false},
             digCarrot: {canPull: false, obj: undefined },
             target: {
-                x: spawnPos.targetX, 
+                x: spawnPos.target.x, 
                 // fix Y pos to allow for proper distance calculation
-                y: spawnPos.targetY - model.get('tileMap').get('carrotHeightOffset'), 
+                y: spawnPos.target.y - model.get('tileMap').get('carrotHeightOffset'), 
                 obj: undefined
                 },
             //actions: {action1: keyState.none, action2: keyState.none},
-            x: spawnPos.x, y: spawnPos.y, z: model.get('sprite-z'),
+            x: spawnPos.origin.x, y: spawnPos.origin.y, z: model.get('sprite-z'),
             speed: model.get('speed')
         })
         .Enemy()
@@ -175,7 +181,7 @@ Enemy = ActorObject.extend({
             // --- check for collisions --- 
             if (this.hit('stone_small') || this.hit('tree') 
             || this.hit('barrel_small') || this.hit('stone_big'))  {
-                this.attr({x: oldx - 1, y: oldy + 1});
+                this.attr({x: oldx + 1, y: oldy + 1});
                 return;
             }
             
@@ -196,8 +202,14 @@ Enemy = ActorObject.extend({
                 var hits = this.hit('carrot');
                 
                 // check if we actually are on a carrot
-                if (!hits)
+                if (!hits) {
+                        // no available carrots, so let's go to ...wherever ;)
+                        var newPos = model.get('tileMap').spawnAtRandom();
+                        this.target.x = newPos.x;
+                        this.target.y = newPos.y;
+                        this.target.obj = undefined;                         
                     return;
+                }
                     
                 // we are pulling the first found
                 var obj = hits[0].obj;
@@ -220,8 +232,8 @@ Enemy = ActorObject.extend({
                         this.target.y = newObj.y - model.get('tileMap').get('carrotHeightOffset');
                         this.target.obj = newObj;
                     } else {
-                        // no available carrots, so let's go to the map centre
-                        var newPos = model.get('tileMap').spawnAtCentre();
+                        // no available carrots, so let's go to ...wherever ;)
+                        var newPos = model.get('tileMap').spawnAtRandom();
                         this.target.x = newPos.x;
                         this.target.y = newPos.y;
                         this.target.obj = undefined;                        
