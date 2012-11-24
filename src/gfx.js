@@ -36,9 +36,27 @@ Crafty.c('MagicPush', {
         return this;
     },
     EnterFrame: function(frame) {
-        
         if (!this._anim.isPlaying("go")) {
             //this.destroy();
         }
+    }
+}); 
+
+/**
+ * Play fork magic animation
+ */
+Crafty.c('MagicFork', {
+    _anim: undefined,
+    _createdOn: undefined,
+    _duration: 300,
+    MagicPush: function(origin) {
+        this._createdOn = Crafty.frame() + this._duration;
+        this._anim = Crafty.e("2D, Canvas, fork, SpriteAnimation")
+            .attr({x: origin.x, y: origin.y, 
+                z: 10 + origin.y + 32})
+            .animate('go', 0, 0, 2) // setup animation
+            .animate("go", 15, -1);
+            
+        return this;
     }
 }); 

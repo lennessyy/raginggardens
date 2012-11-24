@@ -23,7 +23,7 @@
  */
 Config = Backbone.Model.extend({
     defaults: {
-        'trace' : true,
+        'trace' : false,
         'debug' : true,
         'renderType' : 'Canvas',
         'screen-width' : 1024,

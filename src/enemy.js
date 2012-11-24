@@ -122,7 +122,7 @@ Enemy = ActorObject.extend({
     initialize: function() {
         var model = this;
         
-        if (Crafty("enemy").length > 12) {
+        if (Crafty("enemy").length > 5) {
             return;
         }
         
@@ -146,7 +146,6 @@ Enemy = ActorObject.extend({
                 if (this.pushedProps.atFrame > frame.frame) {
                     return;
                 }
-                console.log('ahaha' + frame.frame);
                 this.newTarget();
                 this.pushedProps.pushed = false;
             }
@@ -295,31 +294,32 @@ Enemy = ActorObject.extend({
         // Push back effect when player uses Push magic
         .bind("PushBack", function(playerPos) {
             
-            // TRAC
+            // TRACE
             if (_Globals.conf.get('trace'))
                 console.log("Enemy: %d is pushed back", this[0]);
             
             var newX = this.x;
             var newY = this.y;
+            var cx = this.x + 16, cy = this.y + 24;
             var amount = playerPos.amount;
             
             if (this.move.up && playerPos.y < this.y) {
                 newY += amount;
-            } else if (this.move.up && playerPos.y > this.y) {
+            } else if (this.move.up && playerPos.y > cy) {
                 newY -= amount;
-            } else if (this.move.down && playerPos.y < this.y) {
+            } else if (this.move.down && playerPos.y < cy) {
                 newY += amount;
-            } else if (this.move.down && playerPos.y > this.y) {
+            } else if (this.move.down && playerPos.y > cy) {
                 newY -= amount;
             }
             
-            if (this.move.left && playerPos.x < this.x) {
+            if (this.move.left && playerPos.x < cx) {
                 newX += amount;
-            } else if (this.move.left && playerPos.x > this.x) {
+            } else if (this.move.left && playerPos.x > cx) {
                 newX -= amount;
-            } if (this.move.right && playerPos.x < this.x) {
+            } if (this.move.right && playerPos.x < cx) {
                 newX += amount;
-            } if (this.move.right && playerPos.x > this.x) {
+            } if (this.move.right && playerPos.x > cx) {
                 newX -= amount;
             }
 
@@ -330,6 +330,15 @@ Enemy = ActorObject.extend({
             this.pushedProps.pushed = true;
             this.pushedProps.atFrame = undefined; //Crafty.frame.frame + model.get('pushCooldown');
             this.stop();
+        })
+        .bind("ForkBeacon", function(where) {
+            // TRACE
+            if (_Globals.conf.get('trace'))
+                console.log("Enemy: %d is forked", this[0]);
+                
+            this.target.x = where.x;
+            this.target.y = where.y;
+            // TODO:
         })
         // define player collision properties
         .collision(

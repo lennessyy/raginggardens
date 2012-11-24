@@ -34,10 +34,8 @@ $(document).ready(function() {
          * Init Crafty Engine
         */
         
-        Crafty.init(
-            _Globals.conf.get('screen-width'), 
-            _Globals.conf.get('screen-height'), 
-            50).canvas.init();
+        Crafty.init(_Globals.conf.get('screen-width'), _Globals.conf.get('screen-height'), 60)
+            .canvas.init();
         Crafty.background('rgb(0,0,0)');
 
         /**
@@ -50,6 +48,7 @@ $(document).ready(function() {
                 "art/stuz_rabbit.png",
                 "art/explosion_2.png",
                 "art/moosader_flower.png",
+                "art/moosader_candy.png"
                 ], 
             
             function() {
@@ -78,7 +77,11 @@ $(document).ready(function() {
                 
                 Crafty.sprite(32, "art/moosader_flower.png", {
                     carrot: [0, 0],
-    		    });                  
+    		    });
+                
+                Crafty.sprite(32, "art/moosader_candy.png", {
+                    fork: [0, 0],
+        	    });                    
                 
                 // --- Audio
                 //Crafty.audio.add("Blaster", ["space-blaster.wav", "space-blaster.mp3"]) 

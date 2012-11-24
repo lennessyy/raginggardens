@@ -121,11 +121,9 @@ Player = ActorObject.extend({
     	    } else if (e.keyCode === Crafty.keys.Z) {
                 this.actions.action1 = keyState.up;
     	    } else if (e.keyCode === Crafty.keys.Q) {
-                //this.actions.action1 = keyState.up;
-                console.log("MAGIC 1");
                 this.trigger("PushEnemies");
     	    } else if (e.keyCode === Crafty.keys.W) {
-                console.log("MAGIC 2");
+                this.trigger("ForkEnemies");
     	    }
             
             //this.preventTypeaheadFind(e);
@@ -247,7 +245,34 @@ Player = ActorObject.extend({
                     }
                 });                
             }
-        
+        })
+        // push back, all enemies within the push range 
+        .bind("ForkEnemies", function() {
+            if (Crafty('MagicFork').length > 0) {
+                // only 1 magic fork permitted
+                return;
+            }
+            
+            var enemies = Crafty('Enemy');
+            if (enemies && enemies.length > 0) {
+                // player sprite center
+                var where = {x: this.x + 16, y: this.y + 24};
+                
+                // create object and anim
+                Crafty.e("MagicFork").MagicPush(where)
+                    .bind("EnterFrame", function(frame) {
+                        if (frame.frame > this._createdOn) {
+                            this._anim.stop();
+                            this._anim.destroy();
+                            this.destroy();
+                    }
+                });    
+                // notify enemies that magic is active
+                _.each(enemies, function(enemyObj) { 
+                    var obj = Crafty(enemyObj);
+                    obj.trigger("ForkBeacon", where);
+                });                
+            }            
         })
         // show bar with how much effort there is to pull a carrot (carrot's health)
         .bind("ShowPullBar", function(carrotObj) {
