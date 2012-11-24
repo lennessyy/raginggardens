@@ -171,9 +171,10 @@ Player = ActorObject.extend({
             // --- Pull ---
             
             if (this.digCarrot.canPull) {
+                this.trigger("UpdatePullBar", this.digCarrot.obj.health);
+                
                 if (this.actions.action1 === keyState.down) {
                     this.digCarrot.obj.health -= model.get('pullSpeed');
-                    this.trigger("UpdatePullBar", this.digCarrot.obj.health);
                     
 //                    if (_Globals.conf.get('trace'))
 //                        console.log('Player: extracting ...' + this.digCarrot.obj.health);
