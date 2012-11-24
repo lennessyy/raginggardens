@@ -212,6 +212,10 @@ Tilemap = ActorObject.extend({
         
         return {x: cx * this.get('tileSize'), y: cy * this.get('tileSize')};
     }, 
+    // spawn at pixel position 
+    spawnAtPx: function(startX, startY) {
+        return this.spawnAt(startX / this.get('tileSize'), startY / this.get('tileSize'));
+    },
     // try to spawn coords at the central tile map position
     spawnAtCentre: function() {
         return this.spawnAt(

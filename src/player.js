@@ -50,49 +50,6 @@ Crafty.c('Dude', {
 });
 
 /**
- * Displays shooting animation depending on player facing
- */
-//Crafty.c('Shoot', {
-//    _halfWidth: 16,
-//    _halfHeight: 16,
-//    
-//    Shoot: function(px, py, pz, move) {
-//        this.x = px;
-//        this.y = py;
-//        this.z = pz;
-//        
-//        if (move.left && move.up) {
-//            this._anim = 'shot_nwse';
-//        } else if (move.left && move.down) {
-//            this._anim = 'shot_nesw';
-//        } else if (move.right && move.up) {
-//            this._anim = 'shot_nesw';
-//        } else if (move.right && move.down) {
-//            this._anim = 'shot_nwse';
-//        } else if (move.up || move.down) {
-//            this._anim = 'shot_ns';
-//        } else if (move.left || move.right) {
-//            this._anim = 'shot_ew';
-//        }
-//        
-//        //console.log(this._anim + ' ' + move);
-//        
-//        var eShot = Crafty.e("2D, Canvas, " +  this._anim  + ", RealDelay")
-//        .attr({z: this.z - 1, x: this.x + 24 - 16, y: this.y + 24 - 16})
-//        .realDelay(function() {
-//            //this._parent.detach(this);  // doesn't work :(
-//            this.destroy();
-//        }, 70);    
-//        
-//        return this;
-//    },
-//    init: function () {
-//        this.requires("RealDelay");
-//         
-//    }    
-//});
-
-/**
  * Creates and handles all Player properties and actions - appearance, movement, score.
  */
 Player = ActorObject.extend({
@@ -103,6 +60,9 @@ Player = ActorObject.extend({
         // behavior
         'speed': 2,
         'pullSpeed': 2,
+        'pushDistance': 100 * 100, // 150px distance
+        'pushAmount': 15,
+        'pushCost': 2,
         
         // gfx properties
         'animSpeed': 5,
@@ -160,7 +120,13 @@ Player = ActorObject.extend({
                 this.move.down = false;
     	    } else if (e.keyCode === Crafty.keys.Z) {
                 this.actions.action1 = keyState.up;
-			}            
+    	    } else if (e.keyCode === Crafty.keys.Q) {
+                //this.actions.action1 = keyState.up;
+                console.log("MAGIC 1");
+                this.trigger("PushEnemies");
+    	    } else if (e.keyCode === Crafty.keys.W) {
+                console.log("MAGIC 2");
+    	    }
             
             //this.preventTypeaheadFind(e);
     	})
@@ -208,19 +174,21 @@ Player = ActorObject.extend({
             
             if (this.digCarrot.canPull) {
                 if (this.actions.action1 === keyState.down) {
-                    // this.actions.action1 = keyState.none; // reset
                     this.digCarrot.obj.health -= model.get('pullSpeed');
                     this.trigger("UpdatePullBar", this.digCarrot.obj.health);
                     
-                    if (_Globals.conf.get('debug'))
-                        console.log('Player: extracting ...' + this.digCarrot.obj.health);
+//                    if (_Globals.conf.get('trace'))
+//                        console.log('Player: extracting ...' + this.digCarrot.obj.health);
                     
                     // if pulled, simply destroy entity, the hit check should determine if we
                     // are about to pull another one or not
                     if (this.digCarrot.obj.health <= 0) {
+                        this.actions.action1 = keyState.none; // reset
+                        
                         model.set('carrotsCount', model.get('carrotsCount') + 1);
                         this.digCarrot.obj.destroy();
                         this.trigger('HidePullBar');
+                        Crafty.trigger("UpdateStats");
                     }
                 }
             }            
@@ -255,6 +223,29 @@ Player = ActorObject.extend({
             // determine sprite Z-index
             this.attr({z: this.y + model.get('sprite-z')});
     	})
+        // push back, all enemies within the push range 
+        .bind("PushEnemies", function() {
+            var enemies = Crafty('Enemy');
+            if (enemies && enemies.length > 0) {
+                // player sprite center
+                var plrX = this.x + 16;
+                var plrY = this.y + 24;
+                
+                _.each(enemies, function(enemyObj) { 
+                    var obj = Crafty(enemyObj);
+                    var dx = obj.x - plrX;
+                    var dy = obj.y - plrY;
+                    var dist = (dx * dx + dy * dy);
+                    // console.log("about to push %d/%d, Exy: %d, %d Oxy: %d, %d" , 
+                    //    dist, model.get('pushDistance'), obj.x, obj.y, plrX, plrY);
+                    if (dist < model.get('pushDistance')) {
+                        var d = {amount: model.get('pushAmount'), x: plrX, y: plrY};
+                        obj.trigger("PushBack", d);
+                    }
+                });                
+            }
+        
+        })
         // show bar with how much effort there is to pull a carrot (carrot's health)
         .bind("ShowPullBar", function(carrotObj) {
             this.pullBars.red = Crafty.e("2D, Canvas, Color")
@@ -262,7 +253,7 @@ Player = ActorObject.extend({
                 .color("#aa0000");
             
             this.pullBars.green = Crafty.e("2D, Canvas, Color")
-                .attr({x: carrotObj.x, y: carrotObj.y - 5, w: 32, h: 5, z: 999})
+                .attr({x: carrotObj.x, y: carrotObj.y - 5, w: 0.32 * carrotObj.health, h: 5, z: 999})
                 .color("#00aa00");            
         })     
         .bind("HidePullBar", function(health) {

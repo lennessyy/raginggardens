@@ -26,13 +26,77 @@
  * Component that initilizes player animation tweets
  */
 Crafty.c('Enemy', {
-    Enemy: function() {
+    //target: {x: undefined, y: undefined, obj: undefined},
+    tileMap: undefined,
+    
+    Enemy: function(tileMap) {
         //setup animations
         this.requires("SpriteAnimation, Collision, Grid")
         .animate("walk_left", [ [0, 96], [32, 96], [64, 96] ])
         .animate("walk_right", [ [0, 144], [32, 144], [64, 144] ])
         .animate("walk_up", [ [0, 48], [32, 48], [64, 48] ])
-        .animate("walk_down", [ [0, 0], [32, 0], [64, 0] ])
+        .animate("walk_down", [ [0, 0], [32, 0], [64, 0] ]);
+        
+        this.tileMap = tileMap;
+        
+        // generate player position
+        var spawnPos = this.tileMap.spawnRelativeToCarrot();
+        if (!spawnPos) {
+            // TRACE
+            if (_Globals.conf.get('trace'))
+                console.log('Enemy: Spawn failed, No carrots! Spawning @random.');
+                
+            spawnPos = this.tileMap.spawnRelativeTo(0, 0);
+            this.attr({x: spawnPos.x, y: spawnPos.y});
+            this.newTarget(true);
+        } else {
+            this.attr({x: spawnPos.origin.x, y: spawnPos.origin.y});
+            this.target.x = spawnPos.target.x;
+            this.target.y = spawnPos.target.y;
+        }        
+        
+        return this;
+    },
+    init: function() {
+        this.requires("2D Canvas");
+        this.target = {x: undefined, y: undefined, obj: undefined};
+        this.digCarrot = {canPull: false, obj: undefined};
+        this.pushedProps = {pushed: false, atFrame: 0};
+
+    },
+    // get new target/carrot position or go to random location of no targets exist
+    newTarget: function(anywhere) {
+        if (!anywhere) {
+            var newObj = this.tileMap.findFreeCarrot();
+            if (newObj) {
+                // TRACE
+                if (_Globals.conf.get('trace')) {
+                    console.log('Enemy:' + this[0] + ' new target coords ' + newObj[0] 
+                    + ' XY:' + newObj.x + ',' + newObj.y + ' occ: ' + newObj.occupied);
+                }
+                this.target.x = newObj.x;
+                // fix Y pos to allow for proper distance calculation
+                this.target.y = newObj.y - this.tileMap.get('carrotHeightOffset');
+                this.target.obj = newObj;     
+            } else {
+                // no carrots, so choose a random place to go
+                anywhere = true; 
+            }
+        }
+        
+        if (anywhere) {
+            var newPos = this.tileMap.spawnAtRandom();
+            this.target.x = newPos.x;
+            this.target.y = newPos.y;
+            this.target.obj = undefined;                
+        }
+        // reset pulling
+        if (this.digCarrot.canPull) {
+            this.digCarrot.canPull = false;
+            this.digCarrot.obj.occupied = false;
+            this.digCarrot.obj = undefined;
+        }
+        
         return this;
     }
 });
@@ -48,6 +112,7 @@ Enemy = ActorObject.extend({
         // behavior
         'speed': 2,
         'pullSpeed': 1,
+        'pushCooldown': 40,
         
         // gfx properties
         'animSpeed': 5,
@@ -58,43 +123,34 @@ Enemy = ActorObject.extend({
     initialize: function() {
         var model = this;
         
-        if (Crafty("enemy").length > 10) {
+        if (Crafty("enemy").length > 1) {
             return;
         }
         
         model.set('sprite-z', model.get('spriteHeight') + model.get('z-index'));
         
-        // generate player position
-        var spawnPos = model.get('tileMap').spawnRelativeToCarrot();
-        if (spawnPos == undefined) {
-            // TRACE
-            if (_Globals.conf.get('trace'))
-                console.log('Enemy: Spawn failed, No carrots! Spawning @random.');
-                
-            var spawnOrigin = model.get('tileMap').spawnRelativeTo(0, 0);
-            var spawnDest = model.get('tileMap').spawnAtRandom();
-            
-            spawnPos = {origin: spawnOrigin, target: spawnDest};
-        }
-            
         // init player entity
         var entity = Crafty.e("2D, Canvas, Enemy, enemy")
         .attr({
             move: {left: false, right: false, up: false, down: false},
-            digCarrot: {canPull: false, obj: undefined },
-            target: {
-                x: spawnPos.target.x, 
-                // fix Y pos to allow for proper distance calculation
-                y: spawnPos.target.y - model.get('tileMap').get('carrotHeightOffset'), 
-                obj: undefined
-                },
-            //actions: {action1: keyState.none, action2: keyState.none},
-            x: spawnPos.origin.x, y: spawnPos.origin.y, z: model.get('sprite-z'),
-            speed: model.get('speed')
+            z: model.get('sprite-z'), speed: model.get('speed')
         })
-        .Enemy()
+        .Enemy(model.get('tileMap'))
         // updates
-    	.bind("EnterFrame", function() {
+    	.bind("EnterFrame", function(frame) {
+            
+            if (this.pushedProps.pushed) {
+                if (!this.pushedProps.atFrame) {
+                    this.pushedProps.atFrame = frame.frame + model.get('pushCooldown');
+                    return;
+                }
+                if (this.pushedProps.atFrame > frame.frame) {
+                    return;
+                }
+                console.log('ahaha' + frame.frame);
+                this.newTarget();
+                this.pushedProps.pushed = false;
+            }
             
             // --- Pull ---
             
@@ -110,13 +166,13 @@ Enemy = ActorObject.extend({
                 if (this.digCarrot.obj.health <= 0) {
                     this.digCarrot.canPull = false;
                     this.digCarrot.obj.destroy();
-                    this.trigger("NewTarget");
+                    this.newTarget();
                 }
                 return;
             }             
             
             // --- Move ---
-            // console.log(this.id + " - distane: " + dx + " " + dy + " " + dist + " XY: " + this.x + "," + this.y);
+            //console.log(this.id + " XY: " + this.x + "," + this.y);
             this.move.up = this.move.down = this.move.left = this.move.right = false;
                 
             if (this.x < this.target.x) {
@@ -209,7 +265,7 @@ Enemy = ActorObject.extend({
                 
                 // check if we actually are on a carrot
                 if (!hits) {
-                    this.trigger("NewTarget");
+                    this.newTarget();
                     return;
                 }
                     
@@ -221,7 +277,7 @@ Enemy = ActorObject.extend({
                     console.log('Enemy: ' + this[0] + ' has reached ' + obj[0]);
                 
                 if (obj.occupied) {
-                    this.trigger("NewTarget");
+                    this.newTarget();
                 } else {
                     
                     // TRACE
@@ -237,31 +293,44 @@ Enemy = ActorObject.extend({
                 this.digCarrot.obj = undefined;
             }
     	})
-        // get new target/carrot position or go to random location of no targets exist
-        .bind("NewTarget", function(anywhere) {
-            if (!anywhere) {
-                var newObj = model.get('tileMap').findFreeCarrot();
-                if (newObj) {
-                    // TRACE
-                    if (_Globals.conf.get('trace')) {
-                        console.log('Enemy:' + this[0] + ' new target coords ' + newObj[0] 
-                        + ' XY:' + newObj.x + ',' + newObj.y + ' occ: ' + newObj.occupied);
-                    }
-                    this.target.x = newObj.x;
-                    this.target.y = newObj.y - model.get('tileMap').get('carrotHeightOffset');
-                    this.target.obj = newObj;     
-                } else {
-                    // no carrots, so choose a random place to go
-                    anywhere = true; 
-                }
+        // Push back effect when player uses Push magic
+        .bind("PushBack", function(playerPos) {
+            
+            // TRAC
+            if (_Globals.conf.get('trace'))
+                console.log("Enemy: %d is pushed back", this[0]);
+            
+            var newX = this.x;
+            var newY = this.y;
+            var amount = playerPos.amount;
+            
+            if (this.move.up && playerPos.y < this.y) {
+                newY += amount;
+            } else if (this.move.up && playerPos.y > this.y) {
+                newY -= amount;
+            } else if (this.move.down && playerPos.y < this.y) {
+                newY += amount;
+            } else if (this.move.down && playerPos.y > this.y) {
+                newY -= amount;
             }
             
-            if (anywhere) {
-                var newPos = model.get('tileMap').spawnAtRandom();
-                this.target.x = newPos.x;
-                this.target.y = newPos.y;
-                this.target.obj = undefined;                
+            if (this.move.left && playerPos.x < this.x) {
+                newX += amount;
+            } else if (this.move.left && playerPos.x > this.x) {
+                newX -= amount;
+            } if (this.move.right && playerPos.x < this.x) {
+                newX += amount;
+            } if (this.move.right && playerPos.x > this.x) {
+                newX -= amount;
             }
+
+            var newPos = this.tileMap.spawnAtPx(newX, newY);
+            this.attr({x: newPos.x, y: newPos.y});
+            
+            // flag that pushed occured
+            this.pushedProps.pushed = true;
+            this.pushedProps.atFrame = undefined; //Crafty.frame.frame + model.get('pushCooldown');
+            this.stop();
         })
         // define player collision properties
         .collision(
@@ -269,8 +338,7 @@ Enemy = ActorObject.extend({
             [24, 40], 
             [24, 48], 
             [8, 48]
-        );        
-        
+        );
         
         // bind to object
         model.set({'entity' : entity });
