@@ -117,7 +117,8 @@ $(document).ready(function() {
             "src/tilemap.js",
             "src/player.js",
             "src/enemy.js",
-            "src/scene.game.js"
+            "src/scene.game.js",
+            "src/gfx.js"
         ], function() {            
                 
         Crafty.scene("loading");

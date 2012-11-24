@@ -60,8 +60,8 @@ Player = ActorObject.extend({
         // behavior
         'speed': 2,
         'pullSpeed': 2,
-        'pushDistance': 100 * 100, // 150px distance
-        'pushAmount': 15,
+        'pushDistance': 60 * 60, // 150px distance
+        'pushAmount': 25,
         'pushCost': 2,
         
         // gfx properties
@@ -230,6 +230,9 @@ Player = ActorObject.extend({
                 // player sprite center
                 var plrX = this.x + 16;
                 var plrY = this.y + 24;
+                
+                // play anim
+                Crafty.e("MagicPush").MagicPush({x: plrX, y: plrY});
                 
                 _.each(enemies, function(enemyObj) { 
                     var obj = Crafty(enemyObj);
