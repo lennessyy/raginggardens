@@ -47,9 +47,8 @@ $(document).ready(function() {
         Crafty.scene("loading", function() {
             Crafty.load([
                 "art/moosader_tiles.png", 
-                "art/moosader_elliot.png",
+                "art/stuz_rabbit.png",
                // "art/crosshairs_small_32x32.png",
-                "art/moosader_laser.png",
                 "art/moosader_flower.png",
                 ], 
             
@@ -65,7 +64,7 @@ $(document).ready(function() {
                     barrel_small: [2,1],
     		    });
                 
-                Crafty.sprite("art/moosader_elliot.png", {
+                Crafty.sprite("art/stuz_rabbit.png", {
     			    player: [0, 0, 32, 48],
     		    });
                 
@@ -77,13 +76,6 @@ $(document).ready(function() {
 //        		    crosshair: [0, 0],
 //                    crosshair_target: [0, 1],
 //    		    });   
-                
-                Crafty.sprite(20, "art/moosader_laser.png", {
-            	    shot_ew: [0, 0],
-                    shot_nesw: [1, 0],
-                    shot_ns: [2, 0],
-                    shot_nwse: [3, 0],
-    		    }); 
                 
                 Crafty.sprite(32, "art/moosader_flower.png", {
                     carrot: [0, 0],

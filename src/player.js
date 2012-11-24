@@ -126,7 +126,8 @@ Player = ActorObject.extend({
     	var entity = Crafty.e("2D, Canvas, Dude, player, LeftControls")
         .attr({
             move: {left: false, right: false, up: false, down: false},
-            digCarrot: {canPull: false, obj: undefined },
+            digCarrot: {canPull: false, obj: undefined},
+            pullBars: {red: undefined, green: undefined},
             actions: {action1: keyState.none, action2: keyState.none},
             x: spawnPos.x, y: spawnPos.y, z: model.get('sprite-z'),
             speed: model.get('speed')
@@ -209,6 +210,7 @@ Player = ActorObject.extend({
                 if (this.actions.action1 === keyState.up) {
                     this.actions.action1 = keyState.none; // reset
                     this.digCarrot.obj.health -= model.get('pullSpeed');
+                    this.trigger("UpdatePullBar", this.digCarrot.obj.health);
                     
                     if (_Globals.conf.get('debug'))
                         console.log('Player: extracting ...' + this.digCarrot.obj.health);
@@ -218,6 +220,7 @@ Player = ActorObject.extend({
                     if (this.digCarrot.obj.health <= 0) {
                         model.set('carrotsCount', model.get('carrotsCount') + 1);
                         this.digCarrot.obj.destroy();
+                        this.trigger('HidePullBar');
                     }
                 }
             }            
@@ -237,17 +240,46 @@ Player = ActorObject.extend({
             // nearby carrot -> rise extracting flag
             var hits = this.hit('carrot');
             if (hits) {
-                // we are pulling the first found
-                this.digCarrot.canPull = true;
-                this.digCarrot.obj = hits[0].obj;
-            } else {
+                if (!this.digCarrot.canPull) {
+                    // we are pulling the first found
+                    this.digCarrot.canPull = true;
+                    this.digCarrot.obj = hits[0].obj;
+                    this.trigger('ShowPullBar', this.digCarrot.obj);
+                }
+            } else if (this.digCarrot.canPull) {
                 this.digCarrot.canPull = false;
                 this.digCarrot.obj = undefined;
+                this.trigger('HidePullBar');
             }
             
             // determine sprite Z-index
             this.attr({z: this.y + model.get('sprite-z')});
     	})
+        // show bar with how much effort there is to pull a carrot (carrot's health)
+        .bind("ShowPullBar", function(carrotObj) {
+            this.pullBars.red = Crafty.e("2D, Canvas, Color")
+                .attr({x: carrotObj.x, y: carrotObj.y - 5, w: 32, h: 5, z: 998})
+                .color("#aa0000");
+            
+            this.pullBars.green = Crafty.e("2D, Canvas, Color")
+                .attr({x: carrotObj.x, y: carrotObj.y - 5, w: 32, h: 5, z: 999})
+                .color("#00aa00");            
+        })     
+        .bind("HidePullBar", function(health) {
+            if (this.pullBars.red) {
+                this.pullBars.red.destroy();
+                this.pullBars.red = undefined;
+            }
+            if (this.pullBars.green) {
+                this.pullBars.green.destroy();
+                this.pullBars.green = undefined;
+            }
+        })   
+        .bind("UpdatePullBar", function(health) {
+            if (this.pullBars.green && health >= 0) {
+                this.pullBars.green.w = 0.32 * health;
+            }
+        })          
         // define player collision properties
         .collision(
             [8, 40], 
