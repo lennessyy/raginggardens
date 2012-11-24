@@ -35,7 +35,14 @@ Crafty.scene("main", function() {
     // UpdateStats Event
     Crafty.bind("UpdateStats",function() {
         $('#carrots').text('Carrots: ' + player.get('carrotsCount'));
-    });  
+    });
+    
+    Crafty.bind("ShowMsg", function(msg) {
+        if (msg == 'carrots') {
+            $('#msgs').css('color','#aa0000');
+            $('#msgs').text('Not enough carrots!');
+        }
+    });
     
     // display active FPS (only in DEBUG mode)
     if (_Globals.conf.get('debug')) {
@@ -49,17 +56,20 @@ Crafty.scene("main", function() {
     var carrotSpawnTime = Date.now();
     var enemySpawnTime = Date.now();
     // 5 minutes
-    var gameTimeLeft = Date.now() + 100000; 
+    var gameTimeLeft = Date.now() + _Globals.conf.get('gameTimeLimit'); 
     
     Crafty.bind("EnterFrame",function(frame){
         
         var currentTime = Date.now();
         
+        if (gameTimeLeft < currentTime) {
+            // TOOD: GAME END
+        }
+        
         // --- time left
         var leftTime = (gameTimeLeft - currentTime) / 1000;
         var leftMin = Math.floor(leftTime / 60);
         var leftSec = leftTime % 60;
-        
         $('#timer').text('Time Left: ' + leftMin.toFixed(0) + ':' + leftSec.toFixed(2));
         
         // --- game logic

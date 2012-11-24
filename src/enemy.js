@@ -118,11 +118,13 @@ Enemy = ActorObject.extend({
         'animSpeed': 5,
         'spriteHeight': 48,
         'z-index': 10,
+        'spriteHalfHeight': 24,
+        'spriteHalfWidth': 16,        
     },
     initialize: function() {
         var model = this;
         
-        if (Crafty("enemy").length > 5) {
+        if (Crafty("enemy").length > _Globals.conf.get('maxEnemiesToSpawn')) {
             return;
         }
         
@@ -300,7 +302,8 @@ Enemy = ActorObject.extend({
             
             var newX = this.x;
             var newY = this.y;
-            var cx = this.x + 16, cy = this.y + 24;
+            var cx = this.x + model.get('spriteHalfWidth'), 
+                cy = this.y + model.get('spriteHalfHeight');
             var amount = playerPos.amount;
             
             if (this.move.up && playerPos.y < this.y) {

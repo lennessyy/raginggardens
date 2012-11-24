@@ -62,16 +62,16 @@ Player = ActorObject.extend({
         'pullSpeed': 2,
         'pushDistance': 60 * 60, // 150px distance
         'pushAmount': 25,
-        'pushCost': 2,
         
         // gfx properties
         'animSpeed': 5,
         'spriteHeight': 48,
+        'spriteHalfHeight': 24,
+        'spriteHalfWidth': 16,
         'z-index': 10,
         
         // scores
         'carrotsCount': 0,
-        'killsCount': 0
     },
     initialize: function() {
     	var model = this;
@@ -183,7 +183,8 @@ Player = ActorObject.extend({
                     if (this.digCarrot.obj.health <= 0) {
                         this.actions.action1 = keyState.none; // reset
                         
-                        model.set('carrotsCount', model.get('carrotsCount') + 1);
+                        model.set('carrotsCount', 
+                            model.get('carrotsCount') + _Globals.conf.get('carrotsCollect'));
                         this.digCarrot.obj.destroy();
                         this.trigger('HidePullBar');
                         Crafty.trigger("UpdateStats");
@@ -223,11 +224,15 @@ Player = ActorObject.extend({
     	})
         // push back, all enemies within the push range 
         .bind("PushEnemies", function() {
+            if (!model.eatCarrots(_Globals.conf.get('carrotsPushCost'))) {
+                return;
+            }   
+                
             var enemies = Crafty('Enemy');
             if (enemies && enemies.length > 0) {
                 // player sprite center
-                var plrX = this.x + 16;
-                var plrY = this.y + 24;
+                var plrX = this.x + model.get('spriteHalfWidth');
+                var plrY = this.y + model.get('spriteHalfHeight');
                 
                 // play anim
                 Crafty.e("MagicPush").MagicPush({x: plrX, y: plrY});
@@ -253,10 +258,15 @@ Player = ActorObject.extend({
                 return;
             }
             
+            if (!model.eatCarrots(_Globals.conf.get('carrotsForkCost'))) {
+                return;
+            }               
+            
             var enemies = Crafty('Enemy');
             if (enemies && enemies.length > 0) {
                 // player sprite center
-                var where = {x: this.x + 16, y: this.y + 24};
+                var where = {x: this.x + model.get('spriteHalfWidth'), 
+                    y: this.y + model.get('spriteHalfHeight')};
                 
                 // create object and anim
                 Crafty.e("MagicFork").MagicPush(where)
@@ -298,7 +308,7 @@ Player = ActorObject.extend({
             if (this.pullBars.green && health >= 0) {
                 this.pullBars.green.w = 0.32 * health;
             }
-        })          
+        })
         // define player collision properties
         .collision(
             [8, 40], 
@@ -309,5 +319,21 @@ Player = ActorObject.extend({
         
         // bind to object
     	model.set({'entity' : entity });
+    },
+    // substract carrots for magic 
+    // (Returns: True|False)
+    eatCarrots: function(amount) {
+        if (this.get('carrotsCount') < amount) {
+            Crafty.trigger('ShowMsg', 'carrots');
+            return false;
+        }
+        
+        this.set('carrotsCount', 
+                this.get('carrotsCount') - amount);
+                
+        Crafty.trigger('UpdateStats');
+        
+        return true;
     }
+    
 });

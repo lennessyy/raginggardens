@@ -44,10 +44,8 @@ Tilemap = ActorObject.extend({
         
         // Carrots 
         'carrotHeightOffset': 16,
-        'maxCarrots' : 10,
+        'maxCarrots' : _Globals.conf.get('maxCarrotsToSpawn'),
         'carrotHealth': 100,
-        'currentCarrots' : 0,
-        'carrotSpawnTime' : 2000,
         
         // globals
         obstaclesMap: undefined,

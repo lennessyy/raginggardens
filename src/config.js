@@ -23,11 +23,20 @@
  */
 Config = Backbone.Model.extend({
     defaults: {
+        // engine 
         'trace' : false,
         'debug' : true,
         'renderType' : 'Canvas',
         'screen-width' : 1024,
-        'screen-height' : 768
+        'screen-height' : 768,
+        
+        // gameplay
+        'gameTimeLimit': 300 * 1000, // milliseconds
+        'maxEnemiesToSpawn': 6,
+        'maxCarrotsToSpawn': 10,
+        'carrotsCollect': 3,
+        'carrotsPushCost': 1,
+        'carrotsForkCost': 2,
         
     },
     initialize: function() {

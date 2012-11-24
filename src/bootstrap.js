@@ -27,21 +27,18 @@ $(document).ready(function() {
         /**
          * Global Registry
         */
-        
         _Globals['conf'] = new Config({});
         
         /**
          * Init Crafty Engine
-        */
-        
+         */
         Crafty.init(_Globals.conf.get('screen-width'), _Globals.conf.get('screen-height'), 60)
             .canvas.init();
         Crafty.background('rgb(0,0,0)');
 
         /**
          * Load assets
-        */        
-        
+         */        
         Crafty.scene("loading", function() {
             Crafty.load([
                 "art/moosader_tiles.png", 
@@ -86,7 +83,7 @@ $(document).ready(function() {
                 // --- Audio
                 //Crafty.audio.add("Blaster", ["space-blaster.wav", "space-blaster.mp3"]) 
                 
-    		    Crafty.scene("main");
+    		    Crafty.scene(_Globals['scene']);
             },
             // On Progress
             function(e) {
@@ -116,7 +113,6 @@ $(document).ready(function() {
          */           
     	require([
             "src/actor_object.js",
-            "src/asteroid.js",
             "src/tilemap.js",
             "src/player.js",
             "src/enemy.js",
