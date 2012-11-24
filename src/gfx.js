@@ -31,7 +31,7 @@ Crafty.c('MagicPush', {
         this._anim = Crafty.e("2D, Canvas, explosion1, SpriteAnimation")
             .attr({x: origin.x - 32, y: origin.y - 32, z: 999})
             .animate('go', 0, 0, 8) // setup animation
-            .animate("go", 15, 0);
+            .animate("go", 20, 0);
         
         return this;
     },

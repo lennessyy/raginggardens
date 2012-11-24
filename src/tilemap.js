@@ -174,8 +174,8 @@ Tilemap = ActorObject.extend({
                     health: this.get('carrotHealth'),
                     occupied: false,
                 })
-                .animate('wind', 0, 0, 3) // setup animation
-                .animate('wind', 15, -1); // play animation
+                .animate('wind', 0, 0, 2) // setup animation
+                .animate('wind', 40, -1); // play animation
         }
     },
     // get unoccupied map position given start coordinates

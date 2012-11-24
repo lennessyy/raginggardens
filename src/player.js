@@ -64,7 +64,7 @@ Player = ActorObject.extend({
         'pushAmount': 25,
         
         // gfx properties
-        'animSpeed': 5,
+        'animSpeed': 8,
         'spriteHeight': 48,
         'spriteHalfHeight': 24,
         'spriteHalfWidth': 16,

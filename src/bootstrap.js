@@ -44,8 +44,8 @@ $(document).ready(function() {
                 "art/moosader_tiles.png", 
                 "art/stuz_rabbit.png",
                 "art/explosion_2.png",
-                "art/moosader_flower.png",
-                "art/moosader_candy.png"
+                "art/moosader_candy.png",
+                "art/stuz_carrots.png"
                 ], 
             
             function() {
@@ -72,7 +72,7 @@ $(document).ready(function() {
         		    explosion1: [0, 0],
     		    });   
                 
-                Crafty.sprite(32, "art/moosader_flower.png", {
+                Crafty.sprite(32, "art/stuz_carrots.png", {
                     carrot: [0, 0],
     		    });
                 
