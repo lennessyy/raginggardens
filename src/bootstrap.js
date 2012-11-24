@@ -48,7 +48,7 @@ $(document).ready(function() {
             Crafty.load([
                 "art/moosader_tiles.png", 
                 "art/stuz_rabbit.png",
-               // "art/crosshairs_small_32x32.png",
+                "art/explosion_2.png",
                 "art/moosader_flower.png",
                 ], 
             
@@ -72,10 +72,9 @@ $(document).ready(function() {
         		    enemy: [0, 0, 32, 48],
     		    });                
                 
-//                Crafty.sprite(32, "art/crosshairs_small_32x32.png", {
-//        		    crosshair: [0, 0],
-//                    crosshair_target: [0, 1],
-//    		    });   
+                Crafty.sprite(64, "art/explosion_2.png", {
+        		    explosion1: [0, 0],
+    		    });   
                 
                 Crafty.sprite(32, "art/moosader_flower.png", {
                     carrot: [0, 0],
