@@ -47,7 +47,7 @@ Enemy = ActorObject.extend({
         
         // behavior
         'speed': 2,
-        'pullSpeed': 3,
+        'pullSpeed': 1,
         
         // gfx properties
         'animSpeed': 5,
@@ -58,7 +58,7 @@ Enemy = ActorObject.extend({
     initialize: function() {
         var model = this;
         
-        if (Crafty("enemy").length > 0) {
+        if (Crafty("enemy").length > 10) {
             return;
         }
         

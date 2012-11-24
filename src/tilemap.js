@@ -44,7 +44,7 @@ Tilemap = ActorObject.extend({
         
         // Carrots 
         'carrotHeightOffset': 16,
-        'maxCarrots' : 2,
+        'maxCarrots' : 15,
         'carrotHealth': 100,
         'currentCarrots' : 0,
         'carrotSpawnTime' : 2000,

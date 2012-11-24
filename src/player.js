@@ -102,7 +102,7 @@ Player = ActorObject.extend({
         
         // behavior
         'speed': 2,
-        'pullSpeed': 10,
+        'pullSpeed': 2,
         
         // gfx properties
         'animSpeed': 5,
@@ -207,8 +207,8 @@ Player = ActorObject.extend({
             // --- Pull ---
             
             if (this.digCarrot.canPull) {
-                if (this.actions.action1 === keyState.up) {
-                    this.actions.action1 = keyState.none; // reset
+                if (this.actions.action1 === keyState.down) {
+                    // this.actions.action1 = keyState.none; // reset
                     this.digCarrot.obj.health -= model.get('pullSpeed');
                     this.trigger("UpdatePullBar", this.digCarrot.obj.health);
                     
