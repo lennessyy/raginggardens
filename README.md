@@ -15,12 +15,12 @@ powers which cost a carrot or 2 in order to repel enemies.
   * **W** - Put a carrot-on-a-**fork**-beacon to gather all enemies and give you time to collect carrots.
 
 # License
-The complete game **without game graphics** is under MIT License. Read the [LICNESE][] file for more info.
-For game art graphics license please check the [Credits][1] section.
+The complete game **without game graphics** is under MIT License. Read the **LICNESE** file for more info.
+For game art graphics license please check the **Credits** section.
 
 # Credits
 ## Game Art
-[1]: The complete game art is created and owned by [Stremena Tuzsuzova](http://www.stremena.com).
+The complete game art is created and owned by [Stremena Tuzsuzova](http://www.stremena.com).
 Usage for commercial purposes are forbidden. Please contact the author in case of further questions.
 
 ## Opensource Libraries
