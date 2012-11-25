@@ -41,7 +41,7 @@ $(document).ready(function() {
          */        
         Crafty.scene("loading", function() {
             Crafty.load([
-                "art/moosader_tiles.png", 
+                "art/stuz_tiles.png", 
                 "art/stuz_rabbit.png",
                 "art/stuz_enemy.png",
                 "art/explosion_2.png",
@@ -52,7 +52,7 @@ $(document).ready(function() {
             function() {
         	    
                 // --- Graphics
-        	    Crafty.sprite(64, "art/moosader_tiles.png", {
+        	    Crafty.sprite(64, "art/stuz_tiles.png", {
     			    grass: [0,0],
     			    stone_small: [1,0],
     			    stone_big: [2,0],
