@@ -24,8 +24,8 @@ For game art graphics license please check the [Credits][1] section.
 Usage for commercial purposes are forbidden. Please contact the author in case of further questions.
 
 ## Opensource Libraries
+  * [Crafty](http://craftyjs.com/) - An amazing Javascript/HTML5 Game engine.  
   * [jQuery](http://jquery.com/) - The Write Less, Do More, JavaScript Library
-  * [Crafty](http://craftyjs.com/) - Javascript Game engine.
   * [Backbone.js](http://backbonejs.org/) - Provides model abstractions.
   * [Require.js](http://requirejs.org/) - RequireJS is a JavaScript file and module loader. 
   * [Modernizr](http://modernizr.com/) - Modernizr is a JavaScript library that detects HTML5 and CSS3 features in the user’s browser.
