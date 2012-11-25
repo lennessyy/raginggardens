@@ -30,6 +30,10 @@ Config = Backbone.Model.extend({
         'screen-width' : 1024,
         'screen-height' : 768,
         
+        // media
+        'sfx': true,
+        'music': true,
+        
         // gameplay
         'gameTimeLimit': 300 * 1000, // milliseconds
         'maxEnemiesToSpawn': 6,

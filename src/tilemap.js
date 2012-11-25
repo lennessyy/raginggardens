@@ -174,7 +174,7 @@ Tilemap = ActorObject.extend({
                     health: this.get('carrotHealth'),
                     occupied: false,
                 })
-                .animate('wind', 0, 0, 2) // setup animation
+                .animate('wind', [ [0, 0], [32, 0], [64, 0], [32, 0] ]) // setup animation
                 .animate('wind', 40, -1); // play animation
         }
     },
