@@ -23,6 +23,6 @@
  */
 Crafty.scene("splash", function() {
     
-    
+    //TODO
     
 });

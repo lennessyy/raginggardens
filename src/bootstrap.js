@@ -100,28 +100,29 @@ $(document).ready(function() {
                 //Crafty.audio.add("Blaster", ["space-blaster.wav", "space-blaster.mp3"]) 
                 
     		    Crafty.scene(_Globals['scene']);
+                
+                // disable loading
+                $('#loading').hide();
             },
             // On Progress
             function(e) {
-                // TODO:
+                $('#loading').html('Loaded: ' + e.percent.toFixed(0) + '%');
+//                if (_Globals.conf.get('debug'))
+//                    console.log(e);
             },
             // On Error
             function(e) {
-                // TODO
+                $('#loading').html('Could not load: ' + e.src);
+                
+                if (_Globals.conf.get('debug'))
+                    console.log(e);       
             });
+
+            if (_Globals.conf.get('debug'))
+                console.log("Loading ...");
             
-            console.log("Loading ...");
-            
-            Crafty.background("#000");
-            Crafty.e("2D, Canvas, Text")
-            .attr({
-                w: 100,
-                h: 20,
-                x: 150,
-                y: 120
-            })
-            .text("Loading");
-//            .css({"text-align": "center", "color" : "#fff"});            
+            //Crafty.background("#000");
+            $('#loading').show();
         });
         
         /**

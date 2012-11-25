@@ -3,16 +3,27 @@
     padding: 0px;
 }
 
-body, html { overflow:hidden; background: #000000; } 
-
+body, html { 
+    overflow:hidden; 
+    background: #000 url('../art/background.png');
+} 
 #cr-stage { 
     margin: 0 auto; 
+    border: solid 1px #231f20;
 }
 .info{
     text-align: center;
 }
 .clear{
     clear:both;
+}
+#loading {
+    margin: 0 auto; 
+    color: white;
+    left: 45%;
+    top: 50%;
+    position: absolute;
+    z-index: -1;
 }
 #dialog-score {
     display: table;
