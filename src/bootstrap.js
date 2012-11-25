@@ -26,8 +26,23 @@ $(document).ready(function() {
         
         /**
          * Global Registry
-        */
+         */
         _Globals['conf'] = new Config({});
+        
+        /**
+         * Check if hi-scores table exists 
+         */
+        var hiscore = new Hiscore();
+        hiscore.getAllScores(function(scores, server) {
+            server.close();
+            if (scores.length == 0) {
+                hiscore.resetScores(function(scores, server) {
+                    // TRACE
+                    if (_Globals.conf.get('debug'))
+                        console.log("Inserting default Hi-scores. %d items.", scores.length);
+                });
+            }
+        });         
         
         /**
          * Init Crafty Engine
@@ -118,10 +133,10 @@ $(document).ready(function() {
             "src/player.js",
             "src/enemy.js",
             "src/scene.game.js",
-            "src/gfx.js"
+            "src/gfx.js",
         ], function() {            
-                
-        Crafty.scene("loading");
+            
+            Crafty.scene("loading");
             
         });    
         

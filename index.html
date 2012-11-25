@@ -7,19 +7,24 @@
     <title>Raging Gardens</title>
     <script type="text/javascript" src="lib/modernizr.custom.47915.js"></script>
     <link type="text/css" href="css/style.css" rel="stylesheet" /> 
+    <link type="text/css" href="css/le-frog/jquery-ui-1.9.2.custom.css" rel="stylesheet">
 </head>
 <body>
 <!--[if lt IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
     <!-- libraries -->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="lib/crafty-0.5.3-full.js"></script>
     <script type="text/javascript" src="lib/underscore-min.js"></script>
     <script type="text/javascript" src="lib/backbone-min.js"></script>
+    <script type="text/javascript" src="lib/IndexedDBShim.min.js"></script>
+    <script type="text/javascript" src="lib/db.js"></script>
     <script type="text/javascript" src="lib/require.js"></script>
+    
     <!-- game -->
     <script type="text/javascript" src="src/bootstrap.js"></script>
- 
+    <script type="text/javascript" src="src/hiscore.js"></script>
     <script type="text/javascript">
     _Globals = {
         env : 'dev',
@@ -31,10 +36,8 @@
             Crafty.debugBar.show();
         });
     </script> 
- 
-    <div id="sacore" style="position: absolute; top: 145px; left: 225px; color: white; z-index: 9999">
-        TEST
-    </div>
+
+    <div id="dialog-score" style="display: none;"></div>
     
     <div id="score" style="position: absolute; top: 5px; left: 5px; color: white">
         <div id="timer" class="text"></div>

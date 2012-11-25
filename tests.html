@@ -18,25 +18,113 @@
 $(document).ready(function() {
 	module("Storage");
 
-	test("saveAndLoadAndRemoveScores", function() {
+//	test("saveAndLoadAndRemoveScores", function() {
+//        var hiscore = new Hiscore();
+//        var who = 'Ivan';
+//        var score = 12093;
+//        
+//        // save one entry
+//        hiscore.saveScore(who, score, function(obj) {
+//            console.log('SAVED ' + obj);
+//            
+//            hiscore.getAllScoresRaw(function(scores, server) {
+//                console.log('LOADED ' + scores);
+//                
+//                QUnit.equal(scores.length > 0, true);
+//                var entry = scores[0];
+//                QUnit.equal(entry.id >= 0, true);
+//                QUnit.equal(entry.name, "Ivan");
+//                QUnit.equal(entry.score, 12093);
+//                start();        
+//                server.close();
+//            });
+//        });
+//        stop();
+//        
+//        hiscore.removeAllScores(function(server) {
+//            console.log("REMOVING");
+//            hiscore.getAllScoresRaw(function(scores) {
+//                QUnit.equal(scores.length, 0);
+//                start();
+//                server.close();
+//            });
+//        });
+//        stop();
+//	});
+
+//	test("saveAndSortScores", function() {
+//        var hiscore = new Hiscore();
+//        var who = 'Ivan';
+//        var score = 12093;
+//        
+//        // save one entry
+//        for (i = 0; i < 10; i++) {
+//            hiscore.saveScore(who, score + Math.floor(Math.random()*100) + 100);
+//        }
+//        stop();
+////        
+////        hiscore.getAllScoresRaw(function(scores, server) {
+////            console.log(scores);
+////            server.close();
+////        });    
+//        
+//        hiscore.getAllScores(function(scores, server) {
+//            var last = -1;
+//            scores.each(function(obj) {
+//                QUnit.equal(last < obj.get('score'), true);
+//                last = obj.get('score');
+//                console.log('name:' + obj.get('name') + ' score: ' + obj.get('score'));    
+//            });
+//            server.close();
+//            
+//            hiscore.removeAllScores(function(server) {
+//                hiscore.getAllScoresRaw(function(scores) {
+//                    QUnit.equal(scores.length, 0);
+//                    start();
+//                    server.close();
+//                });
+//            });            
+//        });         
+//        stop();
+//	});
+    
+//    test("resetScores", function() {
+//        var hiscore = new Hiscore();
+//        
+//        hiscore.resetScores(function(server) {
+//            hiscore.getAllScores(function(scores, server) {
+//                scores.each(function(obj) {
+//                    console.log('name:' + obj.get('name') + ' score: ' + obj.get('score'));    
+//                });
+//                
+//                hiscore.removeAllScores(function(server) {
+//                    console.log("REMOVING");
+//                    hiscore.getAllScoresRaw(function(scores) {
+//                        QUnit.equal(scores.length, 0);
+//                        start();
+//                        server.close();
+//                    });
+//                });                
+//            });
+//        });
+//        stop();
+//	});    
+    
+    test("testAddScore", function() {
         var hiscore = new Hiscore();
-        var who = 'Ivan';
-        var score = 12093;
         
-        // save one entry
-        hiscore.saveScore(who, score, function(obj) {
-            console.log('SAVED ' + obj);
-            
-            hiscore.getAllScoresRaw(function(scores, server) {
-                console.log('LOADED ' + scores);
-                
-                QUnit.equal(scores.length > 0, true);
-                var entry = scores[0];
-                QUnit.equal(entry.id >= 0, true);
-                QUnit.equal(entry.name, "Ivan");
-                QUnit.equal(entry.score, 12093);
-                start();        
+        hiscore.resetScores(function(server) {
+            hiscore.addScore('bobo', 10, function(server, ss) {
                 server.close();
+                
+                hiscore.getAllScores(function(scores, server) {
+                    scores.each(function(obj) {
+                        console.log('name:' + obj.get('name') + ' score: ' + obj.get('score'));    
+                    });
+                    QUnit.equal(scores.at(5).get('name'), 'bobo');
+                    QUnit.equal(scores.at(5).get('score'), 10);
+                    start();
+                });
             });
         });
         stop();
@@ -48,45 +136,43 @@ $(document).ready(function() {
                 start();
                 server.close();
             });
-        });
+        });          
         stop();
-	});
-
-	test("saveAndSortScores", function() {
-        var hiscore = new Hiscore();
-        var who = 'Ivan';
-        var score = 12093;
         
-        // save one entry
-        for (i = 0; i < 10; i++) {
-            hiscore.saveScore(who, score + Math.floor(Math.random()*100) + 100);
-        }
-        stop();
+//        hiscore.resetScores(function(server) {
+//            hiscore.addScore('roro', 10, function(server, ss) {
+//                server.close();
+//                
+//                hiscore.getAllScores(function(scores, server) {
+//                    scores.each(function(obj) {
+//                        console.log('name:' + obj.get('name') + ' score: ' + obj.get('score'));    
+//                    });
+////                    QUnit.equal(scores.at(5).get('name'), 'roro');
+////                    QUnit.equal(scores.at(5).get('score'), 10);
+//                    hiscore.removeAllScores(function(server) {
+//                        console.log("REMOVING");
+//                        hiscore.getAllScoresRaw(function(scores) {
+//                            QUnit.equal(scores.length, 0);
+//                            start();
+//                            server.close();
+//                        });
+//                    });                
+//                    
+//                });
+//            });
+//        });
+//        stop();
 //        
-//        hiscore.getAllScoresRaw(function(scores, server) {
-//            console.log(scores);
-//            server.close();
-//        });    
-        
-        hiscore.getAllScores(function(scores, server) {
-            var last = -1;
-            scores.each(function(obj) {
-                QUnit.equal(last < obj.get('score'), true);
-                last = obj.get('score');
-                console.log('name:' + obj.get('name') + ' score: ' + obj.get('score'));    
-            });
-            server.close();
-            
-            hiscore.removeAllScores(function(server) {
-                hiscore.getAllScoresRaw(function(scores) {
-                    QUnit.equal(scores.length, 0);
-                    start();
-                    server.close();
-                });
-            });            
-        });         
-        stop();
-	});
+//        hiscore.removeAllScores(function(server) {
+//            console.log("REMOVING");
+//            hiscore.getAllScoresRaw(function(scores) {
+//                QUnit.equal(scores.length, 0);
+//                start();
+//                server.close();
+//            });
+//        });          
+//        stop();        
+    });      
 
 });
 </script>

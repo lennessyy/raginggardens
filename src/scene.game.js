@@ -32,17 +32,82 @@ Crafty.scene("main", function() {
      * Triggers to update various game states
      */
      
-    // UpdateStats Event
+    // UpdateStats Event - score, carrots
     Crafty.bind("UpdateStats",function() {
         $('#carrots').text('Carrots: ' + player.get('carrotsCount'));
     });
     
+    // Show in-game message
     Crafty.bind("ShowMsg", function(msg) {
         if (msg == 'carrots') {
             $('#msgs').css('color','#aa0000');
             $('#msgs').text('Not enough carrots!');
         }
     });
+    
+    // Show HiScore Dialog
+    Crafty.bind("ShowHiScore", function(text) {
+        if (!text) {
+            var hiscore = new Hiscore();
+            
+            // load scores
+            var text = '<div>';
+            text += '<span class="name">';
+            text += '[Name]';
+            text += '</span>';
+            text += '<span class="score">';
+            text += '[Carrots]';
+            text += '</span>';
+            text += '</div>';            
+            hiscore.getAllScores(function(scores, server) {
+                server.close();
+                var i = 0;
+                scores.each(function(obj) {
+                    if (++i > 6)
+                        return;
+                    text += '<div>';
+                    text += '<span class="name">';
+                    text += obj.get('name');
+                    text += '</span>';
+                    text += '<span class="score">';
+                    text += obj.get('score');
+                    text += '</span>';
+                    text += '</div>';
+                    
+                });                
+                Crafty.trigger("ShowHiScore", text);
+            });
+            return;
+        }
+        
+        $("#dialog-score").html(text);
+        // show dialog
+        $("#dialog-score").dialog({
+            resizable: false,
+            "width": 460,
+            "height": 300,
+            modal: true,
+            "title": "Top 5 Scores",
+            buttons: {
+                "Reset Scores": function() {
+                    // reset scores
+                    var hiscore = new Hiscore();
+                    hiscore.resetScores(function() {
+                        Crafty.trigger("ShowHiScore");    
+                        $(this).dialog("close");
+                    });
+                },
+                "Let me out!": function() {
+                    $(this).dialog("close");
+                }
+            },
+            close: function(event, ui) {
+                 //Crafty.destroy();
+                //TODO:
+                window.location.reload() // TODO: Cheap! :( Must replace with proper restart.
+            }            
+        });          
+    });    
     
     // display active FPS (only in DEBUG mode)
     if (_Globals.conf.get('debug')) {
@@ -63,14 +128,18 @@ Crafty.scene("main", function() {
         var currentTime = Date.now();
         
         if (gameTimeLeft < currentTime) {
-            // TOOD: GAME END
+            Crafty.stop();
+            var hiscore = new Hiscore();
+            hiscore.addScore('You', player.get('carrotsCount'), function() {
+                Crafty.trigger("ShowHiScore");    
+            });       
+        } else {
+            // --- time left
+            var leftTime = (gameTimeLeft - currentTime) / 1000;
+            var leftMin = Math.floor(leftTime / 60);
+            var leftSec = leftTime % 60;
+            $('#timer').text('Time Left: ' + leftMin.toFixed(0) + ':' + leftSec.toFixed(2));            
         }
-        
-        // --- time left
-        var leftTime = (gameTimeLeft - currentTime) / 1000;
-        var leftMin = Math.floor(leftTime / 60);
-        var leftSec = leftTime % 60;
-        $('#timer').text('Time Left: ' + leftMin.toFixed(0) + ':' + leftSec.toFixed(2));
         
         // --- game logic
         var currentTime = Date.now();

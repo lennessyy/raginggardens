@@ -21,14 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
- 
+
+/**
+ * Save hi-scores into localstorage (IndexedDB or WebSQL)
+ *
+ * TODO: Needs reworking, as db.open() is called too frequently!
+ * And also - this Async. impl sucks :(
+ */
 Hiscore = Backbone.Model.extend({
     defaults: {
         // references
         'storageName': 'RGGame_dc32000e-afd6-481e-8807-4dd838f2d922',
         'version': 1,
         'storageTable': 'hiscore',
-        'maxScores': 3,
+        'maxScores': 6,
+        'defaultScores': [ 
+            {name: 'Raging Hero', score: 12}, 
+            {name: 'Need for speed', score: 9}, 
+            {name: 'Now we\'re talking', score: 6}, 
+            {name: 'Sucks to be you', score: 3}, 
+            {name: 'Absolute looser', score: 1},         
+            ],
     },
     // storage init
     initialize: function() {
@@ -60,7 +73,27 @@ Hiscore = Backbone.Model.extend({
             }
         });        
     },
-    // save score for given person
+    // get list of saved scores, add this score to list, remove all, sort and save again
+    addScore: function(who, score, fnCallback) {
+        var model = this;
+        
+        this.getAllScores(function(sortedScores, server) {
+            sortedScores.add({'name': who, 'score': score});    
+            model.removeAllScores(function() {
+                // save max
+                var max = model.get('maxScores');
+                sortedScores.each(function(obj) {
+                    if (max-- <= 0)
+                        return;
+                    model.saveScore(obj.get('name'), obj.get('score'));
+                });            
+                
+                if (fnCallback)
+                    fnCallback(server, sortedScores);                   
+            });
+        });
+    },
+    // save score for given person directly to DB
     saveScore: function(who, score, fnCallback) {
         var model = this;
         this.open(function(server) {
@@ -138,6 +171,31 @@ Hiscore = Backbone.Model.extend({
                 }
             //});
         });                
+    },
+    // reset Scores
+    resetScores: function(fnCallback) {
+        var defaults = this.get('defaultScores');
+        var model = this;
+        this.removeAllScores(function(server) {
+            server.close();
+            
+            var sortedScores = new Backbone.Collection;
+            sortedScores.comparator = function(obj1, obj2) {
+                return obj1.get('score') < obj2.get('score');
+            };
+            
+            // add ew
+            _.each(defaults, function(obj) {
+                sortedScores.add({'name': obj.name, 'score': obj.score}); 
+                model.saveScore(obj.name, obj.score);
+            });
+            
+            if (fnCallback) {
+                fnCallback(sortedScores, server);
+            } else {
+                server.close();
+            }            
+        });
     },
     // close DB connection
     close: function(server) {
