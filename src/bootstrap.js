@@ -43,6 +43,7 @@ $(document).ready(function() {
             Crafty.load([
                 "art/moosader_tiles.png", 
                 "art/stuz_rabbit.png",
+                "art/stuz_enemy.png",
                 "art/explosion_2.png",
                 "art/moosader_candy.png",
                 "art/stuz_carrots.png"
@@ -64,7 +65,7 @@ $(document).ready(function() {
     			    player: [0, 0, 32, 48],
     		    });
                 
-                Crafty.sprite("art/moosader_ayne.png", {
+                Crafty.sprite("art/stuz_enemy.png", {
         		    enemy: [0, 0, 32, 48],
     		    });                
                 
@@ -72,8 +73,8 @@ $(document).ready(function() {
         		    explosion1: [0, 0],
     		    });   
                 
-                Crafty.sprite(32, "art/stuz_carrots.png", {
-                    carrot: [0, 0],
+                Crafty.sprite("art/stuz_carrots.png", {
+                    carrot: [0, 0, 32, 32],
     		    });
                 
                 Crafty.sprite(32, "art/moosader_candy.png", {

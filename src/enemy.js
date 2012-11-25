@@ -115,7 +115,7 @@ Enemy = ActorObject.extend({
         'pushCooldown': 30,
         
         // gfx properties
-        'animSpeed': 8,
+        'animSpeed': 7,
         'spriteHeight': 48,
         'z-index': 10,
         'spriteHalfHeight': 24,
