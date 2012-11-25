@@ -2,22 +2,25 @@
 ==========================
 
 HTML5/Javascript Browser Game. 
-You are a (ninja) rabbit who must pull as much carrots as possible from the ground in 5 minutes. 
+
+You are a (ninja) rabbit who must pull as much carrots as possible from the ground in 5 minutes.
+Other rabbits will try to get carrots as well, so you must compete with them. You can use special
+powers which cost a carrot or 2 in order to repel enemies.
 
 # Controls
 
   * **UDLR** - Arrow keys to move.
-  * **Z** - Hold down to Pull carrots from the ground.
-  * **Q** - Fart and push enemies away. :)
-  * **W** - Put a Froked-Carrot beacon to gather all enemies and give you time to collect carrots.
+  * **Z** - Hold down to **pull** carrots from the ground.
+  * **Q** - Fart and **push** enemies away. :)
+  * **W** - Put a carrot-on-a-**fork**-beacon to gather all enemies and give you time to collect carrots.
 
 # License
-The complete game **without game graphics** is under MIT License. Read the [LICNESE][/LICENSE] file for more info.
-For game art graphics license please check the [Credits][gaid] section.
+The complete game **without game graphics** is under MIT License. Read the [LICNESE][] file for more info.
+For game art graphics license please check the [Credits][1] section.
 
 # Credits
 ## Game Art
-[gaid]: The complete game art is created and owned by [Stremena Tuzsuzova](http://www.stremena.com).
+[1]: The complete game art is created and owned by [Stremena Tuzsuzova](http://www.stremena.com).
 Usage for commercial purposes are forbidden. Please contact the author in case of further questions.
 
 ## Opensource Libraries
