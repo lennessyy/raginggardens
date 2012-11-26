@@ -35,6 +35,7 @@ Config = Backbone.Model.extend({
         'music': true,
         
         // gameplay
+        'defaultCarrots': 10,
         'gameTimeLimit': 50 * 1000, // 300 * 1000, // milliseconds
         'maxEnemiesToSpawn': 6,
         'maxCarrotsToSpawn': 10,

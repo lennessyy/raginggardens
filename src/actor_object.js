@@ -23,7 +23,7 @@
  */
 ActorObject = Backbone.Model.extend({
     defaults: {
-        'entity' : null
+        'entity' : null,
     },
     initialize: function(){
     

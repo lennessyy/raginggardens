@@ -59,7 +59,7 @@ $(document).ready(function() {
                 "art/stuz_tiles.png", 
                 "art/stuz_rabbit.png",
                 "art/stuz_enemy.png",
-                "art/explosion_2.png",
+                "art/stuz_fart_moving.png",
                 "art/moosader_candy.png",
                 "art/stuz_carrots.png"
                 ], 
@@ -84,7 +84,7 @@ $(document).ready(function() {
         		    enemy: [0, 0, 32, 48],
     		    });                
                 
-                Crafty.sprite(64, "art/explosion_2.png", {
+                Crafty.sprite(64, "art/stuz_fart_moving.png", {
         		    explosion1: [0, 0],
     		    });   
                 

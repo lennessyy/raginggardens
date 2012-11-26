@@ -14,16 +14,7 @@ powers which cost a carrot or 2 in order to repel enemies.
   * **Q** - Fart and **push** enemies away. :)
   * **W** - Put a carrot-on-a-**fork**-beacon to gather all enemies and give you time to collect carrots.
 
-# License
-The complete game **without game graphics** is under MIT License. Read the **LICNESE** file for more info.
-For game art graphics license please check the **Credits** section.
-
-# Credits
-## Game Art
-The complete game art is created and owned by [Stremena Tuzsuzova](http://www.stremena.com).
-Usage for commercial purposes are forbidden. Please contact the author in case of further questions.
-
-## Opensource Libraries
+# Opensource Libraries
   * [Crafty](http://craftyjs.com/) - An amazing Javascript/HTML5 Game engine.  
   * [jQuery](http://jquery.com/) - The Write Less, Do More, JavaScript Library
   * [Backbone.js](http://backbonejs.org/) - Provides model abstractions.
@@ -31,3 +22,11 @@ Usage for commercial purposes are forbidden. Please contact the author in case o
   * [Modernizr](http://modernizr.com/) - Modernizr is a JavaScript library that detects HTML5 and CSS3 features in the user’s browser.
   * [db.js](http://aaronpowell.github.com/db.js/) - db.js is a wrapper for IndexedDB to make it easier to work against, making it look more like a queryable API.
   * [IndexedDB Polyfill](https://github.com/axemclion/IndexedDBShim) - A polyfill to enable IndexedDB using WebSql.
+  * 
+
+# License
+The complete game **without game graphics** is under MIT License. Read the **LICNESE** file for more info.
+
+## Game Art
+The complete game art is created and owned by [Stremena Tuzsuzova](http://www.stremena.com).
+Usage for commercial purposes are forbidden. Please contact the author in case of further questions.

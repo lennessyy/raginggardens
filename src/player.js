@@ -71,7 +71,7 @@ Player = ActorObject.extend({
         'z-index': 10,
         
         // scores
-        'carrotsCount': 0,
+        'carrotsCount': _Globals.conf.get('defaultCarrots'),
     },
     initialize: function() {
     	var model = this;
