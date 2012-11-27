@@ -111,7 +111,7 @@ Enemy = ActorObject.extend({
         
         // behavior
         'speed': 2,
-        'pullSpeed': 1,
+        'pullSpeed': 2,
         'pushCooldown': 30,
         
         // gfx properties

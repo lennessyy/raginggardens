@@ -31,7 +31,7 @@
     _Globals = {
         env : 'dev',
         version : '0.9',
-        scene : 'splash'
+        scene : 'main'
         };
         //Crafty.modules({ 'crafty-debug-bar': 'DEV' }, function () {
         //    Crafty.debugBar.show();
@@ -64,6 +64,11 @@
             <div id="timer" class="text right"></div>
             <div id="carrots" class="text sright"></div>
             <div id="msgs" class="text center bottom"></div>
+        </div>
+        <div id="menu" style="display: none;">
+            <div id="menu-start">Start Game</div>
+            <div id="menu-howto">How to play</div>
+            <div id="menu-hiscore">Hiscores</div>
         </div>
     </div>
 </body>

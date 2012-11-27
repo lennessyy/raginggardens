@@ -17,6 +17,21 @@ body, html {
 .clear{
     clear:both;
 }
+#menu {
+    position: absolute;
+    left: 45%;
+    top: 40%;
+    z-index:3;
+}
+#menu>div {
+    font-size: 16px;
+    color: white;
+    text-shadow: 1px 1px green;    
+}
+#menu>div:hover {
+    color: #121212;
+    text-shadow: 1px 1px green; 
+}
 #dialog-score {
     display: table;
 }

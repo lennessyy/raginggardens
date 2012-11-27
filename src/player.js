@@ -104,7 +104,7 @@ Player = ActorObject.extend({
 				this.move.up = true;            
 			} else if(e.keyCode === Crafty.keys.DOWN_ARROW) { 
                 this.move.down = true;
-			} else if (e.keyCode === Crafty.keys.Z) {
+			} else if (e.keyCode === Crafty.keys.Z || e.keyCode === Crafty.keys.Y) {
                 this.actions.action1 = keyState.down;
 			}
             
@@ -119,7 +119,7 @@ Player = ActorObject.extend({
 				this.move.up = false;            
 			} else if(e.keyCode === Crafty.keys.DOWN_ARROW) { 
                 this.move.down = false;
-    	    } else if (e.keyCode === Crafty.keys.Z) {
+    	    } else if (e.keyCode === Crafty.keys.Z || e.keyCode === Crafty.keys.Y) {
                 this.actions.action1 = keyState.up;
     	    } else if (e.keyCode === Crafty.keys.Q) {
                 this.trigger("PushEnemies");

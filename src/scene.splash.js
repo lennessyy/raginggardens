@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  */
 Crafty.scene("splash", function() {
+    
+    Crafty.background("#fff");
 
     // Show HiScore Dialog
     Crafty.bind("ShowHowTo", function() {
@@ -44,7 +46,20 @@ Crafty.scene("splash", function() {
                 //TODO:
             }            
         });          
-    });  
+    }); 
     
-    Crafty.trigger('ShowHowTo');
+    $("#menu-start").click(function() {
+        $("#menu").hide();
+        Crafty.scene('main');
+    });    
+    
+    $("#menu-howto").click(function() {
+        Crafty.trigger('ShowHowTo');
+    });        
+    
+    $("#menu-hiscore").click(function() {
+        
+    });        
+    
+    $("#menu").show();
 });

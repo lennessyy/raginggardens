@@ -141,7 +141,7 @@ $(document).ready(function() {
             if (_Globals.conf.get('debug'))
                 console.log("Loading ...");
             
-            //Crafty.background("#000");
+            Crafty.background("#000");
             $('#loading').show();
         });
         
