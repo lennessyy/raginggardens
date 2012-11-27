@@ -31,7 +31,7 @@
     _Globals = {
         env : 'dev',
         version : '0.9',
-        scene : 'main'
+        scene : 'splash'
         };
         //Crafty.modules({ 'crafty-debug-bar': 'DEV' }, function () {
         //    Crafty.debugBar.show();
@@ -39,6 +39,23 @@
     </script> 
 
     <div id="dialog-score" style="display: none;"></div>
+    <div id="dialog-howto" style="display: none;">
+    <h1>Goal</h1>
+    <p>You are a hungry (ninja) rabbit whose goal is to <span class="keys">pull</span> as much carrots 
+    as possible from the ground in <span class="keys">5 minutes</span>. However, you have competition!
+    Other hungry rabbits will try to outrun you and get the carrots for themselves, so you must "fight"  them.
+    Your weapons are slightly unorthodox. Simply uhm ... fart to push your competition away or use a fork-totem 
+    decoy to deceive opponents.</p>
+    </p>
+    <h1>Controls</h1>
+    <ul>
+        <li><span class="keys">Arrow keys</span> - Move your ninja rabbit on the map.</li>
+        <li><span class="keys">Z (or Y)</span> - Hold down to pull a carrot from the ground. You need to be close to a carrot.</li>
+        <li><span class="keys">Q</span> - Eat <span class="keys">1 carrot</span> and fart to push opponents away from you.</li>
+        <li><span class="keys">W</span> - Eat <span class="keys">2 carrots</span> and spawn a "Carrot-on-a-Fork" totem that attracts 
+        opponents and gives you time to pull more carrots elsewhere on the map.</li>
+    </ul>
+    </div>
     
     <div id="cr-stage">
         <div id="loading" class="text left" style="display: none;"></div>

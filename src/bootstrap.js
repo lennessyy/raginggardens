@@ -74,7 +74,7 @@ $(document).ready(function() {
                 "sfx/pull.ogg",
                 "sfx/scream1.ogg",
                 "sfx/scream2.ogg",
-                "sfx/happymushrooms.ogg",
+               // "sfx/happymushrooms.ogg",
                 ], 
             
             function() {
@@ -114,10 +114,9 @@ $(document).ready(function() {
                     fart1: ["sfx/fart1.ogg"],
                     fart2: ["sfx/fart2.ogg"],
                     pull: ["sfx/pull.ogg"],
-                    //walking: ["sfx/walking.ogg"],
                     scream1: ["sfx/scream1.ogg"],
                     scream2: ["sfx/scream2.ogg"],
-                    music: ["sfx/happymushrooms.ogg"],
+                   // music: ["sfx/happymushrooms.ogg"],
                 });                
                 
     		    Crafty.scene(_Globals['scene']);
@@ -154,6 +153,7 @@ $(document).ready(function() {
             "src/tilemap.js",
             "src/player.js",
             "src/enemy.js",
+            "src/scene.splash.js",
             "src/scene.game.js",
             "src/gfx.js",
             "src/sfx.js",

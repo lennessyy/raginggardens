@@ -35,11 +35,6 @@ body, html {
     width: 250px;
     text-align: right;
 }
-.skip{
-    color:#990000;
-    text-decoration: underline;
-    cursor:pointer;
-}
 #loading {
     position: absolute;
     left: 45%;
@@ -65,11 +60,6 @@ body, html {
 #stats .bottom {
     bottom: 10px;
 }
-.bars{
-    position: absolute;
-    padding:5px;
-    height:auto;
-}
 div.text {
     position: absolute;
     line-height: 24px;
@@ -82,12 +72,21 @@ div.text.center{
     width:100%;
     text-align: center;
 }
-.bars span.text{
-    position: absolute;
-    width: 100%;
-    display:block;
-    text-align: center;
-    line-height: 24px;
-    font-size: 12px;
-    color:#333333;
+#dialog-howto>h1 {
+    font-size: 20px;
+    text-decoration: underline;
+    padding: 4px 0;
+}
+#dialog-howto>p {
+    font-weight: normal;
+    font-size: 14px;
+}
+#dialog-howto>ul {
+    font-weight: normal;
+    list-style-type: none;
+    font-size: 14px;
+}
+#dialog-howto span.keys {
+    color: #12AA12;
+    font-weight: bold;
 }

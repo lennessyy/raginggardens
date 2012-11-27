@@ -22,7 +22,29 @@
  * THE SOFTWARE.
  */
 Crafty.scene("splash", function() {
+
+    // Show HiScore Dialog
+    Crafty.bind("ShowHowTo", function() {
+        
+        $("#dialog-howto").show();
+        
+        // show dialog
+        $("#dialog-howto").dialog({
+            resizable: false,
+            "width": 720,
+            "height": 400,
+            modal: true,
+            "title": "How to play",
+            buttons: {
+                "Sounds legit": function() {
+                    $(this).dialog("close");
+                }
+            },
+            close: function(event, ui) {
+                //TODO:
+            }            
+        });          
+    });  
     
-    //TODO
-    
+    Crafty.trigger('ShowHowTo');
 });
