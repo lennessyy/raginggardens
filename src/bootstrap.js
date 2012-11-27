@@ -30,6 +30,11 @@ $(document).ready(function() {
         _Globals['conf'] = new Config({});
         
         /**
+         * Hide UI
+         */
+        $("#stats").hide();
+        
+        /**
          * Check if hi-scores table exists 
          */
         var hiscore = new Hiscore();
@@ -61,7 +66,8 @@ $(document).ready(function() {
                 "art/stuz_enemy.png",
                 "art/stuz_fart_moving.png",
                 "art/moosader_candy.png",
-                "art/stuz_carrots.png"
+                "art/stuz_carrots.png",
+                "art/stuz_forkit.png"
                 ], 
             
             function() {
@@ -92,7 +98,7 @@ $(document).ready(function() {
                     carrot: [0, 0, 32, 32],
     		    });
                 
-                Crafty.sprite(32, "art/moosader_candy.png", {
+                Crafty.sprite(48, "art/stuz_forkit.png", {
                     fork: [0, 0],
         	    });                    
                 
@@ -135,6 +141,7 @@ $(document).ready(function() {
             "src/enemy.js",
             "src/scene.game.js",
             "src/gfx.js",
+            "src/sfx.js",
         ], function() {            
             
             Crafty.scene("loading");

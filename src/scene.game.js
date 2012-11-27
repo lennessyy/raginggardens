@@ -28,6 +28,11 @@ Crafty.scene("main", function() {
     // player
     var player = new Player({'tileMap': tilemap});
     
+    $("#stats").show();
+    if (_Globals.conf.get('debug')) {
+        $("#fps").show();    
+    }
+    
     /**
      * Triggers to update various game states
      */

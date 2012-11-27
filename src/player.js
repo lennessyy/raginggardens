@@ -237,6 +237,14 @@ Player = ActorObject.extend({
                 
                 // play anim
                 Crafty.e("MagicPush").MagicPush({x: plrX, y: plrY});
+                // play sound
+                if (_Globals.conf.get('sfx')) {
+                    if (Date.now() % 2 == 0) {
+                        Crafty.audio.play("fart1", 1, 0.4);
+                    } else {
+                        Crafty.audio.play("fart2", 1, 0.4);
+                    }
+                }
                 
                 _.each(enemies, function(enemyObj) { 
                     var obj = Crafty(enemyObj);

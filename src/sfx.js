@@ -22,39 +22,10 @@
  * THE SOFTWARE.
  */
  
-/**
- * Play push magic animation
- */
-Crafty.c('MagicPush', {
-    _anim: undefined,
-    MagicPush: function(origin) {
-        this._anim = Crafty.e("2D, Canvas, explosion1, SpriteAnimation")
-            .attr({x: origin.x - 32, y: origin.y - 32, z: 999})
-            .animate('go', 0, 0, 8) // setup animation
-            .animate("go", 20, 0)
-            .bind("AnimationEnd", function() {
-                this.destroy();
-            });            
-        
-        return this;
-    }
-}); 
-
-/**
- * Play fork magic animation
- */
-Crafty.c('MagicFork', {
-    _anim: undefined,
-    _createdOn: undefined,
-    _duration: 300,
-    MagicPush: function(origin) {
-        this._createdOn = Crafty.frame() + this._duration;
-        this._anim = Crafty.e("2D, Canvas, fork, SpriteAnimation")
-            .attr({x: origin.x - 24, y: origin.y - 24, 
-                z: 10 + origin.y + 48});
-            //.animate('go', 0, 0, 2) // setup animation
-            //.animate("go", 15, -1);
-            
-        return this;
-    }
-}); 
+//adding audio from an object
+Crafty.audio.add({
+    fart1: ["sfx/fart1.ogg"],
+    fart2: ["sfx/fart2.ogg"],
+    pull: ["sfx/pull.ogg"],
+    
+});
