@@ -33,22 +33,21 @@
         version : '0.9',
         scene : 'main'
         };
-        
-        Crafty.modules({ 'crafty-debug-bar': 'DEV' }, function () {
-            Crafty.debugBar.show();
-        });
+        //Crafty.modules({ 'crafty-debug-bar': 'DEV' }, function () {
+        //    Crafty.debugBar.show();
+        //});
     </script> 
 
     <div id="dialog-score" style="display: none;"></div>
     
-    <div id="loading" style="display: none;"></div>
-    
-    <div id="score" style="position: absolute; top: 5px; left: 5px; color: white">
-        <div id="timer" class="text"></div>
-        <div id="carrots" class="text"></div>
-        <div id="msgs" class="text"></div>
-        <div id="fps" class="text"></div>
+    <div id="cr-stage">
+        <div id="loading" class="text left" style="display: none;"></div>
+        <div id="stats" style="">
+            <div id="fps" class="text left" style="display: none;"></div>
+            <div id="timer" class="text right"></div>
+            <div id="carrots" class="text sright"></div>
+            <div id="msgs" class="text center bottom"></div>
+        </div>
     </div>
- 
 </body>
 </html>

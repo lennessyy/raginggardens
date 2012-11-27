@@ -67,7 +67,14 @@ $(document).ready(function() {
                 "art/stuz_fart_moving.png",
                 "art/moosader_candy.png",
                 "art/stuz_carrots.png",
-                "art/stuz_forkit.png"
+                "art/stuz_forkit.png",
+                // sfx
+                "sfx/fart1.ogg",
+                "sfx/fart2.ogg",
+                "sfx/pull.ogg",
+                "sfx/scream1.ogg",
+                "sfx/scream2.ogg",
+                "sfx/happymushrooms.ogg",
                 ], 
             
             function() {
@@ -103,7 +110,15 @@ $(document).ready(function() {
         	    });                    
                 
                 // --- Audio
-                //Crafty.audio.add("Blaster", ["space-blaster.wav", "space-blaster.mp3"]) 
+                Crafty.audio.add({
+                    fart1: ["sfx/fart1.ogg"],
+                    fart2: ["sfx/fart2.ogg"],
+                    pull: ["sfx/pull.ogg"],
+                    //walking: ["sfx/walking.ogg"],
+                    scream1: ["sfx/scream1.ogg"],
+                    scream2: ["sfx/scream2.ogg"],
+                    music: ["sfx/happymushrooms.ogg"],
+                });                
                 
     		    Crafty.scene(_Globals['scene']);
                 

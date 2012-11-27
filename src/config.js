@@ -32,7 +32,9 @@ Config = Backbone.Model.extend({
         
         // media
         'sfx': true,
+        'sfx_vol': 0.4,
         'music': true,
+        'music_vol': 0.3,
         
         // gameplay
         'defaultCarrots': 10,

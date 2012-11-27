@@ -90,6 +90,7 @@ Player = ActorObject.extend({
             pullBars: {red: undefined, green: undefined},
             actions: {action1: keyState.none, action2: keyState.none},
             x: spawnPos.x, y: spawnPos.y, z: model.get('sprite-z'),
+            walk_start_frame: null,
             speed: model.get('speed')
         })
         .Dude()
@@ -129,7 +130,7 @@ Player = ActorObject.extend({
             //this.preventTypeaheadFind(e);
     	})
         // updates
-    	.bind("EnterFrame", function() {
+    	.bind("EnterFrame", function(frame) {
             
             var oldx = this.x;
             var oldy = this.y;
@@ -164,6 +165,17 @@ Player = ActorObject.extend({
                     if (!this.isPlaying("walk_down"))
                         this.stop().animate("walk_down", model.get('animSpeed'), -1);
                 }
+                
+//                // play walk sound
+//                if (_Globals.conf.get('sfx')) {
+//                    if (!this.walk_start_frame) {
+//                        Crafty.audio.play("walking", 1, _Globals.conf.get('sfx_vol'));
+//                        this.walk_start_frame = frame.frame + 60;
+//                    }
+//                    if (this.walk_start_frame && this.walk_start_frame < frame.frame) {
+//                        this.walk_start_frame = null;
+//                    }
+//                }                
             } else {
                 this.stop();
             }
@@ -183,12 +195,16 @@ Player = ActorObject.extend({
                     // are about to pull another one or not
                     if (this.digCarrot.obj.health <= 0) {
                         this.actions.action1 = keyState.none; // reset
-                        
                         model.set('carrotsCount', 
                             model.get('carrotsCount') + _Globals.conf.get('carrotsCollect'));
                         this.digCarrot.obj.destroy();
                         this.trigger('HidePullBar');
                         Crafty.trigger("UpdateStats");
+                        
+                        // play sound
+                        if (_Globals.conf.get('sfx')) {
+                            Crafty.audio.play("pull", 1, _Globals.conf.get('sfx_vol'));
+                        }                        
                     }
                 }
             }            
@@ -240,9 +256,9 @@ Player = ActorObject.extend({
                 // play sound
                 if (_Globals.conf.get('sfx')) {
                     if (Date.now() % 2 == 0) {
-                        Crafty.audio.play("fart1", 1, 0.4);
+                        Crafty.audio.play("fart1", 1, _Globals.conf.get('sfx_vol'));
                     } else {
-                        Crafty.audio.play("fart2", 1, 0.4);
+                        Crafty.audio.play("fart2", 1, _Globals.conf.get('sfx_vol'));
                     }
                 }
                 
@@ -256,6 +272,13 @@ Player = ActorObject.extend({
                     if (dist < model.get('pushDistance')) {
                         var d = {amount: model.get('pushAmount'), x: plrX, y: plrY};
                         obj.trigger("PushBack", d);
+                        
+                        // play sound
+                        if (Date.now() % 2 == 0) {
+                            Crafty.audio.play("scream1", 1, _Globals.conf.get('sfx_vol'));
+                        } else {
+                            Crafty.audio.play("scream2", 1, _Globals.conf.get('sfx_vol'));
+                        }                        
                     }
                 });                
             }

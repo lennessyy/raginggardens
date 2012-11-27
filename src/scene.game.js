@@ -33,6 +33,10 @@ Crafty.scene("main", function() {
         $("#fps").show();    
     }
     
+    if (_Globals.conf.get('music')) {
+        Crafty.audio.play("music", -1, _Globals.conf.get('music_vol'));
+    }    
+    
     /**
      * Triggers to update various game states
      */
