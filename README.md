@@ -21,7 +21,8 @@ decoy to deceive opponents.
   * **Q** - Eat **1 carrot** and fart to push opponents away from you.
   * **W** - Eat **2 carrots** and spawn a "Carrot-on-a-Fork" totem that attracts opponents and gives you time to pull more carrots elsewhere on the map.
 
-# Opensource Libraries
+# Open Source Libraries
+Raging Gardens uses the following javascript libraries:
 
   * [Crafty](http://craftyjs.com/) - An amazing Javascript/HTML5 Game engine.  
   * [jQuery](http://jquery.com/) - The Write Less, Do More, JavaScript Library
