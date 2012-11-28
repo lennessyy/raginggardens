@@ -46,6 +46,7 @@ Crafty.c('Enemy', {
             if (_Globals.conf.get('trace'))
                 console.log('Enemy: Spawn failed, No carrots! Spawning @random.');
                 
+            console.log('LANA 1');
             spawnPos = this.tileMap.spawnRelativeTo(0, 0);
             this.attr({x: spawnPos.x, y: spawnPos.y});
             this.newTarget(true);
@@ -53,13 +54,18 @@ Crafty.c('Enemy', {
             this.attr({x: spawnPos.origin.x, y: spawnPos.origin.y});
             this.target.x = spawnPos.target.x;
             this.target.y = spawnPos.target.y;
+            console.log(this.attr);
+            console.log('LANA 2');
+            this.target.path = this.tileMap.getPathToTilePx(
+                {x: spawnPos.origin.x, y: spawnPos.origin.y}, {x: this.target.x, y: this.target.y});
+            this.target.pathpos = 0;
         }        
         
         return this;
     },
     init: function() {
         this.requires("2D Canvas");
-        this.target = {x: undefined, y: undefined, obj: undefined};
+        this.target = {x: undefined, y: undefined, obj: undefined, path: undefined, pathpos: 0};
         this.digCarrot = {canPull: false, obj: undefined};
         this.pushedProps = {pushed: false, atFrame: 0};
 
@@ -72,12 +78,16 @@ Crafty.c('Enemy', {
                 // TRACE
                 if (_Globals.conf.get('trace')) {
                     console.log('Enemy:' + this[0] + ' new target coords ' + newObj[0] 
-                    + ' XY:' + newObj.x + ',' + newObj.y + ' occ: ' + newObj.occupied);
+                        + ' XY:' + newObj.x + ',' + newObj.y + ' occ: ' + newObj.occupied);
                 }
                 this.target.x = newObj.x;
                 // fix Y pos to allow for proper distance calculation
                 this.target.y = newObj.y - this.tileMap.get('carrotHeightOffset');
-                this.target.obj = newObj;     
+                this.target.obj = newObj;
+                console.log('LANA 3');
+                this.target.path = this.tileMap.getPathToTilePx(
+                    {x: this.attr.x, y: this.attr.y}, {x: this.target.x, y: this.target.y});                
+                this.target.pathpos = 0;
             } else {
                 // no carrots, so choose a random place to go
                 anywhere = true; 
@@ -88,7 +98,11 @@ Crafty.c('Enemy', {
             var newPos = this.tileMap.spawnAtRandom();
             this.target.x = newPos.x;
             this.target.y = newPos.y;
-            this.target.obj = undefined;                
+            this.target.obj = undefined;     
+            console.log('LANA 4');
+            this.target.path = this.tileMap.getPathToTilePx(
+                {x: this.attr.x, y: this.attr.y}, {x: this.target.x, y: this.target.y});            
+            this.target.pathpos = 0;
         }
         // reset pulling
         if (this.digCarrot.canPull) {
@@ -171,21 +185,45 @@ Enemy = ActorObject.extend({
                 return;
             }             
             
-            // --- Move ---
+            // --- Path decision ---
             //console.log(this.id + " XY: " + this.x + "," + this.y);
             this.move.up = this.move.down = this.move.left = this.move.right = false;
-                
-            if (this.x < this.target.x) {
+            var tx = this.x / this.tileMap.get('tileSize');
+            var ty = this.y / this.tileMap.get('tileSize');
+            
+            if (tx < this.target.path[this.target.pathpos].pos.x) {
                 this.move.right = true;
-            } else if (this.x > this.target.x) {
+            } else if (tx > this.target.path[this.target.pathpos].pos.x) {
                 this.move.left = true;
             }
                 
-            if (this.y < this.target.y) {
+            if (ty < this.target.path[this.target.pathpos].pos.y) {
                 this.move.down = true;
-            } else if (this.y > this.target.y) {
+            } else if (ty > this.target.path[this.target.pathpos].pos.y) {
                 this.move.up = true;
             }
+            
+            if (tx == this.target.path[this.target.pathpos].pos.x 
+                && ty == this.target.path[this.target.pathpos].pos.y ) {
+                
+                this.target.pathpos += 1;
+            }
+            
+            
+            
+//            if (this.x < this.target.x) {
+//                this.move.right = true;
+//            } else if (this.x > this.target.x) {
+//                this.move.left = true;
+//            }
+//                
+//            if (this.y < this.target.y) {
+//                this.move.down = true;
+//            } else if (this.y > this.target.y) {
+//                this.move.up = true;
+//            }
+            
+            // --- Move ---
             
             var oldx = this.x;
             var oldy = this.y;
@@ -341,7 +379,9 @@ Enemy = ActorObject.extend({
                 
             this.target.x = where.x;
             this.target.y = where.y;
-            // TODO:
+            this.target.path = this.tileMap.getPathToTilePx(
+                {x: this.attr.x, y: this.attr.y}, {x: this.target.x, y: this.target.y});            
+            this.target.pathpos = 0;
         })
         // define player collision properties
         .collision(

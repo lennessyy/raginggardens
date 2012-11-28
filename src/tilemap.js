@@ -160,15 +160,49 @@ Tilemap = ActorObject.extend({
         // set into local var
         model.set('obstaclesCoords', obstaclesCoords);
         // create obstalces map for A-Star
+        var obstaclesMap = [];
+        for (var x = 0; x < model.get('width'); x++) {
+            var row = [];
+            for (var y = 0; y < model.get('height'); y++) {
+                row.push(GraphNodeType.OPEN);
+            }
+            obstaclesMap.push(row);
+        }
         
+        _.each(obstaclesCoords, function(pos) {
+           obstaclesMap[pos.x][pos.y] = GraphNodeType.WALL;
+        });
+        model.set('obstaclesMap', new Graph(obstaclesMap));
         
+        console.log(model.get('obstaclesMap'));
     },
+    // get shortest path to tile (using A-Star algorithm)
+    getPathToTile: function(from, to) {
+        var obstaclesGraph = this.get('obstaclesMap');
+        console.log(from);
+        console.log(to);
+        
+        var result = astar.search(obstaclesGraph.nodes, 
+            obstaclesGraph.nodes[from.x][from.y], 
+            obstaclesGraph.nodes[to.x][to.y]);
+        
+        return result;
+    },
+    // get shortest path from pixel coords
+    getPathToTilePx: function(from, to) {
+        var sz = this.get('tileSize');
+        from.x /= sz;
+        from.y /= sz;
+        to.x /= sz;
+        to.y /= sz;
+        return this.getPathToTile(from, to);
+    },    
     // Spawn new carrot only if maximum is not reached
     spawnCarrot: function() {
         if (Crafty("carrot").length < this.get('maxCarrots')) {
-            
             var done = false;
             var pos, tx, ty;
+            
             do {
                 var ox = Crafty.math.randomInt(this.get('spawnArea').left, this.get('spawnArea').right);
                 var oy = Crafty.math.randomInt(this.get('spawnArea').top, this.get('spawnArea').bottom);
