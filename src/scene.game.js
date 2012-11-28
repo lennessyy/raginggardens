@@ -54,70 +54,6 @@ Crafty.scene("main", function() {
         }
     });
     
-    // Show HiScore Dialog
-    Crafty.bind("ShowHiScore", function(text) {
-        if (!text) {
-            var hiscore = new Hiscore();
-            
-            // load scores
-            var text = '<div>';
-            text += '<span class="name">';
-            text += '[Name]';
-            text += '</span>';
-            text += '<span class="score">';
-            text += '[Carrots]';
-            text += '</span>';
-            text += '</div>';            
-            hiscore.getAllScores(function(scores, server) {
-                server.close();
-                var i = 0;
-                scores.each(function(obj) {
-                    if (++i > 6)
-                        return;
-                    text += '<div>';
-                    text += '<span class="name">';
-                    text += obj.get('name');
-                    text += '</span>';
-                    text += '<span class="score">';
-                    text += obj.get('score');
-                    text += '</span>';
-                    text += '</div>';
-                    
-                });                
-                Crafty.trigger("ShowHiScore", text);
-            });
-            return;
-        }
-        
-        $("#dialog-score").html(text);
-        // show dialog
-        $("#dialog-score").dialog({
-            resizable: false,
-            "width": 460,
-            "height": 300,
-            modal: true,
-            "title": "Top 5 Scores",
-            buttons: {
-                "Reset Scores": function() {
-                    // reset scores
-                    var hiscore = new Hiscore();
-                    hiscore.resetScores(function() {
-                        Crafty.trigger("ShowHiScore");    
-                        $(this).dialog("close");
-                    });
-                },
-                "Let me out!": function() {
-                    $(this).dialog("close");
-                }
-            },
-            close: function(event, ui) {
-                 //Crafty.destroy();
-                //TODO:
-                window.location.reload() // TODO: Cheap! :( Must replace with proper restart.
-            }            
-        });          
-    });    
-    
     // display active FPS (only in DEBUG mode)
     if (_Globals.conf.get('debug')) {
         Crafty.e("2D, Canvas, FPS").attr({maxValues:10}).bind("MessureFPS", function(fps) {
@@ -140,7 +76,7 @@ Crafty.scene("main", function() {
             Crafty.stop();
             var hiscore = new Hiscore();
             hiscore.addScore('You', player.get('carrotsCount'), function() {
-                Crafty.trigger("ShowHiScore");    
+                Crafty.trigger("ShowHiscore");    
             });       
         } else {
             // --- time left

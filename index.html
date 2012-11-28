@@ -20,6 +20,7 @@
     <script type="text/javascript" src="lib/crafty-0.5.3.js"></script>
     <script type="text/javascript" src="lib/underscore-min.js"></script>
     <script type="text/javascript" src="lib/backbone-min.js"></script>
+    <script type="text/javascript" src="lib/astar.js"></script>
     <script type="text/javascript" src="lib/IndexedDBShim.min.js"></script>
     <script type="text/javascript" src="lib/db.js"></script>
     <script type="text/javascript" src="lib/require.js"></script>
@@ -31,7 +32,7 @@
     _Globals = {
         env : 'dev',
         version : '0.9',
-        scene : 'main'
+        scene : 'splash'
         };
         //Crafty.modules({ 'crafty-debug-bar': 'DEV' }, function () {
         //    Crafty.debugBar.show();
@@ -57,12 +58,18 @@
     </ul>
     </div>
     
+    <div id="fps" style="display: none;"></div>    
+    
     <div id="cr-stage">
+        <div id="left-frame">
+            <div id="right-frame"></div>
+            <div id="bottom-frame"></div>
+        </div>
+        
         <div id="loading" class="text left" style="display: none;"></div>
-        <div id="stats" style="">
-            <div id="fps" class="text left" style="display: none;"></div>
-            <div id="timer" class="text right"></div>
-            <div id="carrots" class="text sright"></div>
+        <div id="stats" style="display: none;">
+            <div id="timer" class="text timer"></div>
+            <div id="carrots" class="text carrots"></div>
             <div id="msgs" class="text center bottom"></div>
         </div>
         <div id="menu" style="display: none;">

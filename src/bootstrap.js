@@ -58,14 +58,15 @@ $(document).ready(function() {
 
         /**
          * Load assets
-         */        
+         */
         Crafty.scene("loading", function() {
             Crafty.load([
+                "art/menu.png", 
+                "art/left_frame.png", 
                 "art/stuz_tiles.png", 
                 "art/stuz_rabbit.png",
                 "art/stuz_enemy.png",
                 "art/stuz_fart_moving.png",
-                "art/moosader_candy.png",
                 "art/stuz_carrots.png",
                 "art/stuz_forkit.png",
                 // sfx
@@ -76,7 +77,6 @@ $(document).ready(function() {
                 "sfx/scream2.ogg",
                // "sfx/happymushrooms.ogg",
                 ], 
-            
             function() {
         	    
                 // --- Graphics
@@ -88,27 +88,21 @@ $(document).ready(function() {
                     barrel_big: [1,1],
                     barrel_small: [2,1],
     		    });
-                
                 Crafty.sprite("art/stuz_rabbit.png", {
     			    player: [0, 0, 32, 48],
     		    });
-                
                 Crafty.sprite("art/stuz_enemy.png", {
         		    enemy: [0, 0, 32, 48],
     		    });                
-                
                 Crafty.sprite(64, "art/stuz_fart_moving.png", {
         		    explosion1: [0, 0],
     		    });   
-                
                 Crafty.sprite("art/stuz_carrots.png", {
                     carrot: [0, 0, 32, 32],
     		    });
-                
                 Crafty.sprite(48, "art/stuz_forkit.png", {
                     fork: [0, 0],
-        	    });                    
-                
+        	    });
                 // --- Audio
                 Crafty.audio.add({
                     fart1: ["sfx/fart1.ogg"],

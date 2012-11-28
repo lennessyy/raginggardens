@@ -42,9 +42,6 @@ Crafty.scene("splash", function() {
                     $(this).dialog("close");
                 }
             },
-            close: function(event, ui) {
-                //TODO:
-            }            
         });          
     }); 
     
@@ -58,8 +55,11 @@ Crafty.scene("splash", function() {
     });        
     
     $("#menu-hiscore").click(function() {
-        
+        Crafty.trigger('ShowHiscore');
     });        
     
     $("#menu").show();
+    
+    // TODO:
+    $("#stats").show();
 });

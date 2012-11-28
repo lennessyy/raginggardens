@@ -58,30 +58,38 @@ body, html {
     text-shadow: 1px 2px green;
 }
 #stats {
+    background-image: url('../art/menu.png');  
+    background-repeat: no-repeat;    
+    background-position: left top;
     position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index:3;
+    width: 436px;
+    height: 76px;
+    right: 32px;
+    top: 0px;
+    z-index: 4;
 }
 #stats .left {
     left: 0px;
 }
-#stats .right {
-    right: 0px;
+#stats .timer {
+    right: 20px;
+    top: 8px;
 }
-#stats .sright {
-    right: 250px;
+#stats .carrots {
+    right: 285px;
+    top: 8px;
 }
 #stats .bottom {
-    bottom: 10px;
+    bottom: -10px;
+    text-shadow: 1px 1px #121212;
 }
 div.text {
     position: absolute;
     line-height: 24px;
     font-size: 16px;
-    color: #ffffff;
-    padding:5px;
-    text-shadow: 1px 2px #121212;
+    color: white;
+    padding: 5px;
+    text-shadow: 1px 1px #12AA12;
 }
 div.text.center{
     width:100%;
@@ -104,4 +112,42 @@ div.text.center{
 #dialog-howto span.keys {
     color: #12AA12;
     font-weight: bold;
+}
+/* Interface */
+#left-frame {
+    background-image: url('../art/left_frame.png');
+    background-repeat: no-repeat;
+    background-position: left top;
+    height: 768px;
+    width: 100%;
+    position: relative;
+    left: -10px;
+    z-index: 2;
+}
+#right-frame {
+    background-image: url('../art/right_frame.png');    
+    background-repeat: no-repeat;
+    background-position: right top;
+    height: 768px;
+    width: 48px;
+    position: absolute;
+    right: -16px;
+    top: 0;
+    z-index: 3;
+}
+#bottom-frame {
+    background-image: url('../art/bottom_frame.png');    
+    background-repeat: no-repeat;
+    height: 48px;
+    width: 974px;
+    position: absolute;
+    bottom: -12px;
+    left: 48px;
+    z-index: 2;
+}
+#fps {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
 }

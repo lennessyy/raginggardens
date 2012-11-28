@@ -48,6 +48,7 @@ Tilemap = ActorObject.extend({
         'carrotHealth': 100,
         
         // globals
+        obstaclesCoords: undefined,
         obstaclesMap: undefined,
     },
     initialize: function() {
@@ -156,7 +157,7 @@ Tilemap = ActorObject.extend({
         }
         
         // set into local var
-        model.set('obstaclesMap', obstaclesCoords);
+        model.set('obstaclesCoords', obstaclesCoords);
     },
     // Spawn new carrot only if maximum is not reached
     spawnCarrot: function() {
@@ -190,7 +191,7 @@ Tilemap = ActorObject.extend({
         var i = 0, m = 1;
         
         do {
-            occupiedTile = _.size(_.where(this.get('obstaclesMap'), {x: cx, y: cy})) > 0;
+            occupiedTile = _.size(_.where(this.get('obstaclesCoords'), {x: cx, y: cy})) > 0;
                 
             if (occupiedTile) {
                 // nadebugvaj gooo ....
