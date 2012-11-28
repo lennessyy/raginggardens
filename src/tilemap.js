@@ -50,6 +50,7 @@ Tilemap = ActorObject.extend({
         // globals
         obstaclesCoords: undefined,
         obstaclesMap: undefined,
+        carrotsCoordsQueue: [],
     },
     initialize: function() {
         var model = this;
@@ -158,17 +159,33 @@ Tilemap = ActorObject.extend({
         
         // set into local var
         model.set('obstaclesCoords', obstaclesCoords);
+        // create obstalces map for A-Star
+        
+        
     },
     // Spawn new carrot only if maximum is not reached
     spawnCarrot: function() {
         if (Crafty("carrot").length < this.get('maxCarrots')) {
             
-            var ox = Crafty.math.randomInt(this.get('spawnArea').left, this.get('spawnArea').right);
-            var oy = Crafty.math.randomInt(this.get('spawnArea').top, this.get('spawnArea').bottom);
-            var pos = this.spawnAt(ox, oy);
+            var done = false;
+            var pos, tx, ty;
+            do {
+                var ox = Crafty.math.randomInt(this.get('spawnArea').left, this.get('spawnArea').right);
+                var oy = Crafty.math.randomInt(this.get('spawnArea').top, this.get('spawnArea').bottom);
+                pos = this.spawnAt(ox, oy);
+                tx = pos.x / this.get('tileSize');
+                ty = pos.y / this.get('tileSize');
+                
+                var carrotsCoordsQueue = this.get('carrotsCoordsQueue');
+                done = _.size(_.where(carrotsCoordsQueue, {x: tx, y: ty})) == 0;
+                
+                if (_Globals.conf.get('debug') && !done) {
+                    console.log('Carrot coords %d,%d already used!', tx, ty);
+                }
+            } while (!done);
             
-            var oz = this.get('base-z') + 24 + pos.y + 1;
-                    
+            var oz = this.get('base-z') + 24 + pos.y + 1;        
+            
             Crafty.e("2D, Canvas, carrot, SpriteAnimation, Collision")
                 .attr({
                     x: pos.x, y: pos.y, z: oz, 
@@ -177,6 +194,11 @@ Tilemap = ActorObject.extend({
                 })
                 .animate('wind', [ [0, 0], [32, 0], [64, 0], [32, 0] ]) // setup animation
                 .animate('wind', 40, -1); // play animation
+                
+            // we keep only last 3 coords generated
+            carrotsCoordsQueue.push({x: tx, y: ty});
+            if (carrotsCoordsQueue.length > 3)
+                carrotsCoordsQueue.pop();
         }
     },
     // get unoccupied map position given start coordinates
