@@ -11,7 +11,8 @@ decoy to deceive opponents.
 
 # Playable demo
 
-
+  * [Demo link #1](http://vexelon.net/~necroleak/raging-gardens)
+  * [Demo link #2] In case first link fails.
 
 # Controls
 
@@ -34,5 +35,3 @@ decoy to deceive opponents.
 # License
 The game **without game art** is under MIT License. Read the **LICNESE** file for more info.
 
-The complete game art is created and owned by [Stremena Tuzsuzova](http://www.stremena.com).
-Please contact the author in case of further licensing questions.

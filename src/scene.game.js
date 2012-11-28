@@ -50,7 +50,9 @@ Crafty.scene("main", function() {
     Crafty.bind("ShowMsg", function(msg) {
         if (msg == 'carrots') {
             $('#msgs').css('color','#aa0000');
-            $('#msgs').text('Not enough carrots!');
+            $('#msgs').text('You have no carrots to eat!');
+        } else if (msg == 'clear') {
+            $('#msgs').text('');
         }
     });
     

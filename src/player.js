@@ -200,6 +200,7 @@ Player = ActorObject.extend({
                         this.digCarrot.obj.destroy();
                         this.trigger('HidePullBar');
                         Crafty.trigger("UpdateStats");
+                        Crafty.trigger('ShowMsg', 'clear');
                         
                         // play sound
                         if (_Globals.conf.get('sfx')) {

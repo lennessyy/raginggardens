@@ -59,8 +59,8 @@ Tilemap = ActorObject.extend({
         model.set('spawnArea', {
             top: 1, 
             left: 1, 
-            right: model.get('width') - 1,
-            bottom: model.get('height') - 1
+            right: model.get('width') - 2,
+            bottom: model.get('height') -2 
         });
         model.set('spawnAreaPx', {
             top: model.get('tileSize') * model.get('spawnArea').top, 
@@ -161,32 +161,37 @@ Tilemap = ActorObject.extend({
         model.set('obstaclesCoords', obstaclesCoords);
         // create obstalces map for A-Star
         var obstaclesMap = [];
-        for (var x = 0; x < model.get('width'); x++) {
+        for (var y = 0; y < model.get('height'); y++) {
             var row = [];
-            for (var y = 0; y < model.get('height'); y++) {
+            for (var x = 0; x < model.get('width'); x++) {
                 row.push(GraphNodeType.OPEN);
             }
             obstaclesMap.push(row);
         }
         
         _.each(obstaclesCoords, function(pos) {
-           obstaclesMap[pos.x][pos.y] = GraphNodeType.WALL;
+           obstaclesMap[pos.y][pos.x] = GraphNodeType.WALL;
         });
         model.set('obstaclesMap', new Graph(obstaclesMap));
-        
-        console.log(model.get('obstaclesMap'));
     },
     // get shortest path to tile (using A-Star algorithm)
     getPathToTile: function(from, to) {
         var obstaclesGraph = this.get('obstaclesMap');
-        console.log(from);
-        console.log(to);
-        
-        var result = astar.search(obstaclesGraph.nodes, 
-            obstaclesGraph.nodes[from.x][from.y], 
-            obstaclesGraph.nodes[to.x][to.y]);
-        
-        return result;
+//        console.log(from);
+//        console.log(to);  
+        from.x = from.x < 0 ? 0 : from.x;
+        from.x = from.x >= this.get('width') ? this.get('width') -  1 : from.x;
+        from.y = from.y < 0 ? 0 : from.y;
+        from.y = from.y >= this.get('height') ? this.get('height') - 1 : from.y;
+//        console.log("find sx,sy: %d, %d", from.x, from.y);
+        from.x = Math.floor(from.x);
+        from.y = Math.floor(from.y);
+        to.x = Math.floor(to.x);
+        to.y = Math.floor(to.y);
+
+        var start = obstaclesGraph.nodes[from.y][from.x];
+        var end = obstaclesGraph.nodes[to.y][to.x];
+        return astar.search(obstaclesGraph.nodes, start, end, true);
     },
     // get shortest path from pixel coords
     getPathToTilePx: function(from, to) {
