@@ -36,3 +36,14 @@ Raging Gardens uses the following javascript libraries:
 # License
 The game **without game art** is under MIT License. Read the **LICNESE** file for more info.
 
+# Credits
+## Game Art
+## Sound and Music
+Using sounds authored by:
+
+* http://freesound.org/people/skinhat/sounds/20324/
+* http://freesound.org/people/thanvannispen/sounds/9430/
+* http://freesound.org/people/vtownpunks/sounds/63636/
+* http://freesound.org/people/HerbertBoland/sounds/33369/
+
+I have edited almost all of the samples to suite the in-game feeling with [Audacity](http://audacity.sourceforge.net/).
