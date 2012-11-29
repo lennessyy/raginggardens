@@ -17,26 +17,23 @@ Links to playable game:
 
 <table>
   <tr>
-    <th></th>
-    <th>Supported</th>
-    <th>Notes</th>
-  </tr>
-  <tr>
     <th>Browser</th>
-    <td>Google Chrome</td>
-    <td>Firefox</td>
-    <td>IE</td>
-  </tr>
-  <tr>
     <th>Supported</th>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>No</td>
+    <th>Tested Versions</th>
   </tr>
   <tr>
-    <th>Tested Versions</th>
-    <td>23.x</td>
-    <td>16.x</td>
+    <th>Google Chrome</th>
+    <td>Yes</td>
+    <td>23.0x</td>
+  </tr>
+  <tr>
+    <th>Firefox</th>
+    <td>Yes</td>
+    <td>17.0</td>
+  </tr>
+  <tr>
+    <th>IE</th>
+    <td>No</td>
     <td>-</td>
   </tr>  
 </table>
