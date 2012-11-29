@@ -30,9 +30,13 @@ Crafty.scene("splash", function() {
         .image("art/stuz_splash.png", "no-repeat");    
 
     $("#menu-start").click(function() {
+        $("#version").hide();
         $("#menu").hide();
         Crafty.scene('main');
-    });    
+    });
+    
+    $("#version").text('v' + _Globals.version);
+    $("#version").show();
     
     $("#menu-howto").click(function() {
         // show dialog

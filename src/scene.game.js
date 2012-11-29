@@ -119,7 +119,7 @@ Crafty.scene("main", function() {
             tilemap.spawnCarrot();
             
             if (currentEnemies < maxEnemies) {
-                new Enemy({'tileMap': tilemap});
+                new Enemy({'tileMap': tilemap, 'player': player});
                 currentEnemies++;
             }
             
