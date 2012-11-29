@@ -119,9 +119,9 @@ Enemy = ActorObject.extend({
     initialize: function() {
         var model = this;
         
-        if (Crafty("enemy").length >= _Globals.conf.get('maxEnemiesToSpawn')) {
-            return;
-        }
+//        if (Crafty("enemy").length >= _Globals.conf.get('maxEnemiesToSpawn')) {
+//            return;
+//        }
         
         model.set('sprite-z', model.get('spriteHeight') + model.get('z-index'));
         

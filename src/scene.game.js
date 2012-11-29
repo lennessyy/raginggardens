@@ -23,15 +23,17 @@
  */
 Crafty.scene("main", function() {
     
-    // game map
     var tilemap = new Tilemap();
-    // player
     var player = new Player({'tileMap': tilemap});
-    
     $("#stats").show();
+    
+    // display active FPS (only in DEBUG mode)
     if (_Globals.conf.get('debug')) {
-        $("#fps").show();    
-    }
+        Crafty.e("2D, Canvas, FPS").attr({maxValues:10}).bind("MessureFPS", function(fps) {
+            $('#fps').text('FPS: ' + fps.value);
+        })
+        $("#fps").show();
+    }        
     
     if (_Globals.conf.get('music')) {
         Crafty.audio.play("music", -1, _Globals.conf.get('music_vol'));
@@ -56,19 +58,18 @@ Crafty.scene("main", function() {
         }
     });
     
-    // display active FPS (only in DEBUG mode)
-    if (_Globals.conf.get('debug')) {
-        Crafty.e("2D, Canvas, FPS").attr({maxValues:10}).bind("MessureFPS", function(fps) {
-            $('#fps').text('FPS: ' + fps.value);
-            //console.log(this.values); // Display last x Values
-        })
-    }    
     
-    // Gameloop
-    var carrotSpawnTime = Date.now();
-    var enemySpawnTime = Date.now();
-    // 5 minutes
+    /**
+     * Game Loop
+     */
+    
+    var currentEnemies = 0;
+    var maxEnemies = _Globals.conf.get('startEnemiesCount');
+    tilemap.set('maxCarrots', _Globals.conf.get('startCarrotsCount'));
+    
+    var gameTick = 0;
     var gameTimeLeft = Date.now() + _Globals.conf.get('gameTimeLimit'); 
+    var gameTurnTimeLeft = Date.now() + _Globals.conf.get('gameTurnPeriod'); 
     
     Crafty.bind("EnterFrame",function(frame){
         
@@ -91,15 +92,37 @@ Crafty.scene("main", function() {
         // --- game logic
         var currentTime = Date.now();
         
-        if (currentTime - carrotSpawnTime > 600) {
-            tilemap.spawnCarrot();
-            carrotSpawnTime = Date.now();
+        // game turn passed ?
+        if (currentTime > gameTurnTimeLeft) {
+            gameTurnTimeLeft = Date.now() + _Globals.conf.get('gameTurnPeriod'); 
+            
+            if (tilemap.get('maxCarrots') < _Globals.conf.get('maxCarrotsToSpawn')) {
+                tilemap.set('maxCarrots', 
+                    tilemap.get('maxCarrots') + _Globals.conf.get('carrotsPerTurn'));
+            }
+            
+            maxEnemies += _Globals.conf.get('enemiesPerTurn');
+            maxEnemies = maxEnemies > _Globals.conf.get('maxEnemiesToSpawn') 
+                ? _Globals.conf.get('maxEnemiesToSpawn') : maxEnemies;
+            
+            // DEBUG
+            if (_Globals.conf.get('debug')) {
+                console.log('Turn passed! New limites carrots: %d, enemies: %d', 
+                    tilemap.get('maxCarrots'),
+                    maxEnemies);
+            }
         }
         
-        if (currentTime - enemySpawnTime > 1000) {
-            var enemy = new Enemy({'tileMap': tilemap});
-            enemySpawnTime = Date.now();
-        }        
+        if (currentTime > gameTick) {
+            tilemap.spawnCarrot();
+            
+            if (currentEnemies < maxEnemies) {
+                new Enemy({'tileMap': tilemap});
+                currentEnemies++;
+            }
+            
+            gameTick = Date.now() + _Globals.conf.get('gameTickPeriod');
+        }
     });
     
     Crafty.trigger("UpdateStats");

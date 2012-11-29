@@ -1,7 +1,7 @@
 .o: Raging Gardens :o.
 ==========================
 
-HTML5/Javascript Browser Game. Entry to GitHub [game-off-2012](https://github.com/github/game-off-2012) challenge.
+HTML5/Javascript web browser game. Entry to GitHub [game-off-2012](https://github.com/github/game-off-2012) challenge.
 
 You are a hungry (ninja) rabbit whose goal is to **pull** as much carrots 
 as possible from the ground in **5 minutes**. However, you have competition!
@@ -9,10 +9,9 @@ Other hungry rabbits will try to outrun you and get the carrots for themselves, 
 Your weapons are slightly unorthodox. Simply uhm ... fart to **push** your competition away or use a **fork-totem** 
 decoy to deceive opponents.
 
-# Playable demo
-
-  * [Demo link #1](http://vexelon.net/~necroleak/raging-gardens)
-  * [Demo link #2] In case first link fails.
+Links to playable game:
+  * [Hosted at GitHub](http://petarov.github.com/game-off-2012/)  
+  * [Hosted at Vexelon](http://vexelon.net/~necroleak/raging-gardens)
 
 # Controls
 
@@ -32,6 +31,7 @@ Raging Gardens uses the following javascript libraries:
   * [db.js](http://aaronpowell.github.com/db.js/) - db.js is a wrapper for IndexedDB to make it easier to work against, making it look more like a queryable API.
   * [IndexedDB Polyfill](https://github.com/axemclion/IndexedDBShim) - A polyfill to enable IndexedDB using WebSql.
   * [javascript-astar](https://github.com/bgrins/javascript-astar) - An implementation of the A* Search Algorithm in JavaScript.
+  * [Cloud9](https://c9.io) Entire game was developed using this IDE. ...and I love it :)
 
 # License
 The game **without game art** is under MIT License. Read the **LICNESE** file for more info.

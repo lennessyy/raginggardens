@@ -37,22 +37,25 @@ Config = Backbone.Model.extend({
         'music_vol': 0.3,
         
         // gameplay
-        'defaultCarrots': 10,
         'gameTimeLimit': 120 * 1000, // 300 * 1000, // milliseconds
-        'maxEnemiesToSpawn': 10,
-        'maxCarrotsToSpawn': 11,
+        'gameTurnPeriod': 10 * 1000, // every 30 seconds
+        'gameTickPeriod': 1 * 1000, 
+        
+        'enemiesPerTurn': 2,
+        'startEnemiesCount': 2, // start with 2 enemies
+        'maxEnemiesToSpawn': 10, // through the whole game
+        
+        'carrotsPerTurn': 2,
+        'startCarrotsCount' : 2, // start with 3 carrots
+        'maxCarrotsToSpawn': 11, // through the whole game
+        
+        // player props
+        'defaultCarrots': 10,
         'carrotsCollect': 3,
         'carrotsPushCost': 1,
-        'carrotsForkCost': 2,
-        
+        'carrotsForkCost': 2,        
     },
     initialize: function() {
-       
+       // Leer
     },
-    
-//    debug : function(obj) {
-//        if (this.get('debug'))
-//            console.log(obj);
-//            //console.log('DEBUG:' + text);
-//    }
 });
