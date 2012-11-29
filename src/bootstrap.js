@@ -61,8 +61,6 @@ $(document).ready(function() {
          */
         Crafty.scene("loading", function() {
             Crafty.load([
-                "art/menu.png", 
-                "art/left_frame.png", 
                 "art/stuz_tiles.png", 
                 "art/stuz_rabbit.png",
                 "art/stuz_enemy.png",
@@ -87,8 +85,8 @@ $(document).ready(function() {
     			    stone_small: [1,0],
     			    stone_big: [2,0],
     			    tree: [0,1],
-                    barrel_big: [1,1],
-                    barrel_small: [2,1],
+                    bush: [1,1],
+                    barrel: [2,1],
     		    });
                 Crafty.sprite("art/stuz_rabbit.png", {
     			    player: [0, 0, 32, 48],

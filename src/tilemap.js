@@ -81,7 +81,7 @@ Tilemap = ActorObject.extend({
         var obstaclesCoords = [];
         
         for (var i = 0; i < model.get('maxObstacles'); i++) {
-            var type = Crafty.math.randomInt(1, 4);
+            var type = Crafty.math.randomInt(1, 5);
             var occupiedTile = false;
             var ox;
             var oy;
@@ -115,10 +115,11 @@ Tilemap = ActorObject.extend({
                 spriteName = 'tree';
                 oz = model.get('base-z') + oy + model.get('tileSize');
             } else if (type == 4) {
-                spriteName = 'barrel_small';
+                spriteName = 'barrel';
                 oz = model.get('base-z') + oy + model.get('tileSize') - 16;
-//            } else if (type == 5) {
-//                spriteName = 'barrel_big';
+            } else if (type == 5) {
+                spriteName = 'bush';
+                oz = model.get('base-z') + oy + model.get('tileSize') - 16;
             } else {
                 continue;
             }
@@ -147,7 +148,7 @@ Tilemap = ActorObject.extend({
                     [56, 64], 
                     [12, 64]
                 );                 
-            } else if (type == 4) { // barrel_small
+            } else if (type == 4 || type == 5) { // barrel/bush
                 entity.collision(
                     [16, 40], 
                     [48, 40], 
