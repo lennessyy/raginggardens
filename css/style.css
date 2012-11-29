@@ -17,6 +17,15 @@ body, html {
 .clear{
     clear:both;
 }
+#version {
+    font-size: 10px;
+    color: white;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    padding-right: 4px;
+    padding-bottom: 2px;
+}
 #menu {
     position: absolute;
     left: 195px;
