@@ -9,10 +9,6 @@ Other hungry rabbits will try to outrun you and get the carrots for themselves, 
 Your weapons are slightly unorthodox. Simply uhm ... fart to **push** your competition away or use a **fork-totem** 
 decoy to deceive opponents.
 
-Links to playable game:
-  * [Hosted at GitHub](http://petarov.github.com/game-off-2012/)  
-  * [Hosted at Vexelon](http://vexelon.net/~necroleak/raging-gardens)
-
 # Supported Browsers
 
 <table>
@@ -65,6 +61,8 @@ The game **without game art** is under MIT License. Read the _LICNESE_ file for 
 
 # Credits
 ## Game Art
+Game art and graphics are exclusively created for _Raging Gardens_ by [Stremena Tuzsuzova](http://www.stremena.com). 
+
 ## Sound and Music
 Using sounds authored by:
 
@@ -73,5 +71,7 @@ Using sounds authored by:
 * http://freesound.org/people/thanvannispen/sounds/9430/
 * http://freesound.org/people/HerbertBoland/sounds/33369/
 * http://freesound.org/people/Erdie/sounds/44261/
+* http://freesound.org/people/annannienann/sounds/8067/
+* http://freesound.org/people/Syna-Max/sounds/39417/
 
 I have edited almost all of the samples to suite the in-game feeling with [Audacity](http://audacity.sourceforge.net/).
