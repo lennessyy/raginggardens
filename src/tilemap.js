@@ -331,16 +331,41 @@ Tilemap = ActorObject.extend({
         
         // return undefined;
     },
-    // get non-occupied carrot entity
-    findFreeCarrot: function() {
-        var carrotsArray = _.shuffle(Crafty("carrot"));  
-        var ret = _.find(carrotsArray, function(carrotObj) { 
-            var obj = Crafty(carrotObj);
-            return (obj != undefined) && (!obj.occupied);
-        });
+    // get non-occupied (& closest) carrot entity
+    findFreeCarrot: function(from) {
         
-        if (ret != undefined)
-            return Crafty(ret);
+        if (from) {
+            // closest to from coords
+            var carrotsArray = Crafty("carrot");  
+            var ref = undefined;
+            var dist = 18437736874454810627;    
+            
+            _.each(carrotsArray, function(carrotObj) { 
+                var obj = Crafty(carrotObj);
+                if (obj && !obj.occupied) {
+                    var dx = (obj.x + 16) - (from.x + 16);
+                    var dy = (obj.y + 24) - (from.y + 48);
+                    var thisDist = (dx * dx) + (dy * dy);
+                    if (thisDist < dist) {
+                        dist = thisDist;
+                        ref = obj;
+                    }
+                }
+            });
+//            console.log("Chosen");
+//            console.log(ref);
+//            console.log("this dist: %d", dist);
+            return ref;            
+        } else {
+            // random carrot
+            var carrotsArray = _.shuffle(Crafty("carrot"));  
+            var ret = _.find(carrotsArray, function(carrotObj) { 
+                var obj = Crafty(carrotObj);
+                return (obj != undefined) && (!obj.occupied);
+            });
+            if (ref != undefined)
+                return Crafty(ref);                 
+        }
     }
 });
  

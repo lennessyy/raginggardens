@@ -69,7 +69,7 @@ Crafty.c('Enemy', {
     // get new target/carrot position or go to random location of no targets exist
     newTarget: function(anywhere) {
         if (!anywhere) {
-            var newObj = this.tileMap.findFreeCarrot();
+            var newObj = this.tileMap.findFreeCarrot({x: this.x, y: this.y});
             if (newObj) {
                 // TRACE
                 if (_Globals.conf.get('trace')) {
@@ -97,6 +97,12 @@ Crafty.c('Enemy', {
             this.target.path = this.tileMap.getPathToTilePx(
                 {x: this.x, y: this.y}, {x: this.target.x, y: this.target.y});            
             this.target.pathpos = 0;
+            
+            // TRACE
+            if (_Globals.conf.get('trace')) {
+                console.log('Enemy: %d new Anywhere target coords %d, %d', 
+                    this[0], this.target.x, this.target.y);
+            }            
         }
         // reset pulling
         if (this.digCarrot.canPull) {
@@ -181,13 +187,19 @@ Enemy = ActorObject.extend({
             
             // adjust sprite center position
             var sx = (this.x + 16);
-            var sy = (this.y + 48);
+            var sy = (this.y + 32);
             var targetX;
             var targetY;
 
             if (this.target.pathpos == this.target.path.length) {
-                targetX = this.target.x + 16;
-                targetY = this.target.y + 24;            
+                if (this.target.obj) {
+                    targetX = this.target.x + 16;
+                    targetY = this.target.y + 16;            
+                } else {
+                    // no carrot to pick up
+                    this.newTarget();
+                    return;
+                }
             } else {
                 // find destination tile center
                 var gx = this.target.path[this.target.pathpos].pos.y;
@@ -303,14 +315,19 @@ Enemy = ActorObject.extend({
             
             // nearby carrot -> rise extracting flag
             var dx = sx - this.target.x + 16;
-            var dy = sy - this.target.y + 24;
+            var dy = sy - this.target.y + 16;
             var dist = (dx * dx + dy * dy);
-//            console.log("dist: %d", dist);
-            if (dist <= 3400) {
+            // console.log("dist: %d", dist);
+            
+            if (dist <= 2048) {
                 var hits = this.hit('carrot');
+                
+                console.log("target-dist: %d, my-xy: %d,%d / target-xy: %d,%d", dist, sx, sy, 
+                    this.target.x + 16, this.target.y + 16);
                 
                 // check if we actually are on a carrot
                 if (!hits) {
+                    console.log('no hits!');
                     this.newTarget();
                     return;
                 }
@@ -393,10 +410,10 @@ Enemy = ActorObject.extend({
         })
         // define player collision properties
         .collision(
-            [8, 40], 
-            [24, 40], 
-            [24, 48], 
-            [8, 48]
+            [2, 32], 
+            [30, 32], 
+            [30, 48], 
+            [2, 48]
         );
         
         // bind to object
