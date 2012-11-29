@@ -17,6 +17,14 @@ body, html {
 .clear{
     clear:both;
 }
+#logo {
+    background: transparent url('../art/logo.png') no-repeat;
+    left: 0px;
+    bottom: 0px;
+    position: absolute;
+    width: 159px;
+    height: 53px;
+}
 #version {
     font-size: 10px;
     color: white;
