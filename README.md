@@ -1,4 +1,4 @@
-.o: Raging Gardens :o.
+_.o0 Raging Gardens 0o._
 ==========================
 
 HTML5/Javascript web browser game. Entry to GitHub [game-off-2012](https://github.com/github/game-off-2012) challenge.
@@ -24,10 +24,10 @@ Links to playable game:
   <tr>
     <th>Google Chrome</th>
     <td>Yes</td>
-    <td>23.0x</td>
+    <td>23.0</td>
   </tr>
   <tr>
-    <th>Firefox</th>
+    <th>Firefox*</th>
     <td>Yes</td>
     <td>17.0</td>
   </tr>
@@ -37,6 +37,8 @@ Links to playable game:
     <td>-</td>
   </tr>  
 </table>
+
+* For some reason when played on Windows 2008R2 Server the game runned somehow choppy.
 
 # Controls
 
@@ -59,7 +61,7 @@ Raging Gardens uses the following javascript libraries:
   * [Cloud9](https://c9.io) Entire game was developed using this IDE. ...and I love it :)
 
 # License
-The game **without game art** is under MIT License. Read the **LICNESE** file for more info.
+The game **without game art** is under MIT License. Read the _LICNESE_ file for more info.
 
 # Credits
 ## Game Art

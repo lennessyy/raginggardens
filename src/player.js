@@ -199,7 +199,10 @@ Player = ActorObject.extend({
                             this.actions.action1 = keyState.none; // reset
                             model.set('carrotsCount', 
                                 model.get('carrotsCount') + _Globals.conf.get('carrotsCollect'));
+                            
                             this.digCarrot.obj.destroy();
+                            this.digCarrot.canPull = false;
+                            
                             this.trigger('HidePullBar');
                             Crafty.trigger("UpdateStats");
                             Crafty.trigger('ShowMsg', 'clear');
