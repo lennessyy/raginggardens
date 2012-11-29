@@ -150,7 +150,6 @@ $(document).ready(function() {
             "src/scene.splash.js",
             "src/scene.game.js",
             "src/gfx.js",
-            "src/sfx.js",
         ], function() {            
             
             Crafty.scene("loading");
