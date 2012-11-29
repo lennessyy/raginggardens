@@ -66,12 +66,17 @@ Game art and graphics are exclusively created for _Raging Gardens_ by [Stremena 
 ## Sound and Music
 Using sounds authored by:
 
-* http://freesound.org/people/skinhat/sounds/20324/
-* http://freesound.org/people/Walter_Odington/sounds/26793/
-* http://freesound.org/people/thanvannispen/sounds/9430/
-* http://freesound.org/people/HerbertBoland/sounds/33369/
-* http://freesound.org/people/Erdie/sounds/44261/
-* http://freesound.org/people/annannienann/sounds/8067/
-* http://freesound.org/people/Syna-Max/sounds/39417/
+  * http://freesound.org/people/skinhat/sounds/20324/
+  * http://freesound.org/people/Walter_Odington/sounds/26793/
+  * http://freesound.org/people/thanvannispen/sounds/9430/
+  * http://freesound.org/people/HerbertBoland/sounds/33369/
+  * http://freesound.org/people/Erdie/sounds/44261/
+  * http://freesound.org/people/annannienann/sounds/8067/
+  * http://freesound.org/people/Syna-Max/sounds/39417/
 
 I have edited almost all of the samples to suite the in-game feeling with [Audacity](http://audacity.sourceforge.net/).
+
+Music score:
+
+  * [trouble-in-the-garden](http://opengameart.org/content/trouble-in-the-garden) by HaelDB
+

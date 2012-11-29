@@ -76,8 +76,8 @@ $(document).ready(function() {
                 "sfx/scream2.ogg",
                 "sfx/aaaah.ogg",
                 "sfx/laughter01.ogg",
-                "sfx/laughter02.ogg"
-               // "sfx/happymushrooms.ogg",
+                "sfx/laughter02.ogg",
+                "sfx/trouble_in_the_garden_lowq.ogg",
                 ], 
             function() {
         	    
@@ -118,7 +118,7 @@ $(document).ready(function() {
                     aaaah: ["sfx/aaaah.ogg"],
                     laughter1: ["sfx/laughter01.ogg"],
                     laughter2: ["sfx/laughter02.ogg"],
-                   // music: ["sfx/happymushrooms.ogg"],
+                    music: ["sfx/trouble_in_the_garden_lowq.ogg"],
                 });                
                 
     		    Crafty.scene(_Globals['scene']);
