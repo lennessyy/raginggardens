@@ -69,8 +69,9 @@ The game **without game art** is under MIT License. Read the _LICNESE_ file for 
 Using sounds authored by:
 
 * http://freesound.org/people/skinhat/sounds/20324/
+* http://freesound.org/people/Walter_Odington/sounds/26793/
 * http://freesound.org/people/thanvannispen/sounds/9430/
-* http://freesound.org/people/vtownpunks/sounds/63636/
 * http://freesound.org/people/HerbertBoland/sounds/33369/
+* http://freesound.org/people/Erdie/sounds/44261/
 
 I have edited almost all of the samples to suite the in-game feeling with [Audacity](http://audacity.sourceforge.net/).

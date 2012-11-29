@@ -76,6 +76,7 @@ $(document).ready(function() {
                 "sfx/pull.ogg",
                 "sfx/scream1.ogg",
                 "sfx/scream2.ogg",
+                "sfx/aaaah.ogg",
                // "sfx/happymushrooms.ogg",
                 ], 
             function() {
@@ -114,6 +115,7 @@ $(document).ready(function() {
                     pull: ["sfx/pull.ogg"],
                     scream1: ["sfx/scream1.ogg"],
                     scream2: ["sfx/scream2.ogg"],
+                    aaaah: ["sfx/aaaah.ogg"],
                    // music: ["sfx/happymushrooms.ogg"],
                 });                
                 

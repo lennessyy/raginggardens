@@ -50,8 +50,8 @@ Config = Backbone.Model.extend({
         'maxCarrotsToSpawn': 11, // through the whole game
         
         // player props
-        'defaultCarrots': 10,
-        'carrotsCollect': 3,
+        'defaultCarrots': 0,
+        'carrotsCollect': 2,
         'carrotsPushCost': 1,
         'carrotsForkCost': 2,        
     },

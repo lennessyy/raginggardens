@@ -187,7 +187,7 @@ Player = ActorObject.extend({
                 
                 if (this.actions.action1 === keyState.down) {
                     // pull, only if the carrot is still around
-                    if (this.digCarrot.obj) { 
+                    if (this.digCarrot.obj && !this.digCarrot.obj.pulled) { 
                         this.digCarrot.obj.health -= model.get('pullSpeed');
                         
     //                    if (_Globals.conf.get('trace'))
@@ -200,6 +200,7 @@ Player = ActorObject.extend({
                             model.set('carrotsCount', 
                                 model.get('carrotsCount') + _Globals.conf.get('carrotsCollect'));
                             
+                            this.digCarrot.obj.pulled = true;
                             this.digCarrot.obj.destroy();
                             this.digCarrot.canPull = false;
                             
@@ -299,7 +300,9 @@ Player = ActorObject.extend({
             
             if (!model.eatCarrots(_Globals.conf.get('carrotsForkCost'))) {
                 return;
-            }               
+            }
+            
+            Crafty.audio.play("aaaah", 1, _Globals.conf.get('sfx_vol'));
             
             var enemies = Crafty('Enemy');
             if (enemies && enemies.length > 0) {

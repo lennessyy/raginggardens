@@ -106,7 +106,7 @@ Enemy = ActorObject.extend({
         
         // behavior
         'speed': 2,
-        'pullSpeed': 2,
+        'pullSpeed': 2.25,
         'pushCooldown': 30,
         
         // gfx properties
@@ -157,6 +157,7 @@ Enemy = ActorObject.extend({
                 // are about to pull another one or not
                 if (this.digCarrot.obj.health <= 0) {
                     this.digCarrot.canPull = false;
+                    this.digCarrot.obj.pulled = true;
                     this.digCarrot.obj.destroy();
                     this.newTarget();
                 }

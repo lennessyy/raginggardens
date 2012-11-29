@@ -40,7 +40,7 @@ Tilemap = ActorObject.extend({
         'height' : _Globals.conf.get('screen-height') / 64,
         'spawnArea': undefined,
         'base-z' : 10,
-        'maxObstacles' : 25,
+        'maxObstacles' : 30,
         
         // Carrots 
         'carrotHeightOffset': 16,
@@ -223,21 +223,22 @@ Tilemap = ActorObject.extend({
                 }
             } while (!done);
             
+            // we keep only last 3 coords generated
+            carrotsCoordsQueue.push({x: tx, y: ty});
+            if (carrotsCoordsQueue.length > 8)
+                carrotsCoordsQueue.pop();            
+            
             var oz = this.get('base-z') + 24 + pos.y + 1;        
             
             Crafty.e("2D, Canvas, carrot, SpriteAnimation, Collision")
                 .attr({
                     x: pos.x, y: pos.y, z: oz, 
                     health: this.get('carrotHealth'),
+                    pulled: false,
                     occupied: false,
                 })
                 .animate('wind', [ [0, 0], [32, 0], [64, 0], [32, 0] ]) // setup animation
                 .animate('wind', 40, -1); // play animation
-                
-            // we keep only last 3 coords generated
-            carrotsCoordsQueue.push({x: tx, y: ty});
-            if (carrotsCoordsQueue.length > 3)
-                carrotsCoordsQueue.pop();
         }
     },
     // get unoccupied map position given tile coordinates

@@ -25,6 +25,8 @@ Crafty.scene("main", function() {
     
     var tilemap = new Tilemap();
     var player = new Player({'tileMap': tilemap});
+    
+    $("#left-frame").show();
     $("#stats").show();
     
     // display active FPS (only in DEBUG mode)
