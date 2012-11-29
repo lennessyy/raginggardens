@@ -69,6 +69,7 @@ $(document).ready(function() {
                 "art/stuz_fart_moving.png",
                 "art/stuz_carrots.png",
                 "art/stuz_forkit.png",
+                "art/stuz_splash.png",
                 // sfx
                 "sfx/fart1.ogg",
                 "sfx/fart2.ogg",
@@ -103,6 +104,9 @@ $(document).ready(function() {
                 Crafty.sprite(48, "art/stuz_forkit.png", {
                     fork: [0, 0],
         	    });
+                Crafty.sprite("art/stuz_splash.png", {
+                    splash: [0, 0],
+                });                
                 // --- Audio
                 Crafty.audio.add({
                     fart1: ["sfx/fart1.ogg"],

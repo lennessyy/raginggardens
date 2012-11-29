@@ -23,13 +23,18 @@
  */
 Crafty.scene("splash", function() {
     
-    Crafty.background("#fff");
+    Crafty.background("#000");
+    
+    var bg = Crafty.e("2D, Canvas, Image")
+        .attr({x: 128, y: 34})
+        .image("art/stuz_splash.png", "no-repeat");    
 
-    // Show HiScore Dialog
-    Crafty.bind("ShowHowTo", function() {
-        
-        $("#dialog-howto").show();
-        
+    $("#menu-start").click(function() {
+        $("#menu").hide();
+        Crafty.scene('main');
+    });    
+    
+    $("#menu-howto").click(function() {
         // show dialog
         $("#dialog-howto").dialog({
             resizable: false,
@@ -43,23 +48,28 @@ Crafty.scene("splash", function() {
                 }
             },
         });          
-    }); 
-    
-    $("#menu-start").click(function() {
-        $("#menu").hide();
-        Crafty.scene('main');
-    });    
-    
-    $("#menu-howto").click(function() {
-        Crafty.trigger('ShowHowTo');
     });        
     
     $("#menu-hiscore").click(function() {
-        Crafty.trigger('ShowHiscore');
+        Crafty.trigger('ShowHiscore', 'bummer');
     });        
+    
+    $('#menu-credits').click(function() {
+        // show dialog
+        $("#dialog-credits").dialog({
+            resizable: false,
+            "width": 480,
+            "height": 280,
+            modal: true,
+            "title": "Credits",
+            buttons: {
+                "Ok": function() {
+                    $(this).dialog("close");
+                }
+            },
+        });           
+    });
     
     $("#menu").show();
     
-    // TODO:
-    $("#stats").show();
 });

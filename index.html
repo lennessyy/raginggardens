@@ -33,7 +33,7 @@
     _Globals = {
         env : 'dev',
         version : '0.9',
-        scene : 'main'
+        scene : 'splash'
         };
         //Crafty.modules({ 'crafty-debug-bar': 'DEV' }, function () {
         //    Crafty.debugBar.show();
@@ -58,13 +58,17 @@
         opponents and gives you time to pull more carrots elsewhere on the map.</li>
     </ul>
     </div>
+    <div id="dialog-credits" style="display: none;">
+    <p>Game design and programming - Petar Petrov</p>
+    <p>Art and graphics - Stremena Tuzsuzova</p>
+    </div>    
     
     <div id="fps" style="display: none;"></div>    
-    
+        
     <div id="cr-stage">
-        <div id="left-frame">
-            <div id="right-frame"></div>
-            <div id="bottom-frame"></div>
+        <div id="left-frame" style="display: none;">
+            <div id="right-frame"></div>    
+            <div id="bottom-frame"></div>    
         </div>
         
         <div id="loading" class="text left" style="display: none;"></div>
@@ -75,8 +79,9 @@
         </div>
         <div id="menu" style="display: none;">
             <div id="menu-start">Start Game</div>
-            <div id="menu-howto">How to play</div>
-            <div id="menu-hiscore">Hiscores</div>
+            <div id="menu-howto" style="margin-left: 70px;">How to play</div>
+            <div id="menu-hiscore" style="margin-left: 77px;">Hiscores</div>
+            <div id="menu-credits" style="margin-left: 103px;">Credits</div>
         </div>
     </div>
 </body>

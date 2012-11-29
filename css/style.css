@@ -19,14 +19,16 @@ body, html {
 }
 #menu {
     position: absolute;
-    left: 45%;
-    top: 40%;
+    left: 195px;
+    top: 669px;
     z-index:3;
 }
 #menu>div {
-    font-size: 16px;
+    font-family: Tahoma, Sans-serif, Helvetica;
+    font-size: 18px;
     color: white;
     text-shadow: 1px 1px green;    
+    display: inline;
 }
 #menu>div:hover {
     color: #121212;
@@ -117,21 +119,21 @@ div.text.center{
 #left-frame {
     background-image: url('../art/left_frame.png');
     background-repeat: no-repeat;
-    background-position: left top;
+    background-position: left -7px;
     height: 768px;
-    width: 100%;
     position: relative;
-    left: -10px;
+    width: 100%;
+    left: 0px;
     z-index: 2;
 }
 #right-frame {
     background-image: url('../art/right_frame.png');    
     background-repeat: no-repeat;
-    background-position: right top;
+    background-position: right -7px;
     height: 768px;
     width: 48px;
     position: absolute;
-    right: -16px;
+    right: 0px;
     top: 0;
     z-index: 3;
 }
@@ -139,10 +141,10 @@ div.text.center{
     background-image: url('../art/bottom_frame.png');    
     background-repeat: no-repeat;
     height: 48px;
-    width: 974px;
+    width: 925px;
     position: absolute;
-    bottom: -12px;
-    left: 48px;
+    bottom: -5px;
+    left: 49px;
     z-index: 2;
 }
 #fps {
