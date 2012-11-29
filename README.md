@@ -13,6 +13,34 @@ Links to playable game:
   * [Hosted at GitHub](http://petarov.github.com/game-off-2012/)  
   * [Hosted at Vexelon](http://vexelon.net/~necroleak/raging-gardens)
 
+# Supported Browsers
+
+<table>
+  <tr>
+    <th></th>
+    <th>Supported</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <th>Browser</th>
+    <td>Google Chrome</td>
+    <td>Firefox</td>
+    <td>IE</td>
+  </tr>
+  <tr>
+    <th>Supported</th>
+    <td>Yes</td>
+    <td>Yes</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <th>Tested Versions</th>
+    <td>23.x</td>
+    <td>16.x</td>
+    <td>-</td>
+  </tr>  
+</table>
+
 # Controls
 
   * **Arrow keys** - Move your ninja rabbit on the map.
