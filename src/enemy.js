@@ -38,25 +38,10 @@ Crafty.c('Enemy', {
         
         this.tileMap = tileMap;
         
-        // generate player position
-        var spawnPos = this.tileMap.spawnRelativeToCarrot();
-        if (spawnPos) {
-            this.attr({x: spawnPos.origin.x, y: spawnPos.origin.y});
-            this.target.x = spawnPos.target.x;
-            this.target.y = spawnPos.target.y;//- this.tileMap.get('carrotHeightOffset');
-            this.target.path = this.tileMap.getPathToTilePx(
-                {x: spawnPos.origin.x, y: spawnPos.origin.y}, {x: this.target.x, y: this.target.y});
-            this.target.pathpos = 0;            
-        } else {
-            // TRACE
-            if (_Globals.conf.get('trace'))
-                console.log('Enemy: Spawn failed, No carrots! Spawning @random.');
-                
-            spawnPos = this.tileMap.spawnRelativeTo(0, 0);
-            this.attr({x: spawnPos.x, y: spawnPos.y});
-            this.newTarget(true);
-        }        
-        
+        var spawnPos = this.tileMap.spawnRelativeToEdge('random');
+        this.attr({x: spawnPos.x, y: spawnPos.y});
+        this.newTarget();        
+    
         return this;
     },
     init: function() {
@@ -69,20 +54,18 @@ Crafty.c('Enemy', {
     // get new target/carrot position or go to random location of no targets exist
     newTarget: function(anywhere) {
         if (!anywhere) {
-            var newObj = this.tileMap.findFreeCarrot({x: this.x, y: this.y});
-            if (newObj) {
+            var carrtObj = this.tileMap.findFreeCarrot({x: this.x, y: this.y});
+            if (carrtObj) {
                 // TRACE
                 if (_Globals.conf.get('trace')) {
-                    console.log('Enemy:' + this[0] + ' new target coords ' + newObj[0] 
-                        + ' XY:' + newObj.x + ',' + newObj.y + ' occ: ' + newObj.occupied);
+                    console.log('Enemy:' + this[0] + ' new target coords ' + carrtObj[0] 
+                        + ' XY:' + carrtObj.x + ',' + carrtObj.y + ' occ: ' + carrtObj.occupied);
                 }
-                this.target.x = newObj.x;
-                // fix Y pos to allow for proper distance calculation
-                this.target.y = newObj.y ;//- this.tileMap.get('carrotHeightOffset');
-                this.target.obj = newObj;
-                this.target.path = this.tileMap.getPathToTilePx(
-                    {x: this.x, y: this.y}, {x: this.target.x, y: this.target.y});                
-                this.target.pathpos = 0;
+                this.target.x = carrtObj.x;
+                this.target.y = carrtObj.y;
+                this.target.obj = carrtObj;
+                // mark this as already chosen
+                this.target.obj.occupied = true;
             } else {
                 // no carrots, so choose a random place to go
                 anywhere = true; 
@@ -93,21 +76,19 @@ Crafty.c('Enemy', {
             var newPos = this.tileMap.spawnAtRandom();
             this.target.x = newPos.x;
             this.target.y = newPos.y;
-            this.target.obj = undefined;     
-            this.target.path = this.tileMap.getPathToTilePx(
-                {x: this.x, y: this.y}, {x: this.target.x, y: this.target.y});            
-            this.target.pathpos = 0;
-            
-            // TRACE
-            if (_Globals.conf.get('trace')) {
-                console.log('Enemy: %d new Anywhere target coords %d, %d', 
-                    this[0], this.target.x, this.target.y);
-            }            
+            this.target.obj = undefined;
         }
+        
+        // adjust waypoint
+        this.target.path = this.tileMap.getPathToTilePx(
+            {x: this.x, y: this.y}, 
+            {x: this.target.x, y: this.target.y});                
+        this.target.pathpos = 0;
+        
         // reset pulling
         if (this.digCarrot.canPull) {
             this.digCarrot.canPull = false;
-            this.digCarrot.obj.occupied = false;
+            //this.digCarrot.obj.occupied = false;            
             this.digCarrot.obj = undefined;
         }
         
@@ -322,12 +303,11 @@ Enemy = ActorObject.extend({
             if (dist <= 2048) {
                 var hits = this.hit('carrot');
                 
-                console.log("target-dist: %d, my-xy: %d,%d / target-xy: %d,%d", dist, sx, sy, 
-                    this.target.x + 16, this.target.y + 16);
+//                console.log("target-dist: %d, my-xy: %d,%d / target-xy: %d,%d", dist, sx, sy, 
+//                    this.target.x + 16, this.target.y + 16);
                 
                 // check if we actually are on a carrot
                 if (!hits) {
-                    console.log('no hits!');
                     this.newTarget();
                     return;
                 }
@@ -339,18 +319,18 @@ Enemy = ActorObject.extend({
                 if (_Globals.conf.get('trace'))
                     console.log('Enemy: ' + this[0] + ' has reached ' + obj[0]);
                 
-                if (obj.occupied) {
-                    this.newTarget();
-                } else {
+//                if (obj.occupied) {
+//                    this.newTarget();
+//                } else {
                     
                     // TRACE
                     if (_Globals.conf.get('trace'))
                         console.log("Enemy: carrot " + obj[0] + " hit & occupied!");
                         
-                    obj.occupied = true;
+//                    obj.occupied = true;
                     this.digCarrot.obj = obj;
                     this.digCarrot.canPull = true;
-                }
+//                }
             } else {
                 this.digCarrot.canPull = false;
                 this.digCarrot.obj = undefined;

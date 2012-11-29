@@ -38,9 +38,9 @@ Config = Backbone.Model.extend({
         
         // gameplay
         'defaultCarrots': 10,
-        'gameTimeLimit': 50 * 1000, // 300 * 1000, // milliseconds
+        'gameTimeLimit': 120 * 1000, // 300 * 1000, // milliseconds
         'maxEnemiesToSpawn': 10,
-        'maxCarrotsToSpawn': 10,
+        'maxCarrotsToSpawn': 11,
         'carrotsCollect': 3,
         'carrotsPushCost': 1,
         'carrotsForkCost': 2,

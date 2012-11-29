@@ -186,26 +186,29 @@ Player = ActorObject.extend({
                 this.trigger("UpdatePullBar", this.digCarrot.obj.health);
                 
                 if (this.actions.action1 === keyState.down) {
-                    this.digCarrot.obj.health -= model.get('pullSpeed');
-                    
-//                    if (_Globals.conf.get('trace'))
-//                        console.log('Player: extracting ...' + this.digCarrot.obj.health);
-                    
-                    // if pulled, simply destroy entity, the hit check should determine if we
-                    // are about to pull another one or not
-                    if (this.digCarrot.obj.health <= 0) {
-                        this.actions.action1 = keyState.none; // reset
-                        model.set('carrotsCount', 
-                            model.get('carrotsCount') + _Globals.conf.get('carrotsCollect'));
-                        this.digCarrot.obj.destroy();
-                        this.trigger('HidePullBar');
-                        Crafty.trigger("UpdateStats");
-                        Crafty.trigger('ShowMsg', 'clear');
+                    // pull, only if the carrot is still around
+                    if (this.digCarrot.obj) { 
+                        this.digCarrot.obj.health -= model.get('pullSpeed');
                         
-                        // play sound
-                        if (_Globals.conf.get('sfx')) {
-                            Crafty.audio.play("pull", 1, _Globals.conf.get('sfx_vol'));
-                        }                        
+    //                    if (_Globals.conf.get('trace'))
+    //                        console.log('Player: extracting ...' + this.digCarrot.obj.health);
+                        
+                        // if pulled, simply destroy entity, the hit check should determine if we
+                        // are about to pull another one or not
+                        if (this.digCarrot.obj.health <= 0) {
+                            this.actions.action1 = keyState.none; // reset
+                            model.set('carrotsCount', 
+                                model.get('carrotsCount') + _Globals.conf.get('carrotsCollect'));
+                            this.digCarrot.obj.destroy();
+                            this.trigger('HidePullBar');
+                            Crafty.trigger("UpdateStats");
+                            Crafty.trigger('ShowMsg', 'clear');
+                            
+                            // play sound
+                            if (_Globals.conf.get('sfx')) {
+                                Crafty.audio.play("pull", 1, _Globals.conf.get('sfx_vol'));
+                            }                        
+                        }
                     }
                 }
             }            
