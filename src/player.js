@@ -60,8 +60,8 @@ Player = ActorObject.extend({
         // behavior
         'speed': 2,
         'pullSpeed': 2,
-        'pushDistance': 60 * 60, // 150px distance
-        'pushAmount': 25,
+        'pushDistance': 64 * 64, // 64px distance
+        'pushRepelAmount': 25,
         'pullID': undefined,
         
         // gfx properties
@@ -287,7 +287,7 @@ Player = ActorObject.extend({
                     // console.log("about to push %d/%d, Exy: %d, %d Oxy: %d, %d" , 
                     //    dist, model.get('pushDistance'), obj.x, obj.y, plrX, plrY);
                     if (dist < model.get('pushDistance')) {
-                        var d = {amount: model.get('pushAmount'), x: plrX, y: plrY};
+                        var d = {amount: model.get('pushRepelAmount'), x: plrX, y: plrY};
                         obj.trigger("PushBack", d);
                         
                         // play sound

@@ -44,7 +44,7 @@ Config = Backbone.Model.extend({
         
         'enemiesPerTurn': 2,
         'startEnemiesCount': 2, // start with 2 enemies
-        'maxEnemiesToSpawn': 10, // through the whole game
+        'maxEnemiesToSpawn': 11, // through the whole game
 
 //        'startEnemiesCount': 2, // start with 2 enemies
 //        'maxEnemiesToSpawn': 1, // through the whole game
