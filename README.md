@@ -1,19 +1,19 @@
 _.o0 Raging Gardens 0o._
 ==========================
 
-![alt text](https://raw.github.com/petarov/game-off-2012/master/art/logo.png "Raging Gardens")
+![alt text](https://raw.github.com/petarov/game-off-2012/master/art/logo-clr.png "Raging Gardens")
 
 HTML5/Javascript web browser game. Entry to GitHub [game-off-2012](https://github.com/github/game-off-2012) challenge.
 
 It's a lovely day at farmers field. A great time for a hungry (ninja) rabbit to sneak in and **pull** some carrots to eat.
 Too bad you weren't the only one with that idea. A horde of hungry opponents approaches fast! Pull as many carrots
-as you can in **5 minutes**. To fight your opponents, you must use ancient *rabbitjutsu* tactics. These are slightly unorthodox.
-Simply uhm ... fart to **push** your competition away or use a **Carrot-on-a-Fork** totem decoy to deceive opponents.
+as you can in **3 minutes**. To fight your opponents, you must use ancient *rabbitjutsu* tactics. These are slightly unorthodox.
+Simply uhm ... fart to **push** your opponents away or use a **Carrot-on-a-Fork** totem decoy to deceive them.
 
 ![alt text](http://i.imgur.com/RxYAi.png "Gameplay screenshot")
 
 # Controls
-Collect as many carrots as possible in **5 minutes**. Use the controls to move and repel opponents.
+Collect as many carrots as possible in **3 minutes**. Use the controls to move and repel opponents.
 
   * **Arrow keys** - Move your ninja rabbit on the map.
   * **Z (or Y)** - Hold down to pull a carrot from the ground. You need to be close to a carrot.
