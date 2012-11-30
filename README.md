@@ -54,7 +54,7 @@ Raging Gardens uses the following javascript libraries:
   * [db.js](http://aaronpowell.github.com/db.js/) - db.js is a wrapper for IndexedDB to make it easier to work against, making it look more like a queryable API.
   * [IndexedDB Polyfill](https://github.com/axemclion/IndexedDBShim) - A polyfill to enable IndexedDB using WebSql.
   * [javascript-astar](https://github.com/bgrins/javascript-astar) - An implementation of the A* Search Algorithm in JavaScript.
-  * [Cloud9](https://c9.io) Entire game was developed using this IDE. ...and I love it :)
+  * [Cloud9](https://c9.io) - Entire game was developed using this IDE. ...and I love it :)
 
 # License
 The game **without game art** is under MIT License. Read the _LICNESE_ file for more info.
