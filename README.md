@@ -23,18 +23,21 @@ decoy to deceive opponents.
     <td>23.0</td>
   </tr>
   <tr>
-    <th>Firefox*</th>
+    <th>Firefox</th>
     <td>Yes</td>
     <td>17.0</td>
   </tr>
+  <tr>
+    <th>Safari</th>
+    <td>Yes</td>
+    <td>5.1.7</td>
+  </tr>   
   <tr>
     <th>IE</th>
     <td>No</td>
     <td>-</td>
   </tr>  
 </table>
-
-_*For some reason when played on Windows 2008R2 Server the game runned somehow choppy._
 
 # Controls
 
