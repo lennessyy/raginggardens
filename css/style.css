@@ -44,7 +44,8 @@ body, html {
 }
 #menu {
     position: absolute;
-    left: 195px;
+    width: 768px;
+    left: 128px;
     top: 669px;
     z-index:3;
 }
