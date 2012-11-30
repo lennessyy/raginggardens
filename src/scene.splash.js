@@ -55,7 +55,7 @@ Crafty.scene("splash", function() {
     });        
     
     $("#menu-hiscore").click(function() {
-        Crafty.trigger('ShowHiscore');
+        Crafty.trigger('ShowHiscore', {text: undefined, refresh: false});
     });        
     
     $('#menu-credits').click(function() {

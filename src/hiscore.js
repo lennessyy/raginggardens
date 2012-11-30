@@ -208,8 +208,10 @@ Hiscore = Backbone.Model.extend({
 
 
 // Show Hiscore Dialog - View/Reset scores
-Crafty.bind("ShowHiscore", function(text) {
-    if (!text) {
+Crafty.bind("ShowHiscore", function(params) {
+    console.log(params);
+    
+    if (!params.text) {
         var hiscore = new Hiscore();
         
         // load scores
@@ -237,12 +239,12 @@ Crafty.bind("ShowHiscore", function(text) {
                 text += '</div>';
                 
             });                
-            Crafty.trigger("ShowHiscore", text);
+            Crafty.trigger("ShowHiscore", {text: text, refresh: params.refresh});
         });
         return;
     }
     
-    $("#dialog-score").html(text);
+    $("#dialog-score").html(params.text);
     // show dialog
     $("#dialog-score").dialog({
         resizable: false,
@@ -255,7 +257,7 @@ Crafty.bind("ShowHiscore", function(text) {
                 // reset scores
                 var hiscore = new Hiscore();
                 hiscore.resetScores(function() {
-                    Crafty.trigger("ShowHiscore");    
+                    Crafty.trigger("ShowHiscore", {text: undefined, refresh: params.refresh});    
                     $(this).dialog("close");
                 });
             },
@@ -264,9 +266,10 @@ Crafty.bind("ShowHiscore", function(text) {
             }
         },
         close: function(event, ui) {
-             //Crafty.destroy();
-            //TODO:
-            window.location.reload() // TODO: Cheap! :( Must replace with proper restart.
+            if (params.refresh) {
+                // TODO: Cheap! :( Must replace with proper restart.
+                window.location.reload() 
+            }
         }
     });
 });

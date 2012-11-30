@@ -83,7 +83,7 @@ Crafty.scene("main", function() {
             Crafty.stop();
             var hiscore = new Hiscore();
             hiscore.addScore('You', player.get('carrotsCount'), function() {
-                Crafty.trigger("ShowHiscore");    
+                Crafty.trigger("ShowHiscore", {text: undefined, refresh: true});    
             });       
         } else {
             // --- time left
