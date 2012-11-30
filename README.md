@@ -1,6 +1,8 @@
 _.o0 Raging Gardens 0o._
 ==========================
 
+![alt text](https://raw.github.com/petarov/game-off-2012/master/art/logo.png "Raging Gardens")
+
 HTML5/Javascript web browser game. Entry to GitHub [game-off-2012](https://github.com/github/game-off-2012) challenge.
 
 You are a hungry (ninja) rabbit whose goal is to **pull** as much carrots 
@@ -8,6 +10,8 @@ as possible from farmers grounds in **5 minutes**. There is, however, competitio
 Other hungry rabbits will try to outrun you and get the carrots for themselves, so you must "fight"  them.
 Your weapons are slightly unorthodox. Simply uhm ... fart to **push** your competition away or use a **fork-totem** 
 decoy to deceive opponents.
+
+![alt text](http://i.imgur.com/RxYAi.png "Gameplay screenshot")
 
 # Supported Browsers
 
