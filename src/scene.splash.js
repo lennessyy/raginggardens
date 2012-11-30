@@ -77,8 +77,8 @@ Crafty.scene("splash", function() {
     $("#menu").show();
     
     // start Tibetian chant
-    if (_Globals.conf.get('sfx')) {
-        Crafty.audio.play("lowchant", 1, _Globals.conf.get('sfx_vol'));
-    }
+//    if (_Globals.conf.get('sfx')) {
+//        Crafty.audio.play("lowchant", 1, _Globals.conf.get('sfx_vol'));
+//    }
     
 });

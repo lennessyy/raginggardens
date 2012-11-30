@@ -30,6 +30,7 @@ Crafty.scene("main", function() {
     $("#right-frame").show();
     $("#bottom-frame").show();
     $("#stats").show();
+    $("#in-menu").show();
     
     // display active FPS (only in DEBUG mode)
     if (_Globals.conf.get('debug') || _Globals.conf.get('showfps')) {
@@ -37,11 +38,48 @@ Crafty.scene("main", function() {
             $('#fps').text('FPS: ' + fps.value);
         })
         $("#fps").show();
-    }        
+    }
+    
+    // mute sfx 
+    // TODO: Rework this!
+    var muted = false;
+    $("#toggle-sfx").click(function() {
+        Crafty.audio.toggleMute();
+        muted = !muted;
+        if (muted) {
+            $('#toggle-sfx').css("background-image", "url('art/sound_off.png')"); 
+        } else {
+            $('#toggle-sfx').css("background-image", "url('art/sound_on.png')"); 
+        }
+    });
+    
+    $("#opts").click(function() {
+        Crafty.pause();
+        
+        $("#dialog-restart").dialog({
+            resizable: false,
+            "width": 400,
+            "height": 180,
+            modal: true,
+            "title": "Restart Game",
+            buttons: {
+                "Yes": function() {
+                    // TODO: Cheap! :( Must replace with proper restart.
+                    window.location.reload()                     
+                },
+                "No": function() {
+                    $(this).dialog("close");
+                }
+            },
+            close: function(event, ui) {
+                Crafty.pause();
+            }  
+        });
+    });
     
     if (_Globals.conf.get('music')) {
         Crafty.audio.play("music", -1, _Globals.conf.get('music_vol'));
-    }    
+    }
     
     /**
      * Triggers to update various game states
@@ -106,7 +144,13 @@ Crafty.scene("main", function() {
             var leftTime = (gameTimeLeft - currentTime) / 1000;
             var leftMin = Math.floor(leftTime / 60);
             var leftSec = leftTime % 60;
-            $('#timer').text(leftMin.toFixed(0) + ':' + leftSec.toFixed(2));            
+            
+            var mins = leftMin.toFixed(0);
+            mins = mins < 10 ? '0' + mins : mins;
+            var sec = leftSec.toFixed(2);
+            sec = sec < 10 ? '0' + sec : sec;
+            
+            $('#timer').text(mins + ':' + sec);
         }
         
         // --- game logic
