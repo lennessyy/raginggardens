@@ -25,7 +25,7 @@ Crafty.scene("splash", function() {
     
     Crafty.background("#000");
     
-    var bg = Crafty.e("2D, Canvas, Image")
+    var bg = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", Image")
         .attr({x: 128, y: 34})
         .image("art/stuz_splash.png", "no-repeat");    
 
@@ -55,7 +55,7 @@ Crafty.scene("splash", function() {
     });        
     
     $("#menu-hiscore").click(function() {
-        Crafty.trigger('ShowHiscore', 'bummer');
+        Crafty.trigger('ShowHiscore');
     });        
     
     $('#menu-credits').click(function() {

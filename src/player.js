@@ -84,7 +84,7 @@ Player = ActorObject.extend({
         var spawnPos = model.get('tileMap').spawnAtCentre();
             
         // init player entity
-    	var entity = Crafty.e("2D, Canvas, Dude, player, LeftControls")
+    	var entity = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", Dude, player, LeftControls")
         .attr({
             move: {left: false, right: false, up: false, down: false},
             digCarrot: {canPull: false, obj: undefined},
@@ -338,11 +338,11 @@ Player = ActorObject.extend({
         })
         // show bar with how much effort there is to pull a carrot (carrot's health)
         .bind("ShowPullBar", function(carrotObj) {
-            this.pullBars.red = Crafty.e("2D, Canvas, Color")
+            this.pullBars.red = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", Color")
                 .attr({x: carrotObj.x, y: carrotObj.y - 5, w: 32, h: 5, z: 998})
                 .color("#aa0000");
             
-            this.pullBars.green = Crafty.e("2D, Canvas, Color")
+            this.pullBars.green = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", Color")
                 .attr({x: carrotObj.x, y: carrotObj.y - 5, w: 0.32 * carrotObj.health, h: 5, z: 999})
                 .color("#00aa00");            
         })     

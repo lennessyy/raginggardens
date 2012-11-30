@@ -45,7 +45,7 @@ Crafty.c('Enemy', {
         return this;
     },
     init: function() {
-        this.requires("2D Canvas");
+        this.requires("2D " + _Globals.conf.get('renderType') + "");
         this.target = {x: undefined, y: undefined, obj: undefined, path: undefined, pathpos: 0};
         this.digCarrot = {canPull: false, obj: undefined};
         this.pushedProps = {pushed: false, atFrame: 0};
@@ -126,7 +126,7 @@ Enemy = ActorObject.extend({
         model.set('sprite-z', model.get('spriteHeight') + model.get('z-index'));
         
         // init player entity
-        var entity = Crafty.e("2D, Canvas, Enemy, enemy")
+        var entity = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", Enemy, enemy")
         .attr({
             move: {left: false, right: false, up: false, down: false},
             z: model.get('sprite-z'), speed: model.get('speed')
@@ -187,11 +187,13 @@ Enemy = ActorObject.extend({
             var sy = (this.y + 32);
             var targetX;
             var targetY;
+            var checkGoal = false;
 
             if (this.target.pathpos == this.target.path.length) {
                 if (this.target.obj) {
                     targetX = this.target.x + 16;
-                    targetY = this.target.y + 16;            
+                    targetY = this.target.y + 16;    
+                    checkGoal = true;
                 } else {
                     // no carrot to pick up
                     this.newTarget();
@@ -316,14 +318,16 @@ Enemy = ActorObject.extend({
             var dist = (dx * dx + dy * dy);
             // console.log("dist: %d", dist);
             
-            if (dist <= 2048) {
+            if (dist <= 2048 && checkGoal) {
                 var hits = this.hit('carrot');
                 
-//                console.log("target-dist: %d, my-xy: %d,%d / target-xy: %d,%d", dist, sx, sy, 
-//                    this.target.x + 16, this.target.y + 16);
                 
                 // check if we actually are on a carrot
                 if (!hits) {
+                    console.log('not hit! dist: %d / target: %d', dist, this.target.obj != undefined);
+                    console.log("target-dist: %d, my-xy: %d,%d / target-xy: %d,%d", dist, sx, sy, 
+                        this.target.x + 16, this.target.y + 16);                    
+                        
                     this.newTarget();
                     return;
                 }

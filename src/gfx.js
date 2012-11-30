@@ -28,7 +28,7 @@
 Crafty.c('MagicPush', {
     _anim: undefined,
     MagicPush: function(origin) {
-        this._anim = Crafty.e("2D, Canvas, explosion1, SpriteAnimation")
+        this._anim = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", explosion1, SpriteAnimation")
             .attr({x: origin.x - 32, y: origin.y - 32, z: 999})
             .animate('go', 0, 0, 8) // setup animation
             .animate("go", 20, 0)
@@ -49,7 +49,7 @@ Crafty.c('MagicFork', {
     _duration: 300,
     MagicPush: function(origin) {
         this._createdOn = Crafty.frame() + this._duration;
-        this._anim = Crafty.e("2D, Canvas, fork, SpriteAnimation")
+        this._anim = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", fork, SpriteAnimation")
             .attr({x: origin.x - 24, y: origin.y - 24, 
                 z: 10 + origin.y + 48});
             //.animate('go', 0, 0, 2) // setup animation

@@ -26,7 +26,7 @@ Config = Backbone.Model.extend({
         // engine 
         'trace' : false,
         'debug' : true,
-        'renderType' : 'Canvas',
+        'renderType' : 'DOM', // default - faster under FF & Safari
         'screen-width' : 1024,
         'screen-height' : 768,
         
@@ -44,9 +44,13 @@ Config = Backbone.Model.extend({
         'enemiesPerTurn': 2,
         'startEnemiesCount': 2, // start with 2 enemies
         'maxEnemiesToSpawn': 10, // through the whole game
-        
+
+//        'startEnemiesCount': 2, // start with 2 enemies
+//        'maxEnemiesToSpawn': 1, // through the whole game
+
         'carrotsPerTurn': 2,
         'startCarrotsCount' : 2, // start with 3 carrots
+//        'startCarrotsCount' : 8, // start with 3 carrots
         'maxCarrotsToSpawn': 11, // through the whole game
         
         // player props
@@ -56,6 +60,13 @@ Config = Backbone.Model.extend({
         'carrotsForkCost': 2,        
     },
     initialize: function() {
-       // Leer
+        var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+        if (is_chrome) {
+            this.set('renderType', 'Canvas');
+        }
+        
+        if (this.get('debug')) {
+            console.log("Using %s rendering ...", this.get('renderType'));
+        }
     },
 });

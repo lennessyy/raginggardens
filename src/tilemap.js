@@ -72,7 +72,7 @@ Tilemap = ActorObject.extend({
         // generate layer #1 - ground tiles
         for (var i = 0; i < model.get('width'); i++) {
             for (var j = 0; j < model.get('height'); j++) {
-                var entity = Crafty.e("2D, Canvas, grass")
+                var entity = Crafty.e("2D," + _Globals.conf.get('renderType') + ", grass")
                 .attr({x: i * model.get('tileSize'), y: j * model.get('tileSize'), z: 0});
             }
         }
@@ -124,7 +124,7 @@ Tilemap = ActorObject.extend({
                 continue;
             }
             
-             var entity = Crafty.e("2D, Canvas, " + spriteName + ", Collision, Layer2Tile")
+             var entity = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", " + spriteName + ", Collision, Layer2Tile")
                 .attr({x: ox, y: oy, z: oz});
                 
             if (type == 1) { // stone_small
@@ -231,7 +231,7 @@ Tilemap = ActorObject.extend({
             
             var oz = this.get('base-z') + 24 + pos.y + 1;        
             
-            Crafty.e("2D, Canvas, carrot, SpriteAnimation, Collision")
+            Crafty.e("2D, " + _Globals.conf.get('renderType') + ", carrot, SpriteAnimation, Collision")
                 .attr({
                     x: pos.x, y: pos.y, z: oz, 
                     health: this.get('carrotHealth'),
