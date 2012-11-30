@@ -43,7 +43,7 @@ Crafty.scene("splash", function() {
         $("#dialog-howto").dialog({
             resizable: false,
             "width": 720,
-            "height": 400,
+            "height": 420,
             modal: true,
             "title": "How to play",
             buttons: {

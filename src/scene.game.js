@@ -32,7 +32,7 @@ Crafty.scene("main", function() {
     $("#stats").show();
     
     // display active FPS (only in DEBUG mode)
-    if (_Globals.conf.get('debug')) {
+    if (_Globals.conf.get('debug') || _Globals.conf.get('showfps')) {
         Crafty.e("2D, " + _Globals.conf.get('renderType') + ", FPS").attr({maxValues:10}).bind("MessureFPS", function(fps) {
             $('#fps').text('FPS: ' + fps.value);
         })

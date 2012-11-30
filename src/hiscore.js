@@ -45,8 +45,7 @@ Hiscore = Backbone.Model.extend({
     },
     // storage init
     initialize: function() {
-        //window.shimIndexedDB && window.shimIndexedDB.__useShim();
-        
+        window.shimIndexedDB && window.shimIndexedDB.__useShim();
     },
     open: function(fnCallback) {
         //var model = this;
