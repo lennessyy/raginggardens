@@ -45,7 +45,7 @@ Crafty.c('Enemy', {
         return this;
     },
     init: function() {
-        this.requires("2D " + _Globals.conf.get('renderType') + "");
+        this.requires("2D " + _Globals.conf.get('renderType'));
         this.target = {x: undefined, y: undefined, obj: undefined, path: undefined, pathpos: 0};
         this.digCarrot = {canPull: false, obj: undefined};
         this.pushedProps = {pushed: false, atFrame: 0};
@@ -309,47 +309,51 @@ Enemy = ActorObject.extend({
             // --- Target ---
             
             // nearby carrot -> rise extracting flag
-            var dx = sx - this.target.x + 16;
-            var dy = sy - this.target.y + 16;
-            var dist = (dx * dx + dy * dy);
-            // console.log("dist: %d", dist);
-            
-            if (dist <= 2048 && checkGoal) {
-                var hits = this.hit('carrot');
+            if (checkGoal) {
+                var dx = sx - this.target.x + 16;
+                var dy = sy - this.target.y + 16;
+                var dist = (dx * dx + dy * dy);
+                // console.log("dist: %d", dist);
                 
-                
-                // check if we actually are on a carrot
-                if (!hits) {
-                    console.log('not hit! dist: %d / target: %d', dist, this.target.obj != undefined);
-                    console.log("target-dist: %d, my-xy: %d,%d / target-xy: %d,%d", dist, sx, sy, 
-                        this.target.x + 16, this.target.y + 16);                    
-                        
-                    this.newTarget();
-                    return;
-                }
+                if (dist <= 2048) {
+                    var hits = this.hit('carrot');
                     
-                // we are pulling the first found
-                var obj = hits[0].obj;
-                
-                // TRACE
-                if (_Globals.conf.get('trace'))
-                    console.log('Enemy: ' + this[0] + ' has reached ' + obj[0]);
-                
-//                if (obj.occupied) {
-//                    this.newTarget();
-//                } else {
+                    // check if we actually are on a carrot
+                    if (!hits) {
+                        // DEBUG
+                        if (_Globals.conf.get('debug')) {
+                            console.log('not hit! dist: %d / target: %d', dist, this.target.obj != undefined);
+                            console.log("target-dist: %d, my-xy: %d,%d / target-xy: %d,%d", dist, sx, sy, 
+                                this.target.x + 16, this.target.y + 16);                    
+                        }
+                            
+                        this.newTarget();
+                        return;
+                    }
+                        
+                    // we are pulling the first found
+                    var obj = hits[0].obj;
                     
                     // TRACE
                     if (_Globals.conf.get('trace'))
-                        console.log("Enemy: carrot " + obj[0] + " hit & occupied!");
+                        console.log('Enemy: ' + this[0] + ' has reached ' + obj[0]);
+                    
+    //                if (obj.occupied) {
+    //                    this.newTarget();
+    //                } else {
                         
-//                    obj.occupied = true;
-                    this.digCarrot.obj = obj;
-                    this.digCarrot.canPull = true;
-//                }
-            } else {
-                this.digCarrot.canPull = false;
-                this.digCarrot.obj = undefined;
+                        // TRACE
+                        if (_Globals.conf.get('trace'))
+                            console.log("Enemy: carrot " + obj[0] + " hit & occupied!");
+                            
+    //                    obj.occupied = true;
+                        this.digCarrot.obj = obj;
+                        this.digCarrot.canPull = true;
+    //                }
+                } else {
+                    this.digCarrot.canPull = false;
+                    this.digCarrot.obj = undefined;
+                }
             }
     	})
         // Push back effect when player uses Push magic
