@@ -21,17 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+ 
 ActorObject = Backbone.Model.extend({
     defaults: {
         'entity' : null,
     },
-    initialize: function(){
-    
+    initialize: function() {
+        // Leer
     },
-    getEntity : function(){
+    getEntity : function() {
         return this.get('entity');
     },
-    remove : function(){
+    remove : function() {
         var entity = this.getEntity();
 
         if (entity){
