@@ -49,17 +49,33 @@ Crafty.scene("main", function() {
      
     // UpdateStats Event - score, carrots
     Crafty.bind("UpdateStats",function() {
-        $('#carrots').text('Carrots: ' + player.get('carrotsCount'));
+        $('#carrots').text(player.get('carrotsCount'));
     });
     
     // Show in-game message
     Crafty.bind("ShowMsg", function(msg) {
+        $('#msgs').stop(true);
+        $('#msgs').css('opacity', '1.0');
+        $('#msgs').css('fontSize', '26px');
+        $('#msgs').text('');
+        
         if (msg == 'carrots') {
-            $('#msgs').css('color','#aa0000');
+            //$('#msgs').css('color','#aa0000');
             $('#msgs').text('You have no carrots to eat!');
         } else if (msg == 'clear') {
             $('#msgs').text('');
+            return;
         }
+        
+        $('#msgs').fadeTo(800, 0);
+        
+        // damn, this is slow
+//        $("#msgs").animate({
+//           // fontSize: "10%",
+//            opacity: 0.125,
+//          }, 1800, function() {
+//              $("#msgs").text('');
+//          });
     });
     
     
@@ -90,7 +106,7 @@ Crafty.scene("main", function() {
             var leftTime = (gameTimeLeft - currentTime) / 1000;
             var leftMin = Math.floor(leftTime / 60);
             var leftSec = leftTime % 60;
-            $('#timer').text('Time Left: ' + leftMin.toFixed(0) + ':' + leftSec.toFixed(2));            
+            $('#timer').text(leftMin.toFixed(0) + ':' + leftSec.toFixed(2));            
         }
         
         // --- game logic

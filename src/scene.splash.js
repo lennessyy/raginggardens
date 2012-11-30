@@ -23,7 +23,7 @@
  */
 Crafty.scene("splash", function() {
     
-    Crafty.background("#000");
+    //Crafty.background('transparent');
     
     var bg = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", Image")
         .attr({x: 128, y: 34})

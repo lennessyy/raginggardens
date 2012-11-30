@@ -49,7 +49,7 @@ Config = Backbone.Model.extend({
 //        'maxEnemiesToSpawn': 1, // through the whole game
 
         'carrotsPerTurn': 2,
-        'startCarrotsCount' : 2, // start with 3 carrots
+        'startCarrotsCount' : 2, // start with 2 carrots
 //        'startCarrotsCount' : 8, // start with 3 carrots
         'maxCarrotsToSpawn': 11, // through the whole game
         

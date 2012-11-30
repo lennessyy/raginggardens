@@ -54,7 +54,7 @@ $(document).ready(function() {
          */
         Crafty.init(_Globals.conf.get('screen-width'), _Globals.conf.get('screen-height'), 60)
             .canvas.init();
-        Crafty.background('rgb(0,0,0)');
+        Crafty.background('transparent');
 
         /**
          * Load assets
@@ -77,7 +77,7 @@ $(document).ready(function() {
                 "sfx/aaaah.ogg",
                 "sfx/laughter01.ogg",
                 "sfx/laughter02.ogg",
-               // "sfx/trouble_in_the_garden_lowq.ogg",
+                "sfx/trouble_in_the_garden_lowq.ogg",
                 ], 
             function() {
         	    
@@ -118,7 +118,7 @@ $(document).ready(function() {
                     aaaah: ["sfx/aaaah.ogg"],
                     laughter1: ["sfx/laughter01.ogg"],
                     laughter2: ["sfx/laughter02.ogg"],
-                    //music: ["sfx/trouble_in_the_garden_lowq.ogg"],
+                    music: ["sfx/trouble_in_the_garden_lowq.ogg"],
                 });                
                 
     		    Crafty.scene(_Globals['scene']);
@@ -143,7 +143,6 @@ $(document).ready(function() {
             if (_Globals.conf.get('debug'))
                 console.log("Loading ...");
             
-            Crafty.background("#000");
             $('#loading').show();
         });
         

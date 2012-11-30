@@ -12,6 +12,14 @@ Simply uhm ... fart to **push** your competition away or use a **Carrot-on-a-For
 
 ![alt text](http://i.imgur.com/RxYAi.png "Gameplay screenshot")
 
+# Controls
+Collect as many carrots as possible in 5 minutes. Use the controls to move and repel opponents.
+
+  * **Arrow keys** - Move your ninja rabbit on the map.
+  * **Z (or Y)** - Hold down to pull a carrot from the ground. You need to be close to a carrot.
+  * **Q** - Eat **1 carrot** to fart to push opponents away from you.
+  * **W** - Eat **2 carrots** to spawn a "Carrot-on-a-Fork" totem that attracts opponents and gives you time to pull more carrots elsewhere on the map.
+
 # Supported Browsers
 
 <table>
@@ -31,7 +39,7 @@ Simply uhm ... fart to **push** your competition away or use a **Carrot-on-a-For
     <td>17.0</td>
   </tr>
   <tr>
-    <th>Safari</th>
+    <th>Safari*</th>
     <td>Yes</td>
     <td>5.1.7</td>
   </tr>   
@@ -42,13 +50,7 @@ Simply uhm ... fart to **push** your competition away or use a **Carrot-on-a-For
   </tr>  
 </table>
 
-# Controls
-Collect as many carrots as possible in 5 minutes. Use the controls to move and repel opponents.
-
-  * **Arrow keys** - Move your ninja rabbit on the map.
-  * **Z (or Y)** - Hold down to pull a carrot from the ground. You need to be close to a carrot.
-  * **Q** - Eat **1 carrot** to fart to push opponents away from you.
-  * **W** - Eat **2 carrots** to spawn a "Carrot-on-a-Fork" totem that attracts opponents and gives you time to pull more carrots elsewhere on the map.
+_*Hiscore savings are currently not working correctly on Safari!_
 
 # Open Source Libraries
 Raging Gardens uses the following javascript libraries:
