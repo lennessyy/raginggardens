@@ -40,7 +40,7 @@ Tilemap = ActorObject.extend({
         'height' : _Globals.conf.get('screen-height') / 64,
         'spawnArea': undefined,
         'base-z' : 10,
-        'maxObstacles' : 30,
+        'maxObstacles' : 27,
         
         // Carrots 
         'carrotHeightOffset': 16,
@@ -81,7 +81,7 @@ Tilemap = ActorObject.extend({
         var obstaclesCoords = [];
         
         for (var i = 0; i < model.get('maxObstacles'); i++) {
-            var type = Crafty.math.randomInt(1, 5);
+            var type = Crafty.math.randomInt(1, 6);
             var occupiedTile = false;
             var ox;
             var oy;
@@ -120,6 +120,9 @@ Tilemap = ActorObject.extend({
             } else if (type == 5) {
                 spriteName = 'bush';
                 oz = model.get('base-z') + oy + model.get('tileSize') - 16;
+            } else if (type == 6) {
+                spriteName = 'heysack';
+                oz = model.get('base-z') + oy + model.get('tileSize');                
             } else {
                 continue;
             }
@@ -141,7 +144,7 @@ Tilemap = ActorObject.extend({
                     [48, 48], 
                     [16, 48]
                 );                       
-            } else if (type == 3) { // tree
+            } else if (type == 3 || type == 6) { // tree/heysack
                 entity.collision(
                     [12, 52], 
                     [56, 52], 

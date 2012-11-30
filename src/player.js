@@ -291,11 +291,14 @@ Player = ActorObject.extend({
                         obj.trigger("PushBack", d);
                         
                         // play sound
-                        if (Date.now() % 2 == 0) {
-                            Crafty.audio.play("scream1", 1, _Globals.conf.get('sfx_vol'));
-                        } else {
-                            Crafty.audio.play("scream2", 1, _Globals.conf.get('sfx_vol'));
-                        }                        
+                        if (_Globals.conf.get('sfx')) {
+                            if (Date.now() % 2 == 0) {
+                                Crafty.audio.play("scream1", 1, _Globals.conf.get('sfx_vol'));
+                            } else {
+                                Crafty.audio.play("scream2", 1, _Globals.conf.get('sfx_vol'));
+                            }            
+                        }
+                        
                     }
                 });                
             }
@@ -377,6 +380,12 @@ Player = ActorObject.extend({
     eatCarrots: function(amount) {
         if (this.get('carrotsCount') < amount) {
             Crafty.trigger('ShowMsg', 'carrots');
+            
+            // play burp
+            if (_Globals.conf.get('sfx')) {
+                Crafty.audio.play("burp", 1, _Globals.conf.get('sfx_vol'));
+            }
+            
             return false;
         }
         

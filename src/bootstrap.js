@@ -77,6 +77,8 @@ $(document).ready(function() {
                 "sfx/aaaah.ogg",
                 "sfx/laughter01.ogg",
                 "sfx/laughter02.ogg",
+                "sfx/burp.ogg",
+                "sfx/lowchant.ogg",
                 "sfx/trouble_in_the_garden_lowq.ogg",
                 ], 
             function() {
@@ -86,6 +88,7 @@ $(document).ready(function() {
     			    grass: [0,0],
     			    stone_small: [1,0],
     			    stone_big: [2,0],
+                    heysack: [3,0],
     			    tree: [0,1],
                     bush: [1,1],
                     barrel: [2,1],
@@ -118,6 +121,8 @@ $(document).ready(function() {
                     aaaah: ["sfx/aaaah.ogg"],
                     laughter1: ["sfx/laughter01.ogg"],
                     laughter2: ["sfx/laughter02.ogg"],
+                    burp: ["sfx/burp.ogg"],
+                    lowchant: ["sfx/lowchant.ogg"],
                     music: ["sfx/trouble_in_the_garden_lowq.ogg"],
                 });                
                 

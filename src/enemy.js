@@ -336,7 +336,7 @@ Enemy = ActorObject.extend({
                     
                     // TRACE
                     if (_Globals.conf.get('trace'))
-                        console.log('Enemy: ' + this[0] + ' has reached ' + obj[0]);
+                        console.log('Enemy: %d has reached %d', this[0], obj[0]);
                     
     //                if (obj.occupied) {
     //                    this.newTarget();
@@ -344,7 +344,7 @@ Enemy = ActorObject.extend({
                         
                         // TRACE
                         if (_Globals.conf.get('trace'))
-                            console.log("Enemy: carrot " + obj[0] + " hit & occupied!");
+                            console.log("Enemy: carrot %d hit & occupied!", obj[0]);
                             
     //                    obj.occupied = true;
                         this.digCarrot.obj = obj;

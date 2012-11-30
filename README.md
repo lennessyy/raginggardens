@@ -82,6 +82,8 @@ Using sounds authored by:
   * http://freesound.org/people/Erdie/sounds/44261/
   * http://freesound.org/people/annannienann/sounds/8067/
   * http://freesound.org/people/Syna-Max/sounds/39417/
+  * http://freesound.org/people/HardPCM/sounds/32744/
+  * http://freesound.org/people/djgriffin/sounds/21209/
 
 In order to suit the in-game atmosphere, I have edited almost all of the samples with [Audacity](http://audacity.sourceforge.net/).
 
