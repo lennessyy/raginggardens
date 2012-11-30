@@ -221,9 +221,9 @@ Player = ActorObject.extend({
             }            
             
             // --- check for collisions --- 
-            
-            if (this.hit('Layer2Tile') || this._x > Crafty.viewport.width || this._x < -64
-                || this._y > Crafty.viewport.height || this._y < -64) {
+            if (this.hit('Layer2Tile') 
+                || this.x + 32 > Crafty.viewport.width || this.x < 0 
+                || this.y + 32 > Crafty.viewport.height || this.y < -16) {
                     
                 if (_Globals.conf.get('trace'))
                     console.log("Player: Hit object or wall");

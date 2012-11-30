@@ -152,9 +152,9 @@ div.text.center{
     background-repeat: no-repeat;
     background-position: left top;
     height: 780px;
-    width: 48px;
+    width: 49px;
     position: absolute;
-    margin-left: 20px;
+    margin-left: 24px;
     top: 0;
     z-index: 2;
 }
@@ -165,7 +165,7 @@ div.text.center{
     height: 780px;
     width: 48px;
     position: absolute;
-    margin-left: 1052px;
+    margin-left: 1046px;
     top: 0;
     z-index: 2;
 }
@@ -176,7 +176,7 @@ div.text.center{
     width: 974px;
     position: absolute;
     top: 0;
-    margin-left: 68px;
+    margin-left: 72px;
     margin-top: 732px;
     z-index: 2;
 }
