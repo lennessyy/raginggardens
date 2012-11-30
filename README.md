@@ -13,12 +13,12 @@ Simply uhm ... fart to **push** your competition away or use a **Carrot-on-a-For
 ![alt text](http://i.imgur.com/RxYAi.png "Gameplay screenshot")
 
 # Controls
-Collect as many carrots as possible in 5 minutes. Use the controls to move and repel opponents.
+Collect as many carrots as possible in **5 minutes**. Use the controls to move and repel opponents.
 
   * **Arrow keys** - Move your ninja rabbit on the map.
   * **Z (or Y)** - Hold down to pull a carrot from the ground. You need to be close to a carrot.
-  * **Q** - Eat **1 carrot** to fart to push opponents away from you.
-  * **W** - Eat **2 carrots** to spawn a "Carrot-on-a-Fork" totem that attracts opponents and gives you time to pull more carrots elsewhere on the map.
+  * **Q** - Eat **1 carrot** to fart to push nearby opponents away from you. 
+  * **W** - Eat **2 carrots** to spawn a "Carrot-on-a-Fork" totem that attracts opponents and gives you time to pull more carrots elsewhere on the map. The totem is spawned on your current position.
 
 # Supported Browsers
 
@@ -39,8 +39,8 @@ Collect as many carrots as possible in 5 minutes. Use the controls to move and r
     <td>17.0</td>
   </tr>
   <tr>
-    <th>Safari*</th>
-    <td>Yes</td>
+    <th>Safari</th>
+    <td>Yes*</td>
     <td>5.1.7</td>
   </tr>   
   <tr>
@@ -66,7 +66,8 @@ Raging Gardens uses the following javascript libraries:
   * [Cloud9](https://c9.io) - Entire game was developed using this IDE. ...and I love it :)
 
 # License
-The game **without game art** is under MIT License. Read the _LICNESE_ file for more info.
+The game **without game art** is under [MIT License](http://opensource.org/licenses/MIT). 
+Read the [LICNESE](https://github.com/petarov/game-off-2012/blob/master/LICENSE) file for more info.
 
 # Credits
 ## Game Art
@@ -74,7 +75,6 @@ Game art and graphics are exclusively created for _Raging Gardens_ by [Stremena 
 
 ## Sound and Music
 Using sounds authored by:
-
   * http://freesound.org/people/skinhat/sounds/20324/
   * http://freesound.org/people/Walter_Odington/sounds/26793/
   * http://freesound.org/people/thanvannispen/sounds/9430/
@@ -83,9 +83,8 @@ Using sounds authored by:
   * http://freesound.org/people/annannienann/sounds/8067/
   * http://freesound.org/people/Syna-Max/sounds/39417/
 
-I have edited almost all of the samples to suite the in-game feeling with [Audacity](http://audacity.sourceforge.net/).
+In order to suit the in-game atmosphere, I have edited almost all of the samples with [Audacity](http://audacity.sourceforge.net/).
 
 Music score:
-
   * [trouble-in-the-garden](http://opengameart.org/content/trouble-in-the-garden) by HaelDB
 
