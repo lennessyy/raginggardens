@@ -4,7 +4,7 @@ _.o0 Raging Gardens 0o._
 HTML5/Javascript web browser game. Entry to GitHub [game-off-2012](https://github.com/github/game-off-2012) challenge.
 
 You are a hungry (ninja) rabbit whose goal is to **pull** as much carrots 
-as possible from the ground in **5 minutes**. However, you have competition!
+as possible from farmers grounds in **5 minutes**. There is, however, competition!
 Other hungry rabbits will try to outrun you and get the carrots for themselves, so you must "fight"  them.
 Your weapons are slightly unorthodox. Simply uhm ... fart to **push** your competition away or use a **fork-totem** 
 decoy to deceive opponents.
@@ -34,14 +34,14 @@ decoy to deceive opponents.
   </tr>  
 </table>
 
-* For some reason when played on Windows 2008R2 Server the game runned somehow choppy.
+_*For some reason when played on Windows 2008R2 Server the game runned somehow choppy._
 
 # Controls
 
   * **Arrow keys** - Move your ninja rabbit on the map.
   * **Z (or Y)** - Hold down to pull a carrot from the ground. You need to be close to a carrot.
-  * **Q** - Eat **1 carrot** and fart to push opponents away from you.
-  * **W** - Eat **2 carrots** and spawn a "Carrot-on-a-Fork" totem that attracts opponents and gives you time to pull more carrots elsewhere on the map.
+  * **Q** - Eat **1 carrot** to fart to push opponents away from you.
+  * **W** - Eat **2 carrots** to spawn a "Carrot-on-a-Fork" totem that attracts opponents and gives you time to pull more carrots elsewhere on the map.
 
 # Open Source Libraries
 Raging Gardens uses the following javascript libraries:

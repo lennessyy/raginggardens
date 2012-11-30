@@ -37,7 +37,7 @@ Config = Backbone.Model.extend({
         'music_vol': 0.3,
         
         // gameplay
-        'gameTimeLimit': 25 * 1000, // 300 * 1000, // milliseconds
+        'gameTimeLimit': 300 * 1000, // 5 mins
         'gameTurnPeriod': 30 * 1000, // every 30 seconds
         'gameTickPeriod': 1 * 1000, 
         
