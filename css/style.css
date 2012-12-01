@@ -85,7 +85,7 @@ body, html {
 }
 #dialog-score>div {
     width: 100%;
-    display: table-row;
+    /*display: table-row;*/
 }
 #dialog-score>div>span {
     padding-bottom: 5px;

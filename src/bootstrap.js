@@ -37,17 +37,20 @@ $(document).ready(function() {
         /**
          * Check if hi-scores table exists 
          */
+//        var hiscore = new Hiscore();
+//        hiscore.getAllScores(function(scores, server) {
+//            server.close();
+//            if (scores.length == 0) {
+//                hiscore.resetScores(function(scores, server) {
+//                    // TRACE
+//                    if (_Globals.conf.get('debug'))
+//                        console.log("Inserting default Hi-scores. %d items.", scores.length);
+//                });
+//            }
+//        });         
         var hiscore = new Hiscore();
-        hiscore.getAllScores(function(scores, server) {
-            server.close();
-            if (scores.length == 0) {
-                hiscore.resetScores(function(scores, server) {
-                    // TRACE
-                    if (_Globals.conf.get('debug'))
-                        console.log("Inserting default Hi-scores. %d items.", scores.length);
-                });
-            }
-        });         
+        hiscore.open();
+
         
         /**
          * Init Crafty Engine

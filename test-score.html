@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <script type="text/javascript" src="lib/modernizr.custom.47915.js"></script>
+    <script src="lib/qunit/jquery-latest.js"></script>
+    <link rel="stylesheet" href="lib/qunit/qunit.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="lib/qunit/qunit.js"></script>
+    
+    <script type="text/javascript" src="lib/IndexedDBShim.min.js"></script>
+    <script type="text/javascript" src="lib/db.js"></script>
+    
+    <script type="text/javascript" src="lib/underscore-min.js"></script>
+    <script type="text/javascript" src="lib/backbone-min.js"></script>    
+    
+    <script type="text/javascript" src="src/hiscore.js"></script>  
+    
+    <script type="text/javascript" src="//api.playtomic.com/js/playtomic.v2.2.min.js"></script>
+    
+<script>
+$(document).ready(function() {
+//	module("Storage");
+    
+    
+    function saveScoreTest(name, score) {
+        
+        var simple_score = {};
+        simple_score.Name = name;
+        simple_score.Points = score;
+    
+        // submit to the highest-is-best table "highscores"
+        Playtomic.Leaderboards.Save(simple_score, "highscores", function(data) {
+            console.log("SAVED");
+            console.log(data);
+            // saved
+        });
+    
+        // submit to the lowest-is-best table "besttimes"
+        //Playtomic.Leaderboards.Save(simple_score, "besttimes", null, {highest: false}); 
+    
+        // submit an advanced score with custom data and a callback function
+//        var advanced_score = {};
+//        advanced_score.Name = player_name;
+//        advanced_score.Points = player_score;
+//        advanced_score.CustomData = {}
+//        advanced_score.CustomPlaytomic.Data.Character = player_character;
+//        advanced_score.CustomPlaytomic.Data.Level = current_level;
+    
+        Playtomic.Leaderboards.Save(advanced_score, "highscores", SubmitComplete);        
+    }
+    
+    // MAIN
+    
+    Playtomic.Log.View('951587', "b45d8d7a0e6d460b", "b6fefae7617943f3937c883763706d", document.location);
+    
+    saveScoreTest('petzpo', 123);
+    
+
+});
+</script>
+  
+</head>
+<body>
+<h1 id="qunit-header">Crafty: Raging Gardens</h1>
+<h2 id="qunit-banner"></h2>
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="qunit-fixture">test markup, will be hidden</div>
+</body>
+</html>

@@ -145,10 +145,8 @@ Crafty.scene("main", function() {
         
         if (gameTimeLeft < currentTime) {
             Crafty.stop();
-            var hiscore = new Hiscore();
-            hiscore.addScore('You', player.get('carrotsCount'), function() {
-                Crafty.trigger("ShowHiscore", {text: undefined, refresh: true});    
-            });       
+            //Crafty.trigger("ShowHiscore", {text: undefined, refresh: true}); 
+            Crafty.trigger('ShowSaveHiscore', player.get('carrotsCount'));
         } else {
             // --- time left
             var leftTime = (gameTimeLeft - currentTime) / 1000;
