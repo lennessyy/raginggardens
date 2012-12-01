@@ -217,6 +217,7 @@ Crafty.bind("ShowHiscore", function(params) {
                     // TODO: Cheap! :( Must replace with proper restart.
                     window.location.reload() 
                 }                
+                $(this).dialog("close");
             }
         },
         close: function(event, ui) {
