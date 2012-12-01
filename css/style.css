@@ -99,6 +99,33 @@ body, html {
     text-align: right;
 }
 /* Game UI */
+#in-menu {
+    background-image: url('../art/interface03.png');  
+    background-repeat: no-repeat;    
+    background-position: right top;
+    position: absolute;
+    width: 96px;
+    height: 50px;
+    right: 32px;
+    top: 0;
+    z-index: 4;
+}
+#toggle-music {
+    background: url('../art/sound_on.png') no-repeat;
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    left: 10px;
+    top: 6px;
+}
+#toggle-sfx {
+    background: url('../art/sound_on-05.png') no-repeat;
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    right: 10px;
+    top: 6px;
+}
 #stats {
     background-image: url('../art/menu.png');  
     background-repeat: no-repeat;    
@@ -114,7 +141,7 @@ body, html {
     left: 0px;
 }
 #stats .timer {
-    right: 100px;
+    right: 90px;
     top: 8px;
 }
 #stats .carrots {

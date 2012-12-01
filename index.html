@@ -47,12 +47,12 @@
     <p>
     It's a lovely day at farmers field. A great time for a hungry (ninja) rabbit to sneak in and <span class="keys">pull</span> 
     some carrots to eat. Too bad you weren't the only one with that idea. A horde of hungry opponents approaches fast! 
-    Pull as many carrots as you can in <span class="keys">5 minutes</span>. To fight your opponents, you must use ancient rabbitjutsu tactics. 
-    These are slightly unorthodox. Simply uhm ... fart to <span class="keys">push</span> your competition away or use a 
-    <span class="keys">Carrot-on-a-Fork</span> totem decoy to deceive opponents. The totem is spawned on your current position.
+    Pull as many carrots as you can in <span class="keys">3 minutes</span>. To fight your opponents, you must use ancient rabbitjutsu tactics. 
+    These are slightly unorthodox. Simply uhm ... fart to <span class="keys">push</span> your opponents away or use a 
+    <span class="keys">Carrot-on-a-Fork</span> totem decoy to deceive them. The totem is spawned on your current position.
     </p>
     <h1>Goal & Controls</h1>
-    <p>Collect as many carrots as possible in 5 minutes. Use the controls to move and repel opponents.</p>
+    <p>Collect as many carrots as possible in 3 minutes. Use the controls to move and repel opponents.</p>
     <ul>
         <li><span class="keys">Arrow keys</span> - Move your ninja rabbit on the map.</li>
         <li><span class="keys">Z (or Y)</span> - Hold down to pull a carrot from the ground. You need to be close to a carrot.</li>
@@ -67,7 +67,8 @@
         <p>Art and graphics - Stremena Tuzsuzova</p>
         <br />
         <p>Sound & Music - <a target="_blank" href="https://github.com/petarov/game-off-2012#sound-and-music">See here</a></p>
-    </div>    
+    </div>
+    <div id="dialog-restart" style="display: none;">Would you like to restart the game?</div>
     
     <div id="fps" style="display: none;"></div>
 
@@ -82,6 +83,10 @@
             <div id="stats" style="display: none;">
                 <div id="timer" class="text timer"></div>
                 <div id="carrots" class="text carrots"></div>
+            </div>
+            <div id="in-menu" style="display: none;">
+                <div id="toggle-music"></div>
+                <div id="toggle-sfx"></div>
             </div>
             <div id="menu" style="display: none;">
                 <div id="menu-start" class="button" style="left: 70px">Start Game</div>

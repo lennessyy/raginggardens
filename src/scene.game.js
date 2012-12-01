@@ -42,39 +42,49 @@ Crafty.scene("main", function() {
     
     // mute sfx 
     // TODO: Rework this!
-    var muted = false;
+    var mutedSfx = false;
     $("#toggle-sfx").click(function() {
         Crafty.audio.toggleMute();
-        muted = !muted;
-        if (muted) {
-            $('#toggle-sfx').css("background-image", "url('art/sound_off.png')"); 
+        mutedSfx = !mutedSfx;
+        if (mutedSfx) {
+            $('#toggle-sfx').css("background-image", "url('art/sound_off-05.png')"); 
         } else {
-            $('#toggle-sfx').css("background-image", "url('art/sound_on.png')"); 
+            $('#toggle-sfx').css("background-image", "url('art/sound_on-05.png')"); 
         }
     });
-    
-    $("#opts").click(function() {
-        Crafty.pause();
-        
-        $("#dialog-restart").dialog({
-            resizable: false,
-            "width": 400,
-            "height": 180,
-            modal: true,
-            "title": "Restart Game",
-            buttons: {
-                "Yes": function() {
-                    // TODO: Cheap! :( Must replace with proper restart.
-                    window.location.reload()                     
-                },
-                "No": function() {
-                    $(this).dialog("close");
-                }
-            },
-            close: function(event, ui) {
-                Crafty.pause();
-            }  
-        });
+
+    // mute music
+    var mutedMusic = false;
+    $("#toggle-music").click(function() {
+        mutedMusic = !mutedMusic;
+        if (mutedMusic) {
+            Crafty.audio.stop('music');
+            $('#toggle-music').css("background-image", "url('art/sound_off.png')"); 
+        } else {
+            Crafty.audio.play("music", -1, _Globals.conf.get('music_vol'));
+            $('#toggle-music').css("background-image", "url('art/sound_on.png')"); 
+        }
+//        Crafty.pause();
+//        
+//        $("#dialog-restart").dialog({
+//            resizable: false,
+//            "width": 400,
+//            "height": 180,
+//            modal: true,
+//            "title": "Restart Game",
+//            buttons: {
+//                "Yes": function() {
+//                    // TODO: Cheap! :( Must replace with proper restart.
+//                    window.location.reload()                     
+//                },
+//                "No": function() {
+//                    $(this).dialog("close");
+//                }
+//            },
+//            close: function(event, ui) {
+//                Crafty.pause();
+//            }  
+//        });
     });
     
     if (_Globals.conf.get('music')) {
