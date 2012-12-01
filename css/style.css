@@ -115,16 +115,22 @@ body, html {
     position: absolute;
     width: 32px;
     height: 32px;
-    left: 10px;
+    left: 12px;
     top: 6px;
+}
+#toggle-music:hover {
+    background: url('../art/sound_off.png') no-repeat;
 }
 #toggle-sfx {
     background: url('../art/sound_on-05.png') no-repeat;
     position: absolute;
     width: 32px;
     height: 32px;
-    right: 10px;
+    right: 12px;
     top: 6px;
+}
+#toggle-sfx:hover {
+    background: url('../art/sound_off-05.png') no-repeat;
 }
 #stats {
     background-image: url('../art/menu.png');  
