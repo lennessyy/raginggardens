@@ -36,11 +36,11 @@ Hiscore = Backbone.Model.extend({
         'storageTable': 'hiscore',
         'maxScores': 6,
         'defaultScores': [ 
-            {name: 'Raging Hero', score: 300}, 
-            {name: 'Kage Bunshin no Jutsu', score: 201}, 
-            {name: 'Now we\'re talking', score: 152}, 
-            {name: 'Sucks to be you', score: 101}, 
-            {name: 'Absolute looser', score: 64},         
+            {name: 'Raging Hero', score: 168}, 
+            {name: 'Kage Bunshin no Jutsu', score: 122}, 
+            {name: 'Now we\'re talking', score: 84}, 
+            {name: 'Sucks to be you', score: 64}, 
+            {name: 'Absolute looser', score: 32},         
             ],
     },
     // storage init
