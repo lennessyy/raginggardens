@@ -222,7 +222,7 @@ Enemy = ActorObject.extend({
 //                    esy);
     
                 // had the destination been reached, go to next tile if so
-                if (fdist < 16) {
+                if (fdist < 64) {
                     this.target.pathpos += 1;
                 }
             }

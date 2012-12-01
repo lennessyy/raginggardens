@@ -50,7 +50,7 @@ Collect as many carrots as possible in **3 minutes**. Use the controls to move a
   </tr>  
 </table>
 
-_*Hiscore savings are currently not working correctly on Safari!_
+_*Hiscore savings and game sound are currently (and sadly) not working correctly on Safari!_
 
 # Open Source Libraries
 Raging Gardens uses the following javascript libraries:

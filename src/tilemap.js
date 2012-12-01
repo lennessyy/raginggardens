@@ -240,9 +240,16 @@ Tilemap = ActorObject.extend({
                     health: this.get('carrotHealth'),
                     pulled: false,
                     occupied: false,
+                    startFrame: Crafty.frame() + 500,
                 })
-                .animate('wind', [ [0, 0], [32, 0], [64, 0], [32, 0] ]) // setup animation
-                .animate('wind', 40, -1); // play animation
+                .animate('wind', [ [0, 0], [32, 0], [64, 0], [32, 0] ]) // setup anim
+                .animate('wind', 40, -1); // play anim
+                
+//                .bind("EnterFrame", function(frame) {
+//                    if (frame.frame > this.startFrame) {
+//                        this.destroy();
+//                    }
+//                });
         }
     },
     // get unoccupied map position given tile coordinates
