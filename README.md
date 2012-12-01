@@ -10,7 +10,7 @@ Too bad you weren't the only one with that idea. A horde of hungry opponents app
 as you can in **3 minutes**. To fight your opponents, you must use ancient *rabbitjutsu* tactics. These are slightly unorthodox.
 Simply uhm ... fart to **push** your opponents away or use a **Carrot-on-a-Fork** totem decoy to deceive them.
 
-![alt text](http://i.imgur.com/RxYAi.png "Gameplay screenshot")
+![alt text](http://i.imgur.com/i5rq4.png "Gameplay screenshot")
 
 # Controls
 Collect as many carrots as possible in **3 minutes**. Use the controls to move and repel opponents.
