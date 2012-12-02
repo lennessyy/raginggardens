@@ -146,6 +146,7 @@ Crafty.bind("ShowSaveHiscore", function(score) {
             },
             "No": function() {
                 $(this).dialog("close");
+                Crafty.trigger('ShowHiscore', {text: undefined, refresh: true});
             }            
         },
     });

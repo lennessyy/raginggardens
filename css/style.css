@@ -92,10 +92,10 @@ body, html {
     display: table-cell;
 }
 #dialog-score>div>span.name {
-    width: 200px;
+    width: 250px;
 }
 #dialog-score>div>span.score {
-    width: 250px;
+    /*width: 250px;*/
     text-align: right;
 }
 /* Game UI */
