@@ -42,233 +42,190 @@ Hiscore = Backbone.Model.extend({
             {name: 'Sucks to be you', score: 64}, 
             {name: 'Absolute looser', score: 32},         
             ],
+        'board': 'highscores',
     },
     // storage init
     initialize: function() {
-        window.shimIndexedDB && window.shimIndexedDB.__useShim();
+       // window.shimIndexedDB && window.shimIndexedDB.__useShim();
     },
     open: function(fnCallback) {
-        //var model = this;
+        // ... I know you can, but please don't :(
+        Playtomic.Log.View('951587', "b45d8d7a0e6d460b", "b6fefae7617943f3937c883763706d", 
+            document.location);
         
-        db.open({
-            server: this.get('storageName'),
-            version: this.get('version'),
-            schema: {
-                hiscore: {
-                    key: {
-                        keyPath: 'id',
-                        autoIncrement: true
-                    }
-                }
-            }
-            
-        })
-        .done(function(server) {
-            if (fnCallback) {
-                // console.log('DB server opened.');
-                //model.set('server', server);
-                if (fnCallback)
-                    fnCallback(server);
-            }
-        });        
-    },
-    // get list of saved scores, add this score to list, remove all, sort and save again
-    addScore: function(who, score, fnCallback) {
-        var model = this;
-        
-        this.getAllScores(function(sortedScores, server) {
-            sortedScores.add({'name': who, 'score': score});    
-            model.removeAllScores(function() {
-                // save max
-                var max = model.get('maxScores');
-                sortedScores.each(function(obj) {
-                    if (max-- <= 0)
-                        return;
-                    model.saveScore(obj.get('name'), obj.get('score'));
-                });            
-                
-                if (fnCallback)
-                    fnCallback(server, sortedScores);                   
-            });
-        });
     },
     // save score for given person directly to DB
-    saveScore: function(who, score, fnCallback) {
+    save: function(who, score, fnCallback) {
         var model = this;
-        this.open(function(server) {
-            
-            server.add(model.get('storageTable'), {
-                name: who,
-                score: parseInt(score)
-            })
-            .done(function(res) {
-                server.close();
-                
-                if (fnCallback)
-                    fnCallback(res);
-            });
-
-        });
-    },
-    // get an array list of all scores
-    getAllScoresRaw: function(fnCallback) {
-        var model = this;
-        this.open(function(server) {
-            
-            server.query(model.get('storageTable'))
-            .all()
-            .execute()
-            .done(function(results) {
-                if (fnCallback) {
-                    fnCallback(results, server);
-                } else {
-                    server.close();
-                }
-            });
-
-        });        
+        
+        var userScore = {};
+        userScore.Name = who;
+        userScore.Points = score;
+    
+        // submit to the highest-is-best table "highscores"
+        Playtomic.Leaderboards.Save(userScore, model.get('board'), function(response) {
+           if (fnCallback)  {
+               console.log(response);
+               if (response.Success) {
+                   fnCallback(true);
+               } else {
+                   fnCallback(null);
+               }
+           }
+        },
+        {allowduplicates: true}
+        ); 
     },
     // get sorted list of top 3 scores 
     getAllScores: function(fnCallback) {
-        this.getAllScoresRaw(function(scores, server) {
-            var sortedScores = new Backbone.Collection;
-            
-            sortedScores.comparator = function(obj1, obj2) {
-                return obj1.get('score') < obj2.get('score');
-            };
-            
-            _.each(scores, function(obj) {
-                sortedScores.add({'name': obj.name, 'score': obj.score});    
-            });
-            
-            if (fnCallback) {
-                fnCallback(sortedScores, server);
-            }
-        });
-    },
-    // remove all scores
-    removeAllScores: function(fnCallback) {
         var model = this;
-        this.getAllScoresRaw(function(scores, server) {
-            
-            //this.open(function(server) {
-//                console.log('shall remove ' + scores.length);
-                for (var i = 0; i < scores.length; i++) {
-//                    console.log('removing');
-//                    console.log(scores[i]);
-                    server.remove(model.get('storageTable'), scores[i].id)
-                    .done(function(key) {
-                        // bla
-                    });
-                }               
-//                server.close();
-//                
+        
+        Playtomic.Leaderboards.List(model.get('board'), function(scores, numscores, response) {
+            if(response.Success) {
+                console.log(scores.length + " scores returned out of " + numscores);
+
+                // send back
                 if (fnCallback) {
-                    fnCallback(server);
-                } else {
-                    server.close();
+                    var result = [];
+                    for(var i=0; i<scores.length; i++) {
+                        var score = scores[i];
+                        result.push({name: score.Name, score: score.Points })
+                    }
+                    
+                    fnCallback(result);
                 }
-            //});
-        });                
-    },
-    // reset Scores
-    resetScores: function(fnCallback) {
-        var defaults = this.get('defaultScores');
-        var model = this;
-        this.removeAllScores(function(server) {
-            server.close();
-            
-            var sortedScores = new Backbone.Collection;
-            sortedScores.comparator = function(obj1, obj2) {
-                return obj1.get('score') < obj2.get('score');
-            };
-            
-            // add ew
-            _.each(defaults, function(obj) {
-                sortedScores.add({'name': obj.name, 'score': obj.score}); 
-                model.saveScore(obj.name, obj.score);
-            });
-            
-            if (fnCallback) {
-                fnCallback(sortedScores, server);
+                
             } else {
-                server.close();
-            }            
-        });
+                // score listing failed because of response.ErrorCode
+                if (_Globals.conf.get('debug')) {
+                    console.log("Save score failed!")
+                    console.log(response);
+                }
+                
+                // flag that something went wrong
+                if (fnCallback) {
+                    fnCallback(null);
+                }
+            }
+        },
+        // OPTIONS
+        { 
+            //perpage: model.get('maxScores') 
+        }); // end List
     },
-    // close DB connection
-    close: function(server) {
-        server = server || model.get('server');
-        if (server) {
-            server.close();
-        }
-    }
 });
 
+
+// Show Hiscore Dialog - View/Reset scores
+Crafty.bind("ShowSaveHiscore", function(score) {
+    
+    // show dialog
+    $("#dialog-save-score").dialog({
+        resizable: false,
+        "width": 460,
+        "height": 300,
+        modal: false,
+        "title": "Save Hiscore",
+        zIndex: 20,
+        buttons: {
+            "Yes": function() {
+                var name = prompt("Please enter your rabbit name","Babatu");
+                if (name != null && name != "") {
+                    var hiscore = new Hiscore();
+                    //hiscore.open();
+                    name = name.replace(/<(?:.|\n)*?>/gm, '');
+                    hiscore.save(name, score, function(success) {
+                        if (success) {
+                            Crafty.trigger('ShowHiscore', {text: undefined, refresh: true});
+                        } else {
+                            Crafty.trigger('ShowHiscore', {text: 'Sorry, but saving your score failed', refresh: true});
+                        }
+                    }); 
+                }
+                $(this).dialog("close");
+            },
+            "No": function() {
+                $(this).dialog("close");
+                Crafty.trigger('ShowHiscore', {text: undefined, refresh: true});
+            }            
+        },
+    });
+        
+        
+});
 
 // Show Hiscore Dialog - View/Reset scores
 Crafty.bind("ShowHiscore", function(params) {
     console.log(params);
     
-    if (!params.text) {
-        var hiscore = new Hiscore();
-        
-        // load scores
-        var text = '<div>';
-        text += '<span class="name">';
-        text += '[Name]';
-        text += '</span>';
-        text += '<span class="score">';
-        text += '[Carrots]';
-        text += '</span>';
-        text += '</div>';            
-        hiscore.getAllScores(function(scores, server) {
-            server.close();
-            var i = 0;
-            scores.each(function(obj) {
-                if (++i > 6)
-                    return;
-                text += '<div>';
-                text += '<span class="name">';
-                text += obj.get('name');
-                text += '</span>';
-                text += '<span class="score">';
-                text += obj.get('score');
-                text += '</span>';
-                text += '</div>';
-                
-            });                
-            Crafty.trigger("ShowHiscore", {text: text, refresh: params.refresh});
-        });
-        return;
-    }
-    
-    $("#dialog-score").html(params.text);
-    // show dialog
     $("#dialog-score").dialog({
         resizable: false,
         "width": 460,
-        "height": 300,
+        "height": 400,
         modal: true,
-        "title": "Top 6 Scores",
-        buttons: {
-            "Reset Scores": function() {
-                // reset scores
+        "title": "Top 10 Scores",
+        open: function() {
+            
+            if (!params.text) {
+                $("#dialog-score").html('<p>Loading hiscores, please wait ...</p>');
+                
                 var hiscore = new Hiscore();
-                hiscore.resetScores(function() {
-                    Crafty.trigger("ShowHiscore", {text: undefined, refresh: params.refresh});    
-                    $(this).dialog("close");
+                //hiscore.open();
+                
+                // load scores
+                //var text = '<div style="position: absolute; top: 0; left: 0;">';
+                var text = '<div>';
+                text += '<span class="name">';
+                text += '[Name]';
+                text += '</span>';
+                text += '<span class="score">';
+                text += '[Carrots]';
+                text += '</span>';
+                text += '</div>';            
+                hiscore.getAllScores(function(scores, server) {
+                    var i = 0;
+                    _.each(scores, function(obj) {
+                        if (++i > 10)
+                            return;
+                        text += '<div>';
+                        text += '<span class="name">';
+                        text += i + '. ';
+                        text += obj.name;
+                        text += '</span>';
+                        text += '<span class="score">';
+                        text += obj.score;
+                        text += '</span>';
+                        text += '</div>';
+                        
+                    });
+                    //text += '</div>';
+                    
+                    $("#dialog-score").html(text);
+                    //Crafty.trigger("ShowHiscore", {text: text, refresh: params.refresh});
                 });
+                return;
+            } else {
+                $("#dialog-score").html(params.text);
+            }  
+        },
+        buttons: {
+            "Refresh Scores": function() {
+                $(this).dialog("close");
+                Crafty.trigger('ShowHiscore', params);
             },
             "Let me out!": function() {
+                if (params.refresh) {
+                    // TODO: Cheap! :( Must replace with proper restart.
+                    window.location.reload() 
+                }                
                 $(this).dialog("close");
             }
         },
         close: function(event, ui) {
-            if (params.refresh) {
-                // TODO: Cheap! :( Must replace with proper restart.
-                window.location.reload() 
-            }
+//            if (params.refresh) {
+//                // TODO: Cheap! :( Must replace with proper restart.
+//                window.location.reload() 
+//            }
         }
-    });
+    });    
 });
