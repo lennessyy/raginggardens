@@ -50,7 +50,7 @@ Collect as many carrots as possible in **3 minutes**. Use the controls to move a
   </tr>  
 </table>
 
-_*Hiscore savings and game sound are currently (and sadly) not working correctly on Safari!_
+_*Game sound is currently (and sadly) not working correctly on Safari!_
 
 # Open Source Libraries
 Raging Gardens uses the following javascript libraries:
@@ -60,8 +60,6 @@ Raging Gardens uses the following javascript libraries:
   * [Backbone.js](http://backbonejs.org/) - Provides model abstractions.
   * [Require.js](http://requirejs.org/) - RequireJS is a JavaScript file and module loader. 
   * [Modernizr](http://modernizr.com/) - Modernizr is a JavaScript library that detects HTML5 and CSS3 features in the user’s browser.
-  * [db.js](http://aaronpowell.github.com/db.js/) - db.js is a wrapper for IndexedDB to make it easier to work against, making it look more like a queryable API.
-  * [IndexedDB Polyfill](https://github.com/axemclion/IndexedDBShim) - A polyfill to enable IndexedDB using WebSql.
   * [javascript-astar](https://github.com/bgrins/javascript-astar) - An implementation of the A* Search Algorithm in JavaScript.
   * [Cloud9](https://c9.io) - Entire game was developed using this IDE. ...and I love it :)
 

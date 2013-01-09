@@ -29,28 +29,11 @@ $(document).ready(function() {
          */
         _Globals['conf'] = new Config({});
         
-        /**
-         * Hide UI
-         */
+
         $("#stats").hide();
-        
-        /**
-         * Check if hi-scores table exists 
-         */
-//        var hiscore = new Hiscore();
-//        hiscore.getAllScores(function(scores, server) {
-//            server.close();
-//            if (scores.length == 0) {
-//                hiscore.resetScores(function(scores, server) {
-//                    // TRACE
-//                    if (_Globals.conf.get('debug'))
-//                        console.log("Inserting default Hi-scores. %d items.", scores.length);
-//                });
-//            }
-//        });         
+
         var hiscore = new Hiscore();
         hiscore.open();
-
         
         /**
          * Init Crafty Engine
@@ -81,7 +64,6 @@ $(document).ready(function() {
                 "sfx/laughter01.ogg",
                 "sfx/laughter02.ogg",
                 "sfx/burp.ogg",
-//                "sfx/lowchant.ogg",
                 "sfx/trouble_in_the_garden_lowq.ogg",
                 ], 
             function() {
