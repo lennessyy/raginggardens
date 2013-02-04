@@ -72,6 +72,9 @@ Read the [LICNESE](https://github.com/petarov/game-off-2012/blob/master/LICENSE)
 Game art and graphics are exclusively created for _Raging Gardens_ by [Stremena Tuzsuzova](http://www.stremena.com). 
 
 ## Sound and Music
+Music score:
+  * [trouble-in-the-garden](http://opengameart.org/content/trouble-in-the-garden) by HaelDB
+
 Using sounds authored by:
   * http://freesound.org/people/skinhat/sounds/20324/
   * http://freesound.org/people/Walter_Odington/sounds/26793/
@@ -84,7 +87,4 @@ Using sounds authored by:
   * http://freesound.org/people/djgriffin/sounds/21209/
 
 In order to suit the in-game atmosphere, I have edited almost all of the samples with [Audacity](http://audacity.sourceforge.net/).
-
-Music score:
-  * [trouble-in-the-garden](http://opengameart.org/content/trouble-in-the-garden) by HaelDB
 
