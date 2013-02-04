@@ -107,7 +107,6 @@ $(document).ready(function() {
                     laughter1: ["sfx/laughter01.ogg"],
                     laughter2: ["sfx/laughter02.ogg"],
                     burp: ["sfx/burp.ogg"],
-//                    lowchant: ["sfx/lowchant.ogg"],
                     music: ["sfx/trouble_in_the_garden_lowq.ogg"],
                 });                
                 
