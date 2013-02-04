@@ -92,7 +92,7 @@ body, html {
     display: table-cell;
 }
 #dialog-score>div>span.name {
-    width: 250px;
+    width: 300px;
 }
 #dialog-score>div>span.score {
     /*width: 250px;*/

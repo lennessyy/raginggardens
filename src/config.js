@@ -26,7 +26,7 @@ Config = Backbone.Model.extend({
         // engine 
         'trace' : false,
         'debug' : false,
-        'showfps': true,
+        'showfps': false,
         'renderType' : 'DOM', // default - faster under FF & Safari
         'screen-width' : 1024,
         'screen-height' : 768,

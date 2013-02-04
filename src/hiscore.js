@@ -34,14 +34,6 @@ Hiscore = Backbone.Model.extend({
         'storageName': 'RGGame_dc32000e-afd6-481e-8807-4dd838f2d922',
         'version': 1,
         'storageTable': 'hiscore',
-        'maxScores': 6,
-        'defaultScores': [ 
-            {name: 'Raging Hero', score: 168}, 
-            {name: 'Kage Bunshin no Jutsu', score: 122}, 
-            {name: 'Now we\'re talking', score: 84}, 
-            {name: 'Sucks to be you', score: 64}, 
-            {name: 'Absolute looser', score: 32},         
-            ],
         'board': 'highscores',
     },
     // storage init
@@ -52,7 +44,6 @@ Hiscore = Backbone.Model.extend({
         // ... I know you can, but please don't :(
         Playtomic.Log.View('951587', "b45d8d7a0e6d460b", "b6fefae7617943f3937c883763706d", 
             document.location);
-        
     },
     // save score for given person directly to DB
     save: function(who, score, fnCallback) {
@@ -76,7 +67,7 @@ Hiscore = Backbone.Model.extend({
         {allowduplicates: true}
         ); 
     },
-    // get sorted list of top 3 scores 
+    // get sorted list of top scores 
     getAllScores: function(fnCallback) {
         var model = this;
         
@@ -122,23 +113,27 @@ Crafty.bind("ShowSaveHiscore", function(score) {
     // show dialog
     $("#dialog-save-score").dialog({
         resizable: false,
-        "width": 460,
+        "width": 400,
         "height": 300,
         modal: false,
         "title": "Save Hiscore",
         zIndex: 20,
         buttons: {
             "Yes": function() {
-                var name = prompt("Please enter your rabbit name","Babatu");
+                var name = prompt("Please enter your rabbit name (Maximum 10 characters)", "Babatu");
                 if (name != null && name != "") {
                     var hiscore = new Hiscore();
                     //hiscore.open();
                     name = name.replace(/<(?:.|\n)*?>/gm, '');
+                    name = name.substr(0, 10);
+                    
+                    //$("#dialog-save-score").html('<p>Please wait while saving your score ...</p>');
+                    
                     hiscore.save(name, score, function(success) {
                         if (success) {
                             Crafty.trigger('ShowHiscore', {text: undefined, refresh: true});
                         } else {
-                            Crafty.trigger('ShowHiscore', {text: 'Sorry, but saving your score failed', refresh: true});
+                            Crafty.trigger('ShowHiscore', {text: 'Failed saving your score! Sorry :(', refresh: true});
                         }
                     }); 
                 }
@@ -160,14 +155,14 @@ Crafty.bind("ShowHiscore", function(params) {
     
     $("#dialog-score").dialog({
         resizable: false,
-        "width": 460,
-        "height": 400,
+        "width": 400,
+        "height": 700,
         modal: true,
-        "title": "Top 10 Scores",
+        "title": "Top 20 Scores",
         open: function() {
             
             if (!params.text) {
-                $("#dialog-score").html('<p>Loading hiscores, please wait ...</p>');
+                $("#dialog-score").html('<p>Please wait while loading scores ...</p>');
                 
                 var hiscore = new Hiscore();
                 //hiscore.open();
@@ -185,7 +180,7 @@ Crafty.bind("ShowHiscore", function(params) {
                 hiscore.getAllScores(function(scores, server) {
                     var i = 0;
                     _.each(scores, function(obj) {
-                        if (++i > 10)
+                        if (++i > 20)
                             return;
                         text += '<div>';
                         text += '<span class="name">';
