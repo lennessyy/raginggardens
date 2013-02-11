@@ -73,7 +73,7 @@ Hiscore = Backbone.Model.extend({
         
         Playtomic.Leaderboards.List(model.get('board'), function(scores, numscores, response) {
             if(response.Success) {
-                console.log(scores.length + " scores returned out of " + numscores);
+                //console.log(scores.length + " scores returned out of " + numscores);
 
                 // send back
                 if (fnCallback) {
@@ -101,7 +101,7 @@ Hiscore = Backbone.Model.extend({
         },
         // OPTIONS
         { 
-            //perpage: model.get('maxScores') 
+            perpage: 50
         }); // end List
     },
 });
@@ -151,14 +151,14 @@ Crafty.bind("ShowSaveHiscore", function(score) {
 
 // Show Hiscore Dialog - View/Reset scores
 Crafty.bind("ShowHiscore", function(params) {
-    console.log(params);
+    //console.log(params);
     
     $("#dialog-score").dialog({
         resizable: false,
         "width": 400,
-        "height": 700,
+        minHeight: 550,
         modal: true,
-        "title": "Top 20 Scores",
+        "title": "Top 50 Scores",
         open: function() {
             
             if (!params.text) {
@@ -180,7 +180,7 @@ Crafty.bind("ShowHiscore", function(params) {
                 hiscore.getAllScores(function(scores, server) {
                     var i = 0;
                     _.each(scores, function(obj) {
-                        if (++i > 20)
+                        if (++i > 50)
                             return;
                         text += '<div>';
                         text += '<span class="name">';
@@ -222,5 +222,6 @@ Crafty.bind("ShowHiscore", function(params) {
 //                window.location.reload() 
 //            }
         }
-    });    
+    });
+    
 });

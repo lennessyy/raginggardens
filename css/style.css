@@ -81,7 +81,13 @@ body, html {
     font-weight: bold;
 }
 #dialog-score {
-    display: table;
+    height: 550px;
+    min-height: 550px;
+    max-height: 550px;
+    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: visible;
+    /*display: table;*/
 }
 #dialog-score>div {
     width: 100%;
