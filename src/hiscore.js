@@ -163,13 +163,14 @@ Crafty.bind("ShowHiscore", function(params) {
     $("#dialog-score").dialog({
         resizable: false,
         width: 400,
-        minHeight: 550,
-        height: 550,
+        minHeight: 520,
+        height: 520,
         modal: true,
+        position: 'top',
         "title": "Top 50 Scores",
         open: function() {
             
-             $("#dialog-score").css('height', '550px');
+             $("#dialog-score").css({'height': '520px'});
             
             if (!params.text) {
                 $("#dialog-score").html('<p>Please wait while loading scores ...</p>');
