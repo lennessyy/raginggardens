@@ -120,22 +120,29 @@ Crafty.bind("ShowSaveHiscore", function(score) {
         zIndex: 20,
         buttons: {
             "Yes": function() {
-                var name = prompt("Please enter your rabbit name (Maximum 10 characters)", "Babatu");
-                if (name != null && name != "") {
-                    var hiscore = new Hiscore();
-                    //hiscore.open();
-                    name = name.replace(/<(?:.|\n)*?>/gm, '');
-                    name = name.substr(0, 10);
-                    
-                    //$("#dialog-save-score").html('<p>Please wait while saving your score ...</p>');
-                    
-                    hiscore.save(name, score, function(success) {
-                        if (success) {
-                            Crafty.trigger('ShowHiscore', {text: undefined, refresh: true});
-                        } else {
-                            Crafty.trigger('ShowHiscore', {text: 'Failed saving your score! Sorry :(', refresh: true});
-                        }
-                    }); 
+                while(true) {
+                    var name = prompt("Please enter your rabbit name (Maximum 10 characters)", "");
+                    if (name != null && name.trim() != "") {
+                        var hiscore = new Hiscore();
+                        //hiscore.open();
+                        name = name.replace(/<(?:.|\n)*?>/gm, '');
+                        name = name.substr(0, 10);
+                        
+                        //$("#dialog-save-score").html('<p>Please wait while saving your score ...</p>');
+                        
+                        hiscore.save(name, score, function(success) {
+                            if (success) {
+                                Crafty.trigger('ShowHiscore', {text: undefined, refresh: true});
+                            } else {
+                                Crafty.trigger('ShowHiscore', {text: 'Failed saving your score! Sorry :(', refresh: true});
+                            }
+                        }); 
+                        
+                        break;
+                    } else if (name === null) {
+                        window.location.reload();
+                        break;
+                    }
                 }
                 $(this).dialog("close");
             },
@@ -155,11 +162,14 @@ Crafty.bind("ShowHiscore", function(params) {
     
     $("#dialog-score").dialog({
         resizable: false,
-        "width": 400,
+        width: 400,
         minHeight: 550,
+        height: 550,
         modal: true,
         "title": "Top 50 Scores",
         open: function() {
+            
+             $("#dialog-score").css('height', '550px');
             
             if (!params.text) {
                 $("#dialog-score").html('<p>Please wait while loading scores ...</p>');
@@ -170,11 +180,11 @@ Crafty.bind("ShowHiscore", function(params) {
                 // load scores
                 //var text = '<div style="position: absolute; top: 0; left: 0;">';
                 var text = '<div>';
-                text += '<span class="name">';
-                text += '[Name]';
+                text += '<span class="name u">';
+                text += 'Name';
                 text += '</span>';
-                text += '<span class="score">';
-                text += '[Carrots]';
+                text += '<span class="score u">';
+                text += 'Carrots';
                 text += '</span>';
                 text += '</div>';            
                 hiscore.getAllScores(function(scores, server) {
@@ -211,7 +221,7 @@ Crafty.bind("ShowHiscore", function(params) {
             "Let me out!": function() {
                 if (params.refresh) {
                     // TODO: Cheap! :( Must replace with proper restart.
-                    window.location.reload() 
+                    window.location.reload();
                 }                
                 $(this).dialog("close");
             }

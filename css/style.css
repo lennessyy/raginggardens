@@ -47,7 +47,7 @@ body, html {
     position: absolute;
     width: 768px;
     left: 128px;
-    top: 669px;
+    top: 666px;
     z-index:3;
 }
 #menu>div {
@@ -81,9 +81,6 @@ body, html {
     font-weight: bold;
 }
 #dialog-score {
-    height: 550px;
-    min-height: 550px;
-    max-height: 550px;
     overflow: auto;
     overflow-x: hidden;
     overflow-y: visible;
@@ -103,6 +100,9 @@ body, html {
 #dialog-score>div>span.score {
     /*width: 250px;*/
     text-align: right;
+}
+#dialog-score>div>span.u {
+    text-decoration: underline;
 }
 /* Game UI */
 #in-menu {
