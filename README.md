@@ -3,7 +3,7 @@ _.o0 Raging Gardens 0o._
 
 ![alt text](https://raw.github.com/petarov/game-off-2012/master/art/logo-clr.png "Raging Gardens")
 
-HTML5/Javascript web browser game. Entry to GitHub [game-off-2012](https://github.com/github/game-off-2012) challenge.
+HTML5/Javascript web browser game. Entry and an [Honorable Mention](https://github.com/blog/1337-github-game-off-winners) to GitHub [game-off-2012](https://github.com/github/game-off-2012) challenge.
 
 It's a lovely day at farmers field. A great time for a hungry (ninja) rabbit to sneak in and **pull** some carrots to eat.
 Too bad you weren't the only one with that idea. A horde of hungry opponents approaches fast! Pull as many carrots
@@ -31,12 +31,12 @@ Collect as many carrots as possible in **3 minutes**. Use the controls to move a
   <tr>
     <th>Google Chrome</th>
     <td>Yes</td>
-    <td>23.0</td>
+    <td>23.0; 24.0</td>
   </tr>
   <tr>
     <th>Firefox</th>
     <td>Yes</td>
-    <td>17.0</td>
+    <td>17.0; 18.02</td>
   </tr>
   <tr>
     <th>Safari</th>
@@ -50,7 +50,7 @@ Collect as many carrots as possible in **3 minutes**. Use the controls to move a
   </tr>  
 </table>
 
-_*Game sound is currently (and sadly) not working correctly on Safari!_
+_*Game sound is currently (and sadly) not working on Safari browsers!_
 
 # Open Source Libraries
 Raging Gardens uses the following javascript libraries:
