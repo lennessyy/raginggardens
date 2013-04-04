@@ -24,12 +24,14 @@
 Crafty.scene("splash", function() {
     
     //Crafty.background('transparent');
-    
+
+    var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';    
+
     var bg = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", Image")
         .attr({x: 128, y: 34})
         .image("art/stuz_splash.png", "no-repeat");    
 
-    $("#menu-start").click(function() {
+    $("#menu-start").bind(hitEvent, function() {
         $("#version").hide();
         $("#menu").hide();
         Crafty.scene('main');
@@ -38,7 +40,7 @@ Crafty.scene("splash", function() {
     $("#version").text('v' + _Globals.version);
     $("#version").show();
     
-    $("#menu-howto").click(function() {
+    $("#menu-howto").bind(hitEvent, function() {
         // show dialog
         $("#dialog-howto").dialog({
             resizable: false,
@@ -54,11 +56,11 @@ Crafty.scene("splash", function() {
         });          
     });        
     
-    $("#menu-hiscore").click(function() {
+    $("#menu-hiscore").bind(hitEvent, function() {
         Crafty.trigger('ShowHiscore', {text: undefined, refresh: false});
     });        
     
-    $('#menu-credits').click(function() {
+    $('#menu-credits').bind(hitEvent, function() {
         // show dialog
         $("#dialog-credits").dialog({
             resizable: false,
