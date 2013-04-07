@@ -45,12 +45,12 @@ Collect as many carrots as possible in **3 minutes**. Use the controls to move a
   </tr>   
   <tr>
     <th>IE</th>
-    <td>No</td>
-    <td>-</td>
+    <td>Yes*</td>
+    <td>10.0</td>
   </tr>  
 </table>
 
-_*Game sound is currently (and sadly) not working on Safari browsers!_
+_*Game sound is currently (and sadly) not working under IE & Safari browsers!_
 
 # Open Source Libraries
 Raging Gardens uses the following javascript libraries:
