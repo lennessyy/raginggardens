@@ -1,13 +1,17 @@
 Raging Gardens HISTORY file
 
-V0.9.5
+v0.9.6
+Menu now supports touch events and should be usable with tablet devices.
+Minor fixes in game loading.
+
+v0.9.5
 Hiscore now show top 50 scores.
 Hiscore publish dialog no longer show default 'Babatu' name.
 Minor UI fixes in menu buttons and hiscore dialog.
 
-V0.9.4
+v0.9.4
 Hiscore now show top 20 scores.
 Minor fixes in hiscore listing and UI.
 
-V0.9.3
+v0.9.3
 Released for GitHub Game-Off-2012 game jam / hackathon.
