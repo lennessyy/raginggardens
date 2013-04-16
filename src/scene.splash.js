@@ -30,7 +30,7 @@ Crafty.scene("splash", function() {
 	    var hitEvent = 'click';    
 	    
 	    var bgX = 128, bgY = 34;
-	    if (Modernizr.touch) {
+	    if (_Globals.conf.get('mobile')) {
 	    	bgY = 0;
 	    	
 	    	$("#menu").css("top", "632px");

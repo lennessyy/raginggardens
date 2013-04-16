@@ -26,17 +26,20 @@ Crafty.scene("main", function() {
     var tilemap = new Tilemap();
     var player = new Player({'tileMap': tilemap});
     
-    $("#left-frame").show();
-    $("#right-frame").show();
-    $("#bottom-frame").show();
-    $("#stats").show();
+    if (!_Globals.conf.get('mobile')) {
+	    $("#left-frame").show();
+	    $("#right-frame").show();
+	    $("#bottom-frame").show();
+    }
+
+    $("#stats").show();    
     $("#in-menu").show();
     
     // display active FPS (only in DEBUG mode)
     if (_Globals.conf.get('debug') || _Globals.conf.get('showfps')) {
         Crafty.e("2D, " + _Globals.conf.get('renderType') + ", FPS").attr({maxValues:10}).bind("MessureFPS", function(fps) {
             $('#fps').text('FPS: ' + fps.value);
-        })
+        });
         $("#fps").show();
     }
     

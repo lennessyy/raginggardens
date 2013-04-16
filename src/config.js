@@ -30,6 +30,7 @@ Config = Backbone.Model.extend({
         'renderType' : 'DOM', // default - faster under FF & Safari
         'screen-width' : 1024,
         'screen-height' : 768,
+        'mobile': false,
         
         // media
         'sfx': true,
@@ -69,5 +70,14 @@ Config = Backbone.Model.extend({
         if (this.get('debug')) {
             console.log("Using %s rendering ...", this.get('renderType'));
         }
+        
+        
+        //
+        if (Modernizr.touch) {
+        	this.set('mobile', true);
+        	this.set('screen-width', 960);
+        	this.set('screen-height', 704);
+        }
+        
     },
 });
