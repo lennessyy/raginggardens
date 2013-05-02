@@ -23,85 +23,90 @@
  */
  
 /**
- * Save hi-scores into localstorage (IndexedDB or WebSQL)
- *
- * TODO: Needs reworking, as db.open() is called too frequently!
- * And also - this Async. impl sucks :(
+ * 
  */
 Hiscore = Backbone.Model.extend({
     defaults: {
-        // references
-        'storageName': 'RGGame_dc32000e-afd6-481e-8807-4dd838f2d922',
-        'version': 1,
-        'storageTable': 'hiscore',
-        'board': 'highscores',
     },
     // storage init
     initialize: function() {
        // window.shimIndexedDB && window.shimIndexedDB.__useShim();
     },
     open: function(fnCallback) {
-        // ... I know you can, but please don't :(
-        Playtomic.Log.View('951587', "b45d8d7a0e6d460b", "b6fefae7617943f3937c883763706d", 
-            document.location);
+    	var model = this;
+    	var leaderboard = new Clay.Leaderboard( { id: 1213, limit: 50 } );
+    	model.set('lb', leaderboard);
     },
     // save score for given person directly to DB
-    save: function(who, score, fnCallback) {
+    save: function(who, wscore, fnCallback) {
         var model = this;
         
-        var userScore = {};
-        userScore.Name = who;
-        userScore.Points = score;
-    
-        // submit to the highest-is-best table "highscores"
-        Playtomic.Leaderboards.Save(userScore, model.get('board'), function(response) {
+        // ... I know you can, but please don't :(
+		var options = {
+			name: who,    
+			score: wscore,
+//			hideUI: true
+		};
+		model.get('lb').post(options, function(response) {
+		    // Callback
            if (fnCallback)  {
                console.log(response);
-               if (response.Success) {
+               if (response.success) {
                    fnCallback(true);
                } else {
                    fnCallback(null);
                }
-           }
-        },
-        {allowduplicates: true}
-        ); 
+           }		    
+		});        
+        
+//        var userScore = {};
+//        userScore.Name = who;
+//        userScore.Points = score;
+    
+//        // submit to the highest-is-best table "highscores"
+//        Playtomic.Leaderboards.Save(userScore, model.get('board'), function(response) {
+//           if (fnCallback)  {
+//               console.log(response);
+//               if (response.Success) {
+//                   fnCallback(true);
+//               } else {
+//                   fnCallback(null);
+//               }
+//           }
+//        },
+//        {allowduplicates: true}
+//        ); 
     },
     // get sorted list of top scores 
     getAllScores: function(fnCallback) {
         var model = this;
         
-        Playtomic.Leaderboards.List(model.get('board'), function(scores, numscores, response) {
-            if(response.Success) {
-                //console.log(scores.length + " scores returned out of " + numscores);
-
+        var leaderboard = model.get('lb');
+        
+        leaderboard.fetch({}, function(results) {
+        	console.log(results);
+            if(results) {
                 // send back
                 if (fnCallback) {
                     var result = [];
-                    for(var i=0; i<scores.length; i++) {
-                        var score = scores[i];
-                        result.push({name: score.Name, score: score.Points })
+                    for(var i=0; i<results.length; i++) {
+                        var score = results[i];
+                        result.push({name: score.name, score: score.score });
                     }
                     
                     fnCallback(result);
                 }
-                
             } else {
                 // score listing failed because of response.ErrorCode
                 if (_Globals.conf.get('debug')) {
-                    console.log("Save score failed!")
+                    console.log("Load scores failed!");
                     console.log(response);
                 }
-                
                 // flag that something went wrong
                 if (fnCallback) {
                     fnCallback(null);
                 }
             }
-        },
-        // OPTIONS
-        { 
-            perpage: 50
         }); // end List
     },
 });
@@ -123,8 +128,9 @@ Crafty.bind("ShowSaveHiscore", function(score) {
                 while(true) {
                     var name = prompt("Please enter your rabbit name (Maximum 10 characters)", "");
                     if (name != null && name.trim() != "") {
-                        var hiscore = new Hiscore();
+                        var hiscore = _Globals['hiscore'];
                         //hiscore.open();
+
                         name = name.replace(/<(?:.|\n)*?>/gm, '');
                         name = name.substr(0, 10);
                         
@@ -175,8 +181,8 @@ Crafty.bind("ShowHiscore", function(params) {
             if (!params.text) {
                 $("#dialog-score").html('<p>Please wait while loading scores ...</p>');
                 
-                var hiscore = new Hiscore();
-                //hiscore.open();
+                var hiscore = _Globals['hiscore'];
+//                hiscore.open();
                 
                 // load scores
                 //var text = '<div style="position: absolute; top: 0; left: 0;">';

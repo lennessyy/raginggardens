@@ -21,19 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 $(document).ready(function() {
-    require(["src/config.js", "src/actor_object.js"], function() {
+    require(["src/config.js", "src/actor_object.js", "src/hiscore.js"], function() {
         
         /**
          * Global Registry
          */
         _Globals['conf'] = new Config({});
-        
 
         $("#stats").hide();
 
-        var hiscore = new Hiscore();
-        hiscore.open();
+        Clay.ready( function() {
+        	console.log('clay is ready');
+	        hiscore = new Hiscore();
+	        hiscore.open();
+	        _Globals['hiscore'] = hiscore;
+        });
         
         /**
          * Init Crafty Engine
