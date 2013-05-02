@@ -1,5 +1,8 @@
 Raging Gardens HISTORY file
 
+v0.9.7
+Replaced retired Playtomic leaderboard service with Clay.io.
+
 v0.9.6
 Menu now supports touch events and should be usable with tablet devices.
 Minor fixes in game loading.
