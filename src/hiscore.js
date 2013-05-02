@@ -85,11 +85,11 @@ Hiscore = Backbone.Model.extend({
         
         leaderboard.fetch({}, function(results) {
         	console.log(results);
-            if(results) {
+            if(results && results.length > 0) {
                 // send back
                 if (fnCallback) {
                     var result = [];
-                    for(var i=0; i<results.length; i++) {
+                    for(var i=0; i < results.length; i++) {
                         var score = results[i];
                         result.push({name: score.name, score: score.score });
                     }
