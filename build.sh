@@ -29,11 +29,12 @@ echo "Building ..."
 ### Copy required files
 
 cp art/ $BUILD -R
+cp promo/ $BUILD -R
 cp css/ $BUILD -R
 cp lib/ $BUILD -R
 cp sfx/ $BUILD -R
 cp src/ $BUILD -R
-cp favicon.ico HISTORY index.html LICENSE README.md $BUILD
+cp favicon.ico HISTORY index.html LICENSE README.md manifest.json $BUILD
 
 ### Obfuscate javascript
 cd $BUILD/css
