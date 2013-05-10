@@ -26,11 +26,9 @@
  * 
  */
 Hiscore = Backbone.Model.extend({
-    defaults: {
-    },
-    // storage init
+    defaults: {},
     initialize: function() {
-       // window.shimIndexedDB && window.shimIndexedDB.__useShim();
+    	// Leer
     },
     open: function(fnCallback) {
     	var model = this;
@@ -41,13 +39,21 @@ Hiscore = Backbone.Model.extend({
     save: function(who, wscore, fnCallback) {
         var model = this;
         
+        var leaderboard = model.get('lb');
+        if (leaderboard === undefined) {
+            if (fnCallback) {
+                fnCallback(null);
+                return;
+            }        	
+        }        
+        
         // ... I know you can, but please don't :(
 		var options = {
 			name: who,    
 			score: wscore,
 //			hideUI: true
 		};
-		model.get('lb').post(options, function(response) {
+		leaderboard.post(options, function(response) {
 		    // Callback
            if (fnCallback)  {
                console.log(response);
@@ -58,24 +64,6 @@ Hiscore = Backbone.Model.extend({
                }
            }		    
 		});        
-        
-//        var userScore = {};
-//        userScore.Name = who;
-//        userScore.Points = score;
-    
-//        // submit to the highest-is-best table "highscores"
-//        Playtomic.Leaderboards.Save(userScore, model.get('board'), function(response) {
-//           if (fnCallback)  {
-//               console.log(response);
-//               if (response.Success) {
-//                   fnCallback(true);
-//               } else {
-//                   fnCallback(null);
-//               }
-//           }
-//        },
-//        {allowduplicates: true}
-//        ); 
     },
     // get sorted list of top scores 
     getAllScores: function(fnCallback) {
