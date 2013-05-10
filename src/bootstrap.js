@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-require(["src/clay.js", "src/config.js", "src/actor_object.js", "src/hiscore.js"], function() {
+require(["src/config.js", "src/actor_object.js", "src/hiscore.js"], function() {
     
     /**
      * Global Registry
@@ -30,14 +30,10 @@ require(["src/clay.js", "src/config.js", "src/actor_object.js", "src/hiscore.js"
     _Globals['conf'] = new Config({});
 
     $("#stats").hide();
-    
+
     var hiscore = new Hiscore();
+    hiscore.open();
     _Globals['hiscore'] = hiscore;
-    
-    Clay.ready( function() {
-    	console.log('clay is ready');
-        hiscore.open();
-    });
     
     /**
      * Init Crafty Engine

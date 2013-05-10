@@ -78,7 +78,7 @@ Hiscore = Backbone.Model.extend({
         }
         
         leaderboard.fetch({}, function(results) {
-        	console.log(results);
+//        	console.log(results);
             if(results && results.length > 0) {
                 // send back
                 if (fnCallback) {
