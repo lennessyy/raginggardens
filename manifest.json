@@ -1,7 +1,7 @@
 {
   "name": "Raging Gardens",
   "description": "Raging Gardens is a Javascript/HTML5 web browser game where a a hungry (ninja) rabbit collects carrots and fights enemies.",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "app": {
     "launch": {
       "local_path": "index.html"

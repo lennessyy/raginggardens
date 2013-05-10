@@ -1,5 +1,8 @@
 Raging Gardens HISTORY file
 
+v0.9.8
+Fixed problem where game load screen hanged on the 100%.
+
 v0.9.7
 Replaced retired Playtomic leaderboard service with Clay.io.
 
