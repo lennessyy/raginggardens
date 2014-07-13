@@ -27,9 +27,9 @@ Crafty.scene("main", function() {
     var player = new Player({'tileMap': tilemap});
     
     if (!_Globals.conf.get('mobile')) {
-	    $("#left-frame").show();
-	    $("#right-frame").show();
-	    $("#bottom-frame").show();
+        $("#left-frame").show();
+        $("#right-frame").show();
+        $("#bottom-frame").show();
     }
 
     $("#stats").show();    

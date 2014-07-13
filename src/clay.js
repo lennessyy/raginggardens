@@ -24,21 +24,21 @@
 
 define([], function () {
     
-	var Clay = Clay || {};
-	Clay.gameKey = "raginggardens";
-	Clay.readyFunctions = [];
-	Clay.ready = function( fn ) {
-	    Clay.readyFunctions.push( fn );
-	};
-	Clay.options = { debug: true, hideUI: true, fail: function() {
-	    console.log( "Couldn't connect" );
-	}};		
-	( function() {
-	    var clay = document.createElement("script");
-	    clay.src = ( "https:" == document.location.protocol ? "https://" : "http://" ) + "clay.io/api/api.js"; 
-	    var tag = document.getElementsByTagName("script")[0]; tag.parentNode.insertBefore(clay, tag);
-	} )();
-	
-	window.Clay = Clay;
+    var Clay = Clay || {};
+    Clay.gameKey = "raginggardens";
+    Clay.readyFunctions = [];
+    Clay.ready = function( fn ) {
+        Clay.readyFunctions.push( fn );
+    };
+    Clay.options = { debug: true, hideUI: true, fail: function() {
+        console.log( "Couldn't connect" );
+    }};     
+    ( function() {
+        var clay = document.createElement("script");
+        clay.src = ( "https:" == document.location.protocol ? "https://" : "http://" ) + "clay.io/api/api.js"; 
+        var tag = document.getElementsByTagName("script")[0]; tag.parentNode.insertBefore(clay, tag);
+    } )();
+    
+    window.Clay = Clay;
 
 });

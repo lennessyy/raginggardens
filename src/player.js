@@ -75,7 +75,7 @@ Player = ActorObject.extend({
         'carrotsCount': _Globals.conf.get('defaultCarrots'),
     },
     initialize: function() {
-    	var model = this;
+        var model = this;
         
         model.set('sprite-z', model.get('spriteHeight') + model.get('z-index'));
         var keyState = {none: 0, down: 1, up: 2};
@@ -84,7 +84,7 @@ Player = ActorObject.extend({
         var spawnPos = model.get('tileMap').spawnAtCentre();
             
         // init player entity
-    	var entity = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", Dude, player, LeftControls")
+        var entity = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", Dude, player, LeftControls")
         .attr({
             move: {left: false, right: false, up: false, down: false},
             digCarrot: {canPull: false, obj: undefined},
@@ -97,58 +97,58 @@ Player = ActorObject.extend({
         .Dude()
         // movement
         .bind("KeyDown", function(e) {
-    		if (e.keyCode === Crafty.keys.RIGHT_ARROW) {
-				this.move.right = true;
-			} else if(e.keyCode === Crafty.keys.LEFT_ARROW) {
-				this.move.left = true;
-			} else if(e.keyCode === Crafty.keys.UP_ARROW) {
-				this.move.up = true;            
-			} else if(e.keyCode === Crafty.keys.DOWN_ARROW) { 
+            if (e.keyCode === Crafty.keys.RIGHT_ARROW) {
+                this.move.right = true;
+            } else if(e.keyCode === Crafty.keys.LEFT_ARROW) {
+                this.move.left = true;
+            } else if(e.keyCode === Crafty.keys.UP_ARROW) {
+                this.move.up = true;            
+            } else if(e.keyCode === Crafty.keys.DOWN_ARROW) { 
                 this.move.down = true;
-			} else if (e.keyCode === Crafty.keys.Z || e.keyCode === Crafty.keys.Y) {
+            } else if (e.keyCode === Crafty.keys.Z || e.keyCode === Crafty.keys.Y) {
                 this.actions.action1 = keyState.down;
-			}
+            }
             
             //this.preventTypeaheadFind(e);
         })
-    	.bind("KeyUp", function(e) {
-        	if (e.keyCode === Crafty.keys.RIGHT_ARROW) {
-				this.move.right = false;
-			} else if(e.keyCode === Crafty.keys.LEFT_ARROW) {
-				this.move.left = false;
-			} else if(e.keyCode === Crafty.keys.UP_ARROW) {
-				this.move.up = false;            
-			} else if(e.keyCode === Crafty.keys.DOWN_ARROW) { 
+        .bind("KeyUp", function(e) {
+            if (e.keyCode === Crafty.keys.RIGHT_ARROW) {
+                this.move.right = false;
+            } else if(e.keyCode === Crafty.keys.LEFT_ARROW) {
+                this.move.left = false;
+            } else if(e.keyCode === Crafty.keys.UP_ARROW) {
+                this.move.up = false;            
+            } else if(e.keyCode === Crafty.keys.DOWN_ARROW) { 
                 this.move.down = false;
-    	    } else if (e.keyCode === Crafty.keys.Z || e.keyCode === Crafty.keys.Y) {
+            } else if (e.keyCode === Crafty.keys.Z || e.keyCode === Crafty.keys.Y) {
                 this.actions.action1 = keyState.up;
-    	    } else if (e.keyCode === Crafty.keys.Q) {
+            } else if (e.keyCode === Crafty.keys.Q) {
                 this.trigger("PushEnemies");
-    	    } else if (e.keyCode === Crafty.keys.W) {
+            } else if (e.keyCode === Crafty.keys.W) {
                 this.trigger("ForkEnemies");
-    	    }
+            }
             
             //this.preventTypeaheadFind(e);
-    	})
+        })
         // updates
-    	.bind("EnterFrame", function(frame) {
+        .bind("EnterFrame", function(frame) {
             
             var oldx = this.x;
             var oldy = this.y;
             var moving = this.move.up || this.move.down || this.move.left || this.move.right;
 
-			if (this.move.up) {
+            if (this.move.up) {
                 this.y -= this.speed;
-			} 
+            } 
             if (this.move.down) {
                 this.y += this.speed;
-			} 
+            } 
             if (this.move.left) {
                 this.x -= this.speed;
-			} 
+            } 
             if (this.move.right) {
                 this.x += this.speed;
-			}
+            }
             
             // --- determine which animation to show depending on the angle of movement
             
@@ -255,7 +255,7 @@ Player = ActorObject.extend({
             
             // determine sprite Z-index
             this.attr({z: this.y + model.get('sprite-z')});
-    	})
+        })
         // push back, all enemies within the push range 
         .bind("PushEnemies", function() {
             if (!model.eatCarrots(_Globals.conf.get('carrotsPushCost'))) {
@@ -373,7 +373,7 @@ Player = ActorObject.extend({
         );
         
         // bind to object
-    	model.set({'entity' : entity });
+        model.set({'entity' : entity });
     },
     // substract carrots for magic 
     // (Returns: True|False)

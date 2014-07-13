@@ -67,32 +67,32 @@ require(["src/config.js", "src/actor_object.js", "src/hiscore.js"], function() {
             "sfx/trouble_in_the_garden_lowq.ogg",
             ], 
         function() {
-    	    
+            
             // --- Graphics
-    	    Crafty.sprite(64, "art/stuz_tiles.png", {
-			    grass: [0,0],
-			    stone_small: [1,0],
-			    stone_big: [2,0],
+            Crafty.sprite(64, "art/stuz_tiles.png", {
+                grass: [0,0],
+                stone_small: [1,0],
+                stone_big: [2,0],
                 heysack: [3,0],
-			    tree: [0,1],
+                tree: [0,1],
                 bush: [1,1],
                 barrel: [2,1],
-		    });
+            });
             Crafty.sprite("art/stuz_rabbit.png", {
-			    player: [0, 0, 32, 48],
-		    });
+                player: [0, 0, 32, 48],
+            });
             Crafty.sprite("art/stuz_enemy.png", {
-    		    enemy: [0, 0, 32, 48],
-		    });                
+                enemy: [0, 0, 32, 48],
+            });                
             Crafty.sprite(64, "art/stuz_fart_moving.png", {
-    		    explosion1: [0, 0],
-		    });   
+                explosion1: [0, 0],
+            });   
             Crafty.sprite("art/stuz_carrots.png", {
                 carrot: [0, 0, 32, 32],
-		    });
+            });
             Crafty.sprite(48, "art/stuz_forkit.png", {
                 fork: [0, 0],
-    	    });
+            });
             Crafty.sprite("art/stuz_splash.png", {
                 splash: [0, 0],
             });                
@@ -110,7 +110,7 @@ require(["src/config.js", "src/actor_object.js", "src/hiscore.js"], function() {
                 music: ["sfx/trouble_in_the_garden_lowq.ogg"],
             });                
             
-		    Crafty.scene(_Globals['scene']);
+            Crafty.scene(_Globals['scene']);
             
             // disable loading
             $('#loading').hide();
@@ -138,7 +138,7 @@ require(["src/config.js", "src/actor_object.js", "src/hiscore.js"], function() {
     /**
      * Load required scenes and game data
      */           
-	require([
+    require([
         "src/actor_object.js",
         "src/tilemap.js",
         "src/player.js",

@@ -129,7 +129,7 @@ Enemy = ActorObject.extend({
         })
         .Enemy(model.get('tileMap'))
         // updates
-    	.bind("EnterFrame", function(frame) {
+        .bind("EnterFrame", function(frame) {
             
             if (this.pushedProps.pushed) {
                 if (!this.pushedProps.atFrame) {
@@ -244,18 +244,18 @@ Enemy = ActorObject.extend({
 //            var oldy = this.y;
             var moving = this.move.up || this.move.down || this.move.left || this.move.right;
 
-			if (this.move.up) {
+            if (this.move.up) {
                 this.y -= this.speed;
-			} 
+            } 
             if (this.move.down) {
                 this.y += this.speed;
-			} 
+            } 
             if (this.move.left) {
                 this.x -= this.speed;
-			} 
+            } 
             if (this.move.right) {
                 this.x += this.speed;
-			}
+            }
             
             // --- Animate ---
             
@@ -355,7 +355,7 @@ Enemy = ActorObject.extend({
                     this.digCarrot.obj = undefined;
                 }
             }
-    	})
+        })
         // Push back effect when player uses Push magic
         .bind("PushBack", function(playerPos) {
             

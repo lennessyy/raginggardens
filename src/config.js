@@ -73,21 +73,21 @@ Config = Backbone.Model.extend({
         
         // Detect mobile browsers
         if (Modernizr.touch) {
-        	this.set('mobile', true);
-        	this.set('screen-width', 960);
-        	this.set('screen-height', 704);
-        	this.set('renderType', 'Canvas');
-        	
-        	var $canvas = $('#cr-stage');
-        	var x = $(window).width() / 2 - this.get('screen-width') / 2;
-//        	//var y = $(windows).height() / 2 - this.get('screen-height') / 2;
-        	$canvas.css({
-        	     position: 'absolute',
-        	     width: this.get('screen-width'),
-        	     height: this.get('screen-height'),
-        	     left: x,
-        	     top: 0
-        	   });
+            this.set('mobile', true);
+            this.set('screen-width', 960);
+            this.set('screen-height', 704);
+            this.set('renderType', 'Canvas');
+            
+            var $canvas = $('#cr-stage');
+            var x = $(window).width() / 2 - this.get('screen-width') / 2;
+//          //var y = $(windows).height() / 2 - this.get('screen-height') / 2;
+            $canvas.css({
+                 position: 'absolute',
+                 width: this.get('screen-width'),
+                 height: this.get('screen-height'),
+                 left: x,
+                 top: 0
+               });
         }
         
     },

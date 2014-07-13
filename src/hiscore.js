@@ -28,12 +28,12 @@
 Hiscore = Backbone.Model.extend({
     defaults: {},
     initialize: function() {
-    	// Leer
+        // Leer
     },
     open: function(fnCallback) {
-    	var model = this;
-    	var leaderboard = new Clay.Leaderboard( { id: 1213, limit: 50 } );
-    	model.set('lb', leaderboard);
+        var model = this;
+        var leaderboard = new Clay.Leaderboard( { id: 1213, limit: 50 } );
+        model.set('lb', leaderboard);
     },
     // save score for given person directly to DB
     save: function(who, wscore, fnCallback) {
@@ -44,17 +44,17 @@ Hiscore = Backbone.Model.extend({
             if (fnCallback) {
                 fnCallback(null);
                 return;
-            }        	
+            }           
         }        
         
         // ... I know you can, but please don't :(
-		var options = {
-			name: who,    
-			score: wscore,
-//			hideUI: true
-		};
-		leaderboard.post(options, function(response) {
-		    // Callback
+        var options = {
+            name: who,    
+            score: wscore,
+//          hideUI: true
+        };
+        leaderboard.post(options, function(response) {
+            // Callback
            if (fnCallback)  {
                console.log(response);
                if (response.success) {
@@ -62,8 +62,8 @@ Hiscore = Backbone.Model.extend({
                } else {
                    fnCallback(null);
                }
-           }		    
-		});        
+           }            
+        });        
     },
     // get sorted list of top scores 
     getAllScores: function(fnCallback) {
@@ -74,11 +74,11 @@ Hiscore = Backbone.Model.extend({
             if (fnCallback) {
                 fnCallback(null);
                 return;
-            }        	
+            }           
         }
         
         leaderboard.fetch({}, function(results) {
-//        	console.log(results);
+//          console.log(results);
             if(results && results.length > 0) {
                 // send back
                 if (fnCallback) {
@@ -190,34 +190,34 @@ Crafty.bind("ShowHiscore", function(params) {
                 text += '</div>';            
                 hiscore.getAllScores(function(scores, server) {
                 
-                	// on error
-                	if (scores === null) {
+                    // on error
+                    if (scores === null) {
                         text += '<div>';
                         text += '<span class="name">';
                         text += 'Failed loading scores!';
                         text += '</span>';
                         text += '<span class="score">';
                         text += '</span>';
-                        text += '</div>';                		
-                	} else {
-						var i = 0;
-						_.each(scores, function(obj) {
-						    if (++i > 50)
-						        return;
-						    text += '<div>';
-						    text += '<span class="name">';
-						    text += i + '. ';
-						    text += obj.name;
-						    text += '</span>';
-						    text += '<span class="score">';
-						    text += obj.score;
-						    text += '</span>';
-						    text += '</div>';
-						    
-						});
-						//text += '</div>';                		
-                	}
-                	
+                        text += '</div>';                       
+                    } else {
+                        var i = 0;
+                        _.each(scores, function(obj) {
+                            if (++i > 50)
+                                return;
+                            text += '<div>';
+                            text += '<span class="name">';
+                            text += i + '. ';
+                            text += obj.name;
+                            text += '</span>';
+                            text += '<span class="score">';
+                            text += obj.score;
+                            text += '</span>';
+                            text += '</div>';
+                            
+                        });
+                        //text += '</div>';                     
+                    }
+                    
                     $("#dialog-score").html(text);
                     //Crafty.trigger("ShowHiscore", {text: text, refresh: params.refresh});
                 });
