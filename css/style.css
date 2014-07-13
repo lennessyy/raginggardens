@@ -233,22 +233,22 @@ div.text {
 }
 
 /*
-	Mobile 
-*/
-@media (max-width: 1024px) {
-	#wrapper {
-	    margin: 0 auto; 
-	    width: 960px;
-	    height: 704px;
-	    overflow: hidden;
-	    border: 2px solid blue;
-	}
-	#cr-stage { 
-	    margin: 0 auto; 
-	    position: absolute;
-	    max-width: 960px;
-	    max-height: 704px;
-	    border: 2px solid red;
-	}	
-}
+    Mobile 
 
+@media (max-width: 1024px) {
+    #wrapper {
+        margin: 0 auto; 
+        width: 960px;
+        height: 704px;
+        overflow: hidden;
+        border: 2px solid blue;
+    }
+    #cr-stage { 
+        margin: 0 auto; 
+        position: absolute;
+        max-width: 960px;
+        max-height: 704px;
+        border: 2px solid red;
+    }   
+}
+*/
