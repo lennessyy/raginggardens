@@ -30,8 +30,8 @@ Crafty.c('MagicPush', {
     MagicPush: function(origin) {
         this._anim = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", explosion1, SpriteAnimation")
             .attr({x: origin.x - 32, y: origin.y - 32, z: 999})
-            .animate('go', 0, 0, 8) // setup animation
-            .animate("go", 20, 0)
+            .reel('go', 450, 0, 0, 8) // setup animation
+            .animate("go")
             .bind("AnimationEnd", function() {
                 this.destroy();
             });            

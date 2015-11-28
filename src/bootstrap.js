@@ -39,7 +39,7 @@ require(["src/traps.js", "src/config.js", "src/actor_object.js", "src/hiscore.js
      */
     var screen = document.getElementById('stage');
     Crafty.init(_Globals.conf.get('screen-width'), _Globals.conf.get('screen-height'), screen);
-    Crafty.viewport.init(_Globals.conf.get('screen-width'), _Globals.conf.get('screen-height'), screen);
+    // Crafty.viewport.init(_Globals.conf.get('screen-width'), _Globals.conf.get('screen-height'), screen);
     Crafty.settings.modify('autoPause', true);
     Crafty.background('transparent');
 
@@ -47,92 +47,87 @@ require(["src/traps.js", "src/config.js", "src/actor_object.js", "src/hiscore.js
      * Load assets
      */
     Crafty.scene("loading", function() {
-        Crafty.load([
-            "art/stuz_tiles.png", 
-            "art/stuz_rabbit.png",
-            "art/stuz_enemy.png",
-            "art/stuz_fart_moving.png",
-            "art/stuz_carrots.png",
-            "art/stuz_forkit.png",
-            "art/stuz_splash.png",
-            // sfx
-            "sfx/fart1.ogg",
-            "sfx/fart2.ogg",
-            "sfx/pull.ogg",
-            "sfx/scream1.ogg",
-            "sfx/scream2.ogg",
-            "sfx/aaaah.ogg",
-            "sfx/laughter01.ogg",
-            "sfx/laughter02.ogg",
-            "sfx/burp.ogg",
-            "sfx/trouble_in_the_garden_lowq.ogg",
-            ], 
-        function() {
-            
-            // --- Graphics
-            Crafty.sprite(64, "art/stuz_tiles.png", {
-                grass: [0,0],
-                stone_small: [1,0],
-                stone_big: [2,0],
-                heysack: [3,0],
-                tree: [0,1],
-                bush: [1,1],
-                barrel: [2,1],
-            });
-            Crafty.sprite("art/stuz_rabbit.png", {
-                player: [0, 0, 32, 48],
-            });
-            Crafty.sprite("art/stuz_enemy.png", {
-                enemy: [0, 0, 32, 48],
-            });                
-            Crafty.sprite(64, "art/stuz_fart_moving.png", {
-                explosion1: [0, 0],
-            });   
-            Crafty.sprite("art/stuz_carrots.png", {
-                carrot: [0, 0, 32, 32],
-            });
-            Crafty.sprite(48, "art/stuz_forkit.png", {
-                fork: [0, 0],
-            });
-            Crafty.sprite("art/stuz_splash.png", {
-                splash: [0, 0],
-            });                
-            // --- Audio
-            Crafty.audio.add({
-                fart1: ["sfx/fart1.ogg"],
-                fart2: ["sfx/fart2.ogg"],
-                pull: ["sfx/pull.ogg"],
-                scream1: ["sfx/scream1.ogg"],
-                scream2: ["sfx/scream2.ogg"],
-                aaaah: ["sfx/aaaah.ogg"],
-                laughter1: ["sfx/laughter01.ogg"],
-                laughter2: ["sfx/laughter02.ogg"],
-                burp: ["sfx/burp.ogg"],
-                music: ["sfx/trouble_in_the_garden_lowq.ogg"],
-            });                
-            
+        Crafty.paths({ audio: "sfx/", images: "art/" });
+        var assets = {
+            images: ['stuz_splash.png'],
+            sprites: {
+                'stuz_tiles.png': {
+                    tile: 64,
+                    tileh: 64,
+                    map: {
+                        grass: [0,0],
+                        stone_small: [1,0],
+                        stone_big: [2,0],
+                        heysack: [3,0],
+                        tree: [0,1],
+                        bush: [1,1],
+                        barrel: [2,1]
+                    }
+                },
+                'stuz_rabbit.png': {
+                    tile: 32,
+                    tileh: 48,
+                    map: {
+                        player: [0, 0]
+                    }
+                },
+                'stuz_enemy.png': {
+                    tile: 32,
+                    tileh: 48,
+                    map: {
+                        enemy: [0, 0]
+                    }
+                },
+                'stuz_fart_moving.png': {
+                    tile: 64,
+                    tileh: 64,
+                    map: {
+                        explosion1: [0, 0]
+                    }
+                },
+                'stuz_carrots.png': {
+                    tile: 32,
+                    tileh: 32,
+                    map: {
+                        carrot: [0, 0]
+                    }
+                },
+                'stuz_forkit.png': {
+                    tile: 48,
+                    tileh: 48,
+                    map: {
+                        fork: [0, 0]
+                    }
+                }
+            },
+            audio: {
+                fart1: ["fart1.ogg"],
+                fart2: ["fart2.ogg"],
+                pull: ["pull.ogg"],
+                scream1: ["scream1.ogg"],
+                scream2: ["scream2.ogg"],
+                aaaah: ["aaaah.ogg"],
+                laughter1: ["laughter01.ogg"],
+                laughter2: ["laughter02.ogg"],
+                burp: ["burp.ogg"],
+                music: ["trouble_in_the_garden_lowq.ogg"],
+            }
+        };
+        Crafty.load(assets, function() {
             Crafty.scene(_Globals['scene']);
-            
             // disable loading
             $('#loading').hide();
         },
         // On Progress
         function(e) {
             $('#loading').html('Loaded: ' + e.percent.toFixed(0) + '%');
-//                if (_Globals.conf.get('debug'))
-//                    console.log(e);
         },
         // On Error
         function(e) {
             $('#loading').html('Could not load: ' + e.src);
-            
             if (_Globals.conf.get('debug'))
-                console.log(e);       
+                console.error(e);       
         });
-
-        if (_Globals.conf.get('debug'))
-            console.log("Loading ...");
-        
         $('#loading').show();
     });
     
@@ -148,9 +143,6 @@ require(["src/traps.js", "src/config.js", "src/actor_object.js", "src/hiscore.js
         "src/scene.game.js",
         "src/gfx.js",
     ], function() {            
-        
         Crafty.scene("loading");
-        
     });    
-    
 });

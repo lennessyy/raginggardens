@@ -24,9 +24,7 @@
 Crafty.scene("splash", function() {
     
     require(["lib/modernizr.custom.js"], function() {
-        
         //Crafty.background('transparent');
-
         var hitEvent = 'click';
         
         var bgX = 128, bgY = 34;
@@ -39,7 +37,7 @@ Crafty.scene("splash", function() {
 
         var bg = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", Image")
             .attr({x: bgX, y: bgY})
-            .image("art/stuz_splash.png", "no-repeat");    
+            .image("art/stuz_splash.png", "no-repeat");
 
         $("#menu-start").bind(hitEvent, function() {
             $("#version").hide();
@@ -85,12 +83,6 @@ Crafty.scene("splash", function() {
                 },
             });           
         });
-        
         $("#menu").show();
-        
-        // start Tibetian chant
-//      if (_Globals.conf.get('sfx')) {
-//          Crafty.audio.play("lowchant", 1, _Globals.conf.get('sfx_vol'));
-//      }       
     });
 });

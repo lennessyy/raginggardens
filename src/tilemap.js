@@ -127,7 +127,7 @@ Tilemap = ActorObject.extend({
                 continue;
             }
             
-             var entity = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", " + spriteName + ", Collision, Layer2Tile")
+            var entity = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", " + spriteName + ", Collision, Layer2Tile")
                 .attr({x: ox, y: oy, z: oz});
                 
             if (type == 1) { // stone_small
@@ -232,19 +232,19 @@ Tilemap = ActorObject.extend({
             if (carrotsCoordsQueue.length > 8)
                 carrotsCoordsQueue.pop();            
             
-            var oz = this.get('base-z') + 24 + pos.y + 1;        
-            
+            var oz = this.get('base-z') + 24 + pos.y + 1;
+
             Crafty.e("2D, " + _Globals.conf.get('renderType') + ", carrot, SpriteAnimation, Collision")
-                .attr({
-                    x: pos.x, y: pos.y, z: oz, 
-                    health: this.get('carrotHealth'),
-                    pulled: false,
-                    occupied: false,
-                    startFrame: Crafty.frame() + 500,
-                })
-                .animate('wind', [ [0, 0], [32, 0], [64, 0], [32, 0] ]) // setup anim
-                .animate('wind', 40, -1); // play anim
-                
+            .attr({
+                x: pos.x, y: pos.y, z: oz, 
+                health: this.get('carrotHealth'),
+                pulled: false,
+                occupied: false,
+                startFrame: Crafty.frame() + 500,
+            })
+            .reel('wind', 450, [ [0, 0], [1, 0], [2, 0], [1, 0] ]) // setup anim
+            .animate('wind', -1); // play anim
+
 //                .bind("EnterFrame", function(frame) {
 //                    if (frame.frame > this.startFrame) {
 //                        this.destroy();
@@ -255,10 +255,8 @@ Tilemap = ActorObject.extend({
     // get unoccupied map position given tile coordinates
     // returns pixel position
     spawnAt: function(tileX, tileY) {
-        
         var cx = tileX,
             cy = tileY;
-            
         var occupiedTile = false;
         var nextX = [1, 0, -1, 0];
         var nextY = [0, 1, 0, -1];
@@ -339,7 +337,6 @@ Tilemap = ActorObject.extend({
             var type = Crafty.math.randomInt(0, 3);
             return this.spawnRelativeToEdge(edges[type]);
         }
-        
         if (edge == 'topleft') {
             return this.spawnRelativeTo(this.get('spawnAreaPx').left, this.get('spawnAreaPx').top);
         } else if (edge == 'topright') {
@@ -364,7 +361,6 @@ Tilemap = ActorObject.extend({
 //    },
     // get non-occupied (& closest) carrot entity
     findFreeCarrot: function(from) {
-        
         if (from) {
             // closest to from coords
             var carrotsArray = Crafty("carrot");  

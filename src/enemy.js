@@ -30,11 +30,12 @@ Crafty.c('Enemy', {
     
     Enemy: function(tileMap) {
         //setup animations
+        var animSpeed = 250;
         this.requires("SpriteAnimation, Collision, Grid")
-        .animate("walk_left", [ [0, 96], [32, 96], [64, 96] ])
-        .animate("walk_right", [ [0, 144], [32, 144], [64, 144] ])
-        .animate("walk_up", [ [0, 48], [32, 48], [64, 48] ])
-        .animate("walk_down", [ [0, 0], [32, 0], [64, 0] ]);
+        .reel("walk_left", animSpeed, [ [0, 2], [1, 2], [2, 2] ])
+        .reel("walk_right", animSpeed, [ [0, 3], [1, 3], [2, 3] ])
+        .reel("walk_up", animSpeed, [ [0, 1], [1, 1], [2, 1] ])
+        .reel("walk_down", animSpeed, [ [0, 0], [1, 0], [2, 0] ])
         
         this.tileMap = tileMap;
         
@@ -110,7 +111,6 @@ Enemy = ActorObject.extend({
         'pushCooldown': 30,
         
         // gfx properties
-        'animSpeed': 7,
         'spriteHeight': 48,
         'z-index': 10,
         'spriteHalfHeight': 24,
@@ -146,7 +146,7 @@ Enemy = ActorObject.extend({
             // --- Pull ---
             
             if (this.digCarrot.canPull) {
-                this.stop();
+                this.pauseAnimation();
                 this.digCarrot.obj.health -= model.get('pullSpeed');
                     
                 // if pulled, simply destroy entity, the hit check should determine if we
@@ -262,19 +262,19 @@ Enemy = ActorObject.extend({
             if (moving) {
                 if (this.move.left) {
                     if (!this.isPlaying("walk_left"))
-                        this.stop().animate("walk_left", model.get('animSpeed'), -1);
+                        this.animate("walk_left", -1);
                 } else if (this.move.right) {
                     if (!this.isPlaying("walk_right"))
-                        this.stop().animate("walk_right", model.get('animSpeed'), -1);
+                        this.animate("walk_right", -1);
                 } else if (this.move.up) {
                     if (!this.isPlaying("walk_up"))
-                        this.stop().animate("walk_up", model.get('animSpeed'), -1);
+                        this.animate("walk_up", -1);
                 } else if (this.move.down) {
                     if (!this.isPlaying("walk_down"))
-                        this.stop().animate("walk_down", model.get('animSpeed'), -1);
+                        this.animate("walk_down", -1);
                 }
             } else {
-                this.stop();
+                this.pauseAnimation();
             }
             
             // --- Collisions  --- 
@@ -395,7 +395,7 @@ Enemy = ActorObject.extend({
             // flag that pushed occured
             this.pushedProps.pushed = true;
             this.pushedProps.atFrame = undefined; //Crafty.frame.frame + model.get('pushCooldown');
-            this.stop();
+            this.pauseAnimation();
         })
         .bind("ForkBeacon", function(where) {
             // TRACE

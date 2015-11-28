@@ -23,11 +23,10 @@
  */
 Config = Backbone.Model.extend({
     defaults: {
-        // engine 
         'trace' : false,
         'debug' : false,
         'showfps': false,
-        'renderType' : 'DOM', // default - faster under FF & Safari
+        'renderType' : 'Canvas', // default - faster under FF & Safari
         'screen-width' : 1024,
         'screen-height' : 768,
         'mobile': false,
@@ -64,22 +63,19 @@ Config = Backbone.Model.extend({
     },
     initialize: function() {
         var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-        if (is_chrome) {
-            this.set('renderType', 'Canvas');
-        }
-        
+        // if (is_chrome) {
+        //     this.set('renderType', 'Canvas');
+        // }
         if (this.get('debug')) {
             console.log("Using %s rendering ...", this.get('renderType'));
         }
-        
         // Detect mobile browsers
         if (Modernizr.touch) {
             this.set('mobile', true);
             this.set('screen-width', 960);
             this.set('screen-height', 704);
             this.set('renderType', 'Canvas');
-            
-            var $canvas = $('#cr-stage');
+            var $canvas = $('#stage');
             var x = $(window).width() / 2 - this.get('screen-width') / 2;
 //          //var y = $(windows).height() / 2 - this.get('screen-height') / 2;
             $canvas.css({
@@ -90,6 +86,5 @@ Config = Backbone.Model.extend({
                  top: 0
                });
         }
-        
-    },
+    }
 });

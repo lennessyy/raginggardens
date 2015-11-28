@@ -26,13 +26,11 @@ Crafty.c("LeftControls", {
     init: function() {
         this.requires('Multiway');
     },
-    
     leftControls: function(speed) {
         this.multiway(speed, {UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180})
         return this;
     }
-    
-}); 
+});
 
 /**
  * Component that initilizes player animation tweets
@@ -40,11 +38,12 @@ Crafty.c("LeftControls", {
 Crafty.c('Dude', {
     Dude: function() {
         //setup animations
+        var animSpeed = 300;
         this.requires("SpriteAnimation, Collision, Grid")
-        .animate("walk_left", [ [0, 96], [32, 96], [64, 96] ])
-        .animate("walk_right", [ [0, 144], [32, 144], [64, 144] ])
-        .animate("walk_up", [ [0, 48], [32, 48], [64, 48] ])
-        .animate("walk_down", [ [0, 0], [32, 0], [64, 0] ])
+        .reel("walk_left", animSpeed, [ [0, 2], [1, 2], [2, 2] ])
+        .reel("walk_right", animSpeed, [ [0, 3], [1, 3], [2, 3] ])
+        .reel("walk_up", animSpeed, [ [0, 1], [1, 1], [2, 1] ])
+        .reel("walk_down", animSpeed, [ [0, 0], [1, 0], [2, 0] ])
         return this;
     }
 });
@@ -65,7 +64,6 @@ Player = ActorObject.extend({
         'pullID': undefined,
         
         // gfx properties
-        'animSpeed': 8,
         'spriteHeight': 48,
         'spriteHalfHeight': 24,
         'spriteHalfWidth': 16,
@@ -155,16 +153,16 @@ Player = ActorObject.extend({
             if (moving) {
                 if (this.move.left) {
                     if (!this.isPlaying("walk_left"))
-                        this.stop().animate("walk_left", model.get('animSpeed'), -1);
+                        this.animate("walk_left", -1);
                 } else if (this.move.right) {
                     if (!this.isPlaying("walk_right"))
-                        this.stop().animate("walk_right", model.get('animSpeed'), -1);
+                        this.animate("walk_right", -1);
                 } else if (this.move.up) {
                     if (!this.isPlaying("walk_up"))
-                        this.stop().animate("walk_up", model.get('animSpeed'), -1);
+                        this.animate("walk_up", -1);
                 } else if (this.move.down) {
                     if (!this.isPlaying("walk_down"))
-                        this.stop().animate("walk_down", model.get('animSpeed'), -1);
+                        this.animate("walk_down", -1);
                 }
                 
 //                // play walk sound
@@ -178,7 +176,7 @@ Player = ActorObject.extend({
 //                    }
 //                }                
             } else {
-                this.stop();
+                this.pauseAnimation();
             }
             
             // --- Pull ---
@@ -327,7 +325,7 @@ Player = ActorObject.extend({
                 Crafty.e("MagicFork").MagicPush(where)
                     .bind("EnterFrame", function(frame) {
                         if (frame.frame > this._createdOn) {
-                            this._anim.stop();
+                            this._anim.pauseAnimation();
                             this._anim.destroy();
                             this.destroy();
                     }

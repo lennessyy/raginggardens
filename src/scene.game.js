@@ -22,7 +22,6 @@
  * THE SOFTWARE.
  */
 Crafty.scene("main", function() {
-    
     var tilemap = new Tilemap();
     var player = new Player({'tileMap': tilemap});
     
@@ -142,10 +141,9 @@ Crafty.scene("main", function() {
     var gameTimeLeft = Date.now() + _Globals.conf.get('gameTimeLimit'); 
     var gameTurnTimeLeft = Date.now() + _Globals.conf.get('gameTurnPeriod'); 
     
-    Crafty.bind("EnterFrame",function(frame){
-        
+    Crafty.bind("EnterFrame",function(frame) {
+        console.log('hello', Crafty.isPaused());
         var currentTime = Date.now();
-        
         if (gameTimeLeft < currentTime) {
             Crafty.stop();
             //Crafty.trigger("ShowHiscore", {text: undefined, refresh: true}); 
@@ -200,6 +198,4 @@ Crafty.scene("main", function() {
     });
     
     Crafty.trigger("UpdateStats");
-     
-});    
-
+});
