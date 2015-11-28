@@ -83,8 +83,9 @@
     </div>
     <!--URCHIN-->
 <script type="text/javascript">
-window._Globals = {env: 'dev', version: '0.9.9', scene: 'splash'};
-var require = {waitSeconds: 15, urlArgs : "bust=" + new Date().getTime()};
+var ver = new Date().getTime();
+window._Globals = {env:'dev', version:ver, scene:'splash'};
+var require = {waitSeconds:15, urlArgs:"bust="+ver};
 </script>
 <script data-main="src/bootstrap" src="lib/require.js">
 </script
