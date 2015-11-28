@@ -22,67 +22,73 @@
  * THE SOFTWARE.
  */
 Crafty.scene("splash", function() {
+    Crafty.background('#000');
+    Crafty.background('transparent');
+
+    $("#left-frame").hide();
+    $("#right-frame").hide();
+    $("#bottom-frame").hide();
+    $("#stats").hide();
+    $("#in-menu").hide();
+    $("#fps").hide();
+
+    var hitEvent = 'click';
     
-    require(["lib/modernizr.custom.js"], function() {
-        //Crafty.background('transparent');
-        var hitEvent = 'click';
+    var bgX = 128, bgY = 34;
+    if (_Globals.conf.get('mobile')) {
+        bgY = 0;
         
-        var bgX = 128, bgY = 34;
-        if (_Globals.conf.get('mobile')) {
-            bgY = 0;
-            
-            $("#menu").css("top", "632px");
-            hitEvent = 'touchstart';
-        }
+        $("#menu").css("top", "632px");
+        hitEvent = 'touchstart';
+    }
 
-        var bg = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", Image")
-            .attr({x: bgX, y: bgY})
-            .image("art/stuz_splash.png", "no-repeat");
+    var bg = Crafty.e("2D, " + _Globals.conf.get('renderType') + ", Image")
+        .attr({x: bgX, y: bgY})
+        .image("art/stuz_splash.png", "no-repeat");
 
-        $("#menu-start").bind(hitEvent, function() {
-            $("#version").hide();
-            $("#menu").hide();
-            Crafty.scene('main');
-        });
-        
-        $("#version").text('v' + _Globals.version);
-        $("#version").show();
-        
-        $("#menu-howto").bind(hitEvent, function() {
-            // show dialog
-            $("#dialog-howto").dialog({
-                resizable: false,
-                "width": 720,
-                "height": 420,
-                modal: true,
-                "title": "How to play",
-                buttons: {
-                    "Sounds legit": function() {
-                        $(this).dialog("close");
-                    }
-                },
-            });          
-        });        
-        
-        $("#menu-hiscore").bind(hitEvent, function() {
-            Crafty.trigger('ShowHiscore', {text: undefined, refresh: false});
-        });        
-        
-        $('#menu-credits').bind(hitEvent, function() {
-            // show dialog
-            $("#dialog-credits").dialog({
-                resizable: false,
-                "width": 480,
-                "height": 280,
-                modal: true,
-                "title": "Credits",
-                buttons: {
-                    "Ok": function() {
-                        $(this).dialog("close");
-                    }
-                },
-            });           
-        });
-        $("#menu").show();
+    $("#menu-start").bind(hitEvent, function() {
+        $("#version").hide();
+        $("#menu").hide();
+        Crafty.scene('main');
     });
+    
+    $("#version").text('v' + _Globals.version);
+    $("#version").show();
+    
+    $("#menu-howto").bind(hitEvent, function() {
+        // show dialog
+        $("#dialog-howto").dialog({
+            resizable: false,
+            "width": 720,
+            "height": 420,
+            modal: true,
+            "title": "How to play",
+            buttons: {
+                "Sounds legit": function() {
+                    $(this).dialog("close");
+                }
+            },
+        });          
+    });        
+    
+    $("#menu-hiscore").bind(hitEvent, function() {
+        Crafty.trigger('ShowHiscore', {text: undefined, refresh: false});
+    });        
+    
+    $('#menu-credits').bind(hitEvent, function() {
+        // show dialog
+        $("#dialog-credits").dialog({
+            resizable: false,
+            "width": 480,
+            "height": 280,
+            modal: true,
+            "title": "Credits",
+            buttons: {
+                "Ok": function() {
+                    $(this).dialog("close");
+                }
+            },
+        });           
+    });
+    $("#menu").show();
 });

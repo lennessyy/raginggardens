@@ -141,10 +141,10 @@ Crafty.scene("main", function() {
     var gameTimeLeft = Date.now() + _Globals.conf.get('gameTimeLimit'); 
     var gameTurnTimeLeft = Date.now() + _Globals.conf.get('gameTurnPeriod'); 
     
-    Crafty.bind("EnterFrame",function(frame) {
-        console.log('hello', Crafty.isPaused());
+    var onEnterFrame = function(frame) {
         var currentTime = Date.now();
         if (gameTimeLeft < currentTime) {
+            Crafty.unbind('EnterFrame');
             Crafty.stop();
             //Crafty.trigger("ShowHiscore", {text: undefined, refresh: true}); 
             Crafty.trigger('ShowSaveHiscore', player.get('carrotsCount'));
@@ -195,7 +195,7 @@ Crafty.scene("main", function() {
             
             gameTick = Date.now() + _Globals.conf.get('gameTickPeriod');
         }
-    });
-    
+    };
+    Crafty.bind("EnterFrame", onEnterFrame);
     Crafty.trigger("UpdateStats");
 });
