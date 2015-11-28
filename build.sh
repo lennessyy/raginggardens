@@ -5,10 +5,10 @@ YUI=$(pwd)/yuicompressor-2.4.8pre.jar
 BUILD=$(pwd)/build
 VERSION=$(cat $PWD/manifest.json | grep \"version\" | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d ' ')
 
-if [ ! -d $BUILD ]; then
-	echo "Build folder($BUILD) does not exist!"
-	exit
-fi
+#if [ ! -d $BUILD ]; then
+#	echo "Build folder($BUILD) does not exist!"
+#	exit
+#fi
 
 if [ ! -e $YUI ]; then
 	echo "YUI not found in $YUI!"
@@ -18,8 +18,12 @@ fi
 ### Cleanup old build files
 echo "Cleaning old build files ..."
 
-find $BUILD -type f ! -name ".gitkeep" |xargs -i rm {}
-find $BUILD -type d ! -name ".gitkeep" -and ! -name "build" |xargs -i rmdir {} -p
+#find $BUILD -type f ! -name ".gitkeep" |xargs -i rm {}
+#find $BUILD -type d ! -name ".gitkeep" -and ! -name "build" |xargs -i rmdir {} -p
+if [ -d $BUILD ]; then
+	rm -rf $BUILD
+fi
+mkdir $BUILD
 
 if [ "$1" == "clean" ]; then
 	exit;
