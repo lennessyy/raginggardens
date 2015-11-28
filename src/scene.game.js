@@ -158,9 +158,8 @@ Crafty.scene("main", function() {
             
             var mins = leftMin.toFixed(0);
             mins = mins < 10 ? '0' + mins : mins;
-            var sec = leftSec.toFixed(2);
+            var sec = leftSec.toFixed(0);
             sec = sec < 10 ? '0' + sec : sec;
-            
             $('#timer').text(mins + ':' + sec);
         }
         
