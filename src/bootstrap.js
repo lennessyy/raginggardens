@@ -38,8 +38,9 @@ require(["src/config.js", "src/actor_object.js", "src/hiscore.js"], function() {
     /**
      * Init Crafty Engine
      */
-    Crafty.init(_Globals.conf.get('screen-width'), _Globals.conf.get('screen-height'), 60)
-        .canvas.init();
+    Crafty.init(_Globals.conf.get('screen-width'), 
+        _Globals.conf.get('screen-height'), document.getElementById('cr-stage'));
+    Crafty.settings.modify('autoPause', true);
     Crafty.background('transparent');
 
     /**

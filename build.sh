@@ -36,7 +36,6 @@ cp lib/ $BUILD -R
 cp sfx/ $BUILD -R
 cp src/ $BUILD -R
 cp favicon.ico HISTORY index.html LICENSE README.md manifest.json $BUILD
-rm $BUILD/lib/crafty-0.5.3-full.js
 rm -rf $BUILD/lib/qunit
 
 ### Obfuscate javascript
