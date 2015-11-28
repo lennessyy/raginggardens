@@ -31,6 +31,7 @@ Crafty.scene("main", function() {
         $("#bottom-frame").show();
     }
 
+    $('.safari').hide();
     $("#stats").show();    
     $("#in-menu").show();
     

@@ -26,7 +26,7 @@ Config = Backbone.Model.extend({
         'trace' : false,
         'debug' : false,
         'showfps': false,
-        'renderType' : 'Canvas', // default - faster under FF & Safari
+        'renderType' : 'Canvas',
         'screen-width' : 1024,
         'screen-height' : 768,
         'mobile': false,
@@ -39,7 +39,7 @@ Config = Backbone.Model.extend({
         'music_vol': 0.3,
         
         // gameplay
-        'gameTimeLimit': 10*1000, // 180 * 1000, // 3 mins
+        'gameTimeLimit': 180 * 1000, // 3 mins
         'gameTurnPeriod': 30 * 1000, // every 30 seconds
         'gameTickPeriod': 1 * 1000, 
         
@@ -62,13 +62,13 @@ Config = Backbone.Model.extend({
         'carrotsForkCost': 2,        
     },
     initialize: function() {
-        var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+        //var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
         // if (is_chrome) {
         //     this.set('renderType', 'Canvas');
         // }
-        if (this.get('debug')) {
-            console.log("Using %s rendering ...", this.get('renderType'));
-        }
+        //if (this.get('debug')) {
+        //    console.log("Using %s rendering ...", this.get('renderType'));
+        //}
         // Detect mobile browsers
         if (Modernizr.touch) {
             this.set('mobile', true);

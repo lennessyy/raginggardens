@@ -32,6 +32,11 @@ Crafty.scene("splash", function() {
     $("#in-menu").hide();
     $("#fps").hide();
 
+    var isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+    if (isSafari) {
+        $('.safari').show();
+    }
+
     var hitEvent = 'click';
     
     var bgX = 128, bgY = 34;

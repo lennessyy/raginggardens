@@ -7,6 +7,12 @@ body, html {
     background: #000 url('../art/stuz_bg.png');
     font-family: Tahoma, Sans-serif, Helvetica;
 } 
+.safari {
+    text-align: center;
+    color: white;
+    font-size: 75%;
+    display: none;
+}
 .info{
     text-align: center;
 }
