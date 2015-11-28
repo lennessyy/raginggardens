@@ -36,15 +36,26 @@ var Hiscore = Backbone.Model.extend({
     },
     // save score for given person directly to DB
     save: function(wscore, fnCallback) {
-        if (GJAPI && GJAPI.bActive) {
-            GJAPI.ScoreAdd(_Globals.conf.get('tid'), wscore, wscore + ' carrots', '', function (pResponse) {
-                if (pResponse && !!!pResponse.success) {
-                    console.error('Error writing score!', pResponse.message);
-                    fnCallback && fnCallback(null);
-                } else {
-                    fnCallback && fnCallback(true);
-                }
-            });
+        if (GJAPI) {
+            if (GJAPI.bActive) {
+                GJAPI.ScoreAdd(_Globals.conf.get('tid'), wscore, wscore + ' carrots', '', function (pResponse) {
+                    if (pResponse && !!!pResponse.success) {
+                        console.error('Error writing score!', pResponse.message);
+                        fnCallback && fnCallback(null);
+                    } else {
+                        fnCallback && fnCallback(true);
+                    }
+                });
+            } else {
+                GJAPI.ScoreAddGuest(_Globals.conf.get('tid'), wscore, wscore + ' carrots', 'Guest', '', function (pResponse) {
+                    if (pResponse && !!!pResponse.success) {
+                        console.error('Error writing score!', pResponse.message);
+                        fnCallback && fnCallback(null);
+                    } else {
+                        fnCallback && fnCallback(true);
+                    }
+                });
+            }
         } else {
             fnCallback && fnCallback(null);
         }
@@ -52,7 +63,7 @@ var Hiscore = Backbone.Model.extend({
     // get sorted list of top scores 
     getAllScores: function(fnCallback) {
         var results = [];
-        if (GJAPI && GJAPI.bActive) {
+        if (GJAPI) {
             GJAPI.ScoreFetch(_Globals.conf.get('tid'), GJAPI.SCORE_ALL, 50, function (pResponse) {
                 if (pResponse && !!!pResponse.success) {
                     console.error('Error fetching scores!', pResponse.message);
@@ -62,7 +73,7 @@ var Hiscore = Backbone.Model.extend({
                         var entry = pResponse.scores[i];
                         results.push({
                             name: (entry.user ? entry.user : entry.guest), 
-                            score: entry.score
+                            score: entry.sort
                         });
                     }
                     fnCallback && fnCallback(results);
@@ -77,7 +88,6 @@ var Hiscore = Backbone.Model.extend({
 
 // Show Hiscore Dialog - View/Reset scores
 Crafty.bind("ShowSaveHiscore", function(score) {
-    // show dialog
     $("#dialog-save-score").dialog({
         resizable: false,
         "width": 400,
@@ -85,9 +95,17 @@ Crafty.bind("ShowSaveHiscore", function(score) {
         modal: false,
         "title": "Save Hiscore",
         zIndex: 20,
+        open: function() {
+            if (GJAPI && GJAPI.bActive) {
+                $(this).html('Publish your score to Gamejolt?');
+            } else {
+                $(this).html('Publish your score as \'Guest\' to Gamejolt?');
+            }
+        },
         buttons: {
             "Yes": function() {
-                 hiscore.save(score, function (success) {
+                var hiscore = _Globals['hiscore'];
+                hiscore.save(score, function (success) {
                     if (success) {
                         Crafty.trigger('ShowHiscore', {
                             text: undefined, 
@@ -120,14 +138,10 @@ Crafty.bind("ShowHiscore", function(params) {
         position: 'top',
         "title": "Top 50 Scores",
         open: function() {
-             $("#dialog-score").css({'height': '520px'});
+            $("#dialog-score").css({'height': '520px'});
             if (!params.text) {
                 $("#dialog-score").html('<p>Please wait while loading scores ...</p>');
                 var hiscore = _Globals['hiscore'];
-//                hiscore.open();
-                
-                // load scores
-                //var text = '<div style="position: absolute; top: 0; left: 0;">';
                 var text = '<div>';
                 text += '<span class="name u">';
                 text += 'Name';
@@ -192,5 +206,4 @@ Crafty.bind("ShowHiscore", function(params) {
 //            }
         }
     });
-    
 });
