@@ -22,93 +22,61 @@
  * THE SOFTWARE.
  */
  
-/**
- * 
- */
-Hiscore = Backbone.Model.extend({
+var Hiscore = Backbone.Model.extend({
     defaults: {},
     initialize: function() {
         // Leer
     },
     open: function(fnCallback) {
-        var model = this;
-        var leaderboard = new Clay.Leaderboard( { id: 1213, limit: 50 } );
-        model.set('lb', leaderboard);
+        if (!GJAPI || !GJAPI.bActive) {
+            console.error('Gamejolt login not active!');
+        } else {
+            console.log('Gamejolt user ' + GJAPI.sUserName);
+        }
     },
     // save score for given person directly to DB
-    save: function(who, wscore, fnCallback) {
-        var model = this;
-        
-        var leaderboard = model.get('lb');
-        if (leaderboard === undefined) {
-            if (fnCallback) {
-                fnCallback(null);
-                return;
-            }           
-        }        
-        
-        // ... I know you can, but please don't :(
-        var options = {
-            name: who,    
-            score: wscore,
-//          hideUI: true
-        };
-        leaderboard.post(options, function(response) {
-            // Callback
-           if (fnCallback)  {
-               console.log(response);
-               if (response.success) {
-                   fnCallback(true);
-               } else {
-                   fnCallback(null);
-               }
-           }            
-        });        
+    save: function(wscore, fnCallback) {
+        if (GJAPI && GJAPI.bActive) {
+            GJAPI.ScoreAdd(_Globals.conf.get('tid'), wscore, wscore + ' carrots', '', function (pResponse) {
+                if (pResponse && !!!pResponse.success) {
+                    console.error('Error writing score!', pResponse.message);
+                    fnCallback && fnCallback(null);
+                } else {
+                    fnCallback && fnCallback(true);
+                }
+            });
+        } else {
+            fnCallback && fnCallback(null);
+        }
     },
     // get sorted list of top scores 
     getAllScores: function(fnCallback) {
-        var model = this;
-        
-        var leaderboard = model.get('lb');
-        if (leaderboard === undefined) {
-            if (fnCallback) {
-                fnCallback(null);
-                return;
-            }           
-        }
-        
-        leaderboard.fetch({}, function(results) {
-//          console.log(results);
-            if(results && results.length > 0) {
-                // send back
-                if (fnCallback) {
-                    var result = [];
-                    for(var i=0; i < results.length; i++) {
-                        var score = results[i];
-                        result.push({name: score.name, score: score.score });
+        var results = [];
+        if (GJAPI && GJAPI.bActive) {
+            GJAPI.ScoreFetch(_Globals.conf.get('tid'), GJAPI.SCORE_ALL, 50, function (pResponse) {
+                if (pResponse && !!!pResponse.success) {
+                    console.error('Error fetching scores!', pResponse.message);
+                    fnCallback && fnCallback(null);
+                } else {
+                    for(var i = 0; i < pResponse.scores.length; i++) {
+                        var entry = pResponse.scores[i];
+                        results.push({
+                            name: (entry.user ? entry.user : entry.guest), 
+                            score: entry.score
+                        });
                     }
-                    
-                    fnCallback(result);
+                    fnCallback && fnCallback(results);
                 }
-            } else {
-                // score listing failed because of response.ErrorCode
-                if (_Globals.conf.get('debug')) {
-                    console.log("Load scores failed!");
-                    console.log(response);
-                }
-                // flag that something went wrong
-                if (fnCallback) {
-                    fnCallback(null);
-                }
-            }
-        }); // end List
-    },
+            });
+        } else {
+            fnCallback && fnCallback(null);    
+        }
+    }
 });
 
 
 // Show Hiscore Dialog - View/Reset scores
 Crafty.bind("ShowSaveHiscore", function(score) {
-    
     // show dialog
     $("#dialog-save-score").dialog({
         resizable: false,
@@ -119,31 +87,18 @@ Crafty.bind("ShowSaveHiscore", function(score) {
         zIndex: 20,
         buttons: {
             "Yes": function() {
-                while(true) {
-                    var name = prompt("Please enter your rabbit name (Maximum 10 characters)", "");
-                    if (name != null && name.trim() != "") {
-                        var hiscore = _Globals['hiscore'];
-                        //hiscore.open();
-
-                        name = name.replace(/<(?:.|\n)*?>/gm, '');
-                        name = name.substr(0, 10);
-                        
-                        //$("#dialog-save-score").html('<p>Please wait while saving your score ...</p>');
-                        
-                        hiscore.save(name, score, function(success) {
-                            if (success) {
-                                Crafty.trigger('ShowHiscore', {text: undefined, refresh: true});
-                            } else {
-                                Crafty.trigger('ShowHiscore', {text: 'Failed saving your score! Sorry :(', refresh: true});
-                            }
-                        }); 
-                        
-                        break;
-                    } else if (name === null) {
-                        window.location.reload();
-                        break;
+                 hiscore.save(score, function (success) {
+                    if (success) {
+                        Crafty.trigger('ShowHiscore', {
+                            text: undefined, 
+                            refresh: true
+                        });
+                    } else {
+                        Crafty.trigger('ShowHiscore', {
+                            text: 'Failed saving your score! Sorry :(', refresh: true
+                        });
                     }
-                }
+                });
                 $(this).dialog("close");
             },
             "No": function() {
@@ -152,14 +107,10 @@ Crafty.bind("ShowSaveHiscore", function(score) {
             }            
         },
     });
-        
-        
 });
 
 // Show Hiscore Dialog - View/Reset scores
 Crafty.bind("ShowHiscore", function(params) {
-    //console.log(params);
-    
     $("#dialog-score").dialog({
         resizable: false,
         width: 400,
@@ -169,12 +120,9 @@ Crafty.bind("ShowHiscore", function(params) {
         position: 'top',
         "title": "Top 50 Scores",
         open: function() {
-            
              $("#dialog-score").css({'height': '520px'});
-            
             if (!params.text) {
                 $("#dialog-score").html('<p>Please wait while loading scores ...</p>');
-                
                 var hiscore = _Globals['hiscore'];
 //                hiscore.open();
                 
@@ -189,21 +137,20 @@ Crafty.bind("ShowHiscore", function(params) {
                 text += '</span>';
                 text += '</div>';            
                 hiscore.getAllScores(function(scores, server) {
-                
                     // on error
-                    if (scores === null) {
+                    if (!scores) {
                         text += '<div>';
                         text += '<span class="name">';
                         text += 'Failed loading scores!';
                         text += '</span>';
                         text += '<span class="score">';
                         text += '</span>';
-                        text += '</div>';                       
+                        text += '</div>';
                     } else {
-                        var i = 0;
-                        _.each(scores, function(obj) {
-                            if (++i > 50)
+                        _.each(scores, function(obj, i) {
+                            if (++i > 50) {
                                 return;
+                            }
                             text += '<div>';
                             text += '<span class="name">';
                             text += i + '. ';
@@ -215,9 +162,8 @@ Crafty.bind("ShowHiscore", function(params) {
                             text += '</div>';
                             
                         });
-                        //text += '</div>';                     
+                        //text += '</div>';
                     }
-                    
                     $("#dialog-score").html(text);
                     //Crafty.trigger("ShowHiscore", {text: text, refresh: params.refresh});
                 });

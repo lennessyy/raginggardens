@@ -31,6 +31,7 @@ Config = Backbone.Model.extend({
         'screen-width' : 1024,
         'screen-height' : 768,
         'mobile': false,
+        'tid': '114455',
         
         // media
         'sfx': true,
@@ -39,7 +40,7 @@ Config = Backbone.Model.extend({
         'music_vol': 0.3,
         
         // gameplay
-        'gameTimeLimit': 180 * 1000, // 3 mins
+        'gameTimeLimit': 10*1000, // 180 * 1000, // 3 mins
         'gameTurnPeriod': 30 * 1000, // every 30 seconds
         'gameTickPeriod': 1 * 1000, 
         
