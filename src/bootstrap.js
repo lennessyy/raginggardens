@@ -23,6 +23,7 @@
  */
 
 require(["src/traps.js", "src/config.js", "src/actor_object.js", "src/hiscore.js"], function() {
+    var isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
     /**
      * Global Registry
      */
@@ -113,6 +114,9 @@ require(["src/traps.js", "src/config.js", "src/actor_object.js", "src/hiscore.js
                 music: ["trouble_in_the_garden_lowq.ogg"],
             }
         };
+        if (isSafari) {
+            assets.audio = {};
+        }
         Crafty.load(assets, function() {
             Crafty.scene(_Globals['scene']);
             // disable loading
