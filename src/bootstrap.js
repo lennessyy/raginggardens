@@ -22,8 +22,7 @@
  * THE SOFTWARE.
  */
 
-require(["src/config.js", "src/actor_object.js", "src/hiscore.js"], function() {
-    
+require(["src/traps.js", "src/config.js", "src/actor_object.js", "src/hiscore.js"], function() {
     /**
      * Global Registry
      */
@@ -38,8 +37,9 @@ require(["src/config.js", "src/actor_object.js", "src/hiscore.js"], function() {
     /**
      * Init Crafty Engine
      */
-    Crafty.init(_Globals.conf.get('screen-width'), 
-        _Globals.conf.get('screen-height'), document.getElementById('cr-stage'));
+    var screen = document.getElementById('stage');
+    Crafty.init(_Globals.conf.get('screen-width'), _Globals.conf.get('screen-height'), screen);
+    Crafty.viewport.init(_Globals.conf.get('screen-width'), _Globals.conf.get('screen-height'), screen);
     Crafty.settings.modify('autoPause', true);
     Crafty.background('transparent');
 
