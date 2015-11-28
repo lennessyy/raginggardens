@@ -193,6 +193,7 @@ Crafty.bind("ShowHiscore", function(params) {
             },
             "Let me out!": function() {
                 if (params.refresh) {
+                    Crafty.audio.stop('music');
                     Crafty.init();
                     Crafty.scene(_Globals['scene']);
                 }                

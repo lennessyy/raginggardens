@@ -30,7 +30,7 @@ Config = Backbone.Model.extend({
         'screen-width' : 1024,
         'screen-height' : 768,
         'mobile': false,
-        'tid': '114455',
+        'tid': '15884',
         
         // media
         'sfx': true,
