@@ -1,0 +1,20 @@
+{
+    "start": "Play Game",
+    "credits": "Credits",
+    "goal": "Collect as many carrots as possible in 3 minutes. Use the controls to move and repel opponents.",
+    "goal-control-title": "Goal &amp; Controls",
+    "direction-control": "<span class=\"keys\">Arrow keys</span> - Move your ninja rabbit on the map.",
+    "arrows": "Arrow keys",
+    "pull-carrot-control": "<span class=\"keys\">Z (or Y)</span> - Hold down to pull a carrot from the ground. You need to be close to a carrot.</li>",
+    "eat-carrot-control": "<span class=\"keys\">Q</span> - Eat <span class=\"keys\">1 carrot</span> and fart to push opponents away from you.",
+    "totem-control": "<span class=\"keys\">W</span> - Eat <span class=\"keys\">2 carrots</span> and spawn a 'Carrot-on-a-Fork' totem that attracts opponents and gives you time to pull more carrots elsewhere on the map.",
+    "instructions": "How to Play",
+    "menu-hiscores": "High Scores",
+    "story-title": "Story",
+    "story": "It's a lovely day at farmers field. A great time for a hungry (ninja) rabbit to sneak in and pull some carrots to eat. Too bad you weren't the only one with that idea. A horde of hungry opponents approaches fast! Pull as many carrots as you can in 3 minutes. To fight your opponents, you must use ancient rabbitjutsu tactics. These are slightly unorthodox. Simply uhm ... fart to push your opponents away or use a Carrot-on-a-Fork totem decoy to deceive them. The totem is spawned on your current position.",
+    "dialog-restart": "Would you like to restart the game?",
+    "developer": "Game design and programming - <a href=\"http://petarov.vexelon.net\">Petar Petrov</a></p>",
+    "designer": "Art and graphics - <a href=\"http://stremena.com/\">Stremena Tuzsuzova</a>",
+    "musician": "Sound and Music - <a href=\"https://github.com/petarov/game-off-2012#sound-and-music\">See here</a>",
+    "title": "Raging Gardens"
+    }
