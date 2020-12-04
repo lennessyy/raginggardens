@@ -1,7 +1,7 @@
 {
-    "start": "开始游戏",
-    "credits": "开发者",
-    "goal": "在三分钟内累计尽可能多的胡萝卜，可以通过吃萝卜使用技能骚扰对手",
+    "start": "Play Game",
+    "credits": "Credits",
+    "goal": "Pull as many carrots as you can in 3 minutes. To fight your opponents, you must use ancient rabbitjutsu tactics.",
     "goal-control-title": "目标与操作方法",
     "direction-control": "<span class=\"keys\">方向键</span> - 方向键操作移动方向",
     "arrows": "方向键",
