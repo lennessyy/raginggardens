@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="Raging Gardens is an HTML5 game by Dvubuz Games.">
     <meta name="keywords" content="raging gardens, rabbits game, html5, javascript, indie, browser based, 2D game">    
-    <title>Raging Gardens</title>
+    <title data-localize="title">Raging Gardens</title>
     <script type="text/javascript" src="lib/modernizr.custom.js"></script>
     <link rel="shortcut icon" href="favicon.ico" />
     <link type="text/css" href="css/style.css" rel="stylesheet" /> 
@@ -19,38 +19,39 @@
     <script type="text/javascript" src="lib/backbone-min.js"></script>
     <script type="text/javascript" src="lib/graph.js"></script>
     <script type="text/javascript" src="lib/astar.js"></script>
+    <script type="text/javascript" src="src/jq.localize.js"></script>
 </head>
 <body>
 <!--[if lt IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
     <div id="dialog-save-score" style="display: none;"></div>
     <div id="dialog-score" style="display: none;"></div>
     <div id="dialog-howto" style="display: none;">
-    <h1>Story</h1>
-    <p>
+    <h1 data-localize="story-title">Story</h1>
+    <p data-localize="story">
     It's a lovely day at farmers field. A great time for a hungry (ninja) rabbit to sneak in and <span class="keys">pull</span> 
     some carrots to eat. Too bad you weren't the only one with that idea. A horde of hungry opponents approaches fast! 
     Pull as many carrots as you can in <span class="keys">3 minutes</span>. To fight your opponents, you must use ancient rabbitjutsu tactics. 
     These are slightly unorthodox. Simply uhm ... fart to <span class="keys">push</span> your opponents away or use a 
     <span class="keys">Carrot-on-a-Fork</span> totem decoy to deceive them. The totem is spawned on your current position.
     </p>
-    <h1>Goal &amp; Controls</h1>
-    <p>Collect as many carrots as possible in 3 minutes. Use the controls to move and repel opponents.</p>
+    <h1 data-localize="goal-control-title">Goal &amp; Controls</h1>
+    <p data-localize="goal">Collect as many carrots as possible in 3 minutes. Use the controls to move and repel opponents.</p>
     <ul>
-        <li><span class="keys">Arrow keys</span> - Move your ninja rabbit on the map.</li>
-        <li><span class="keys">Z (or Y)</span> - Hold down to pull a carrot from the ground. You need to be close to a carrot.</li>
-        <li><span class="keys">Q</span> - Eat <span class="keys">1 carrot</span> and fart to push opponents away from you.</li>
-        <li><span class="keys">W</span> - Eat <span class="keys">2 carrots</span> and spawn a "Carrot-on-a-Fork" totem that attracts 
+        <li data-localize="direction-control"><span data-localize="arrows" class="keys">Arrow keys</span> - Move your ninja rabbit on the map.</li>
+        <li data-localize="pull-carrot-control"><span class="keys">Z (or Y)</span> - Hold down to pull a carrot from the ground. You need to be close to a carrot.</li>
+        <li data-localize="eat-carrot-control"><span class="keys">Q</span> - Eat <span class="keys">1 carrot</span> and fart to push opponents away from you.</li>
+        <li data-localize="totem-control"><span class="keys">W</span> - Eat <span class="keys">2 carrots</span> and spawn a "Carrot-on-a-Fork" totem that attracts 
         opponents and gives you time to pull more carrots elsewhere on the map.</li>
     </ul>
     </div>
     <div id="dialog-credits" style="display: none;">
-        <p>Game design and programming - <a href="http://petarov.vexelon.net">Petar Petrov</a></p>
+        <p data-localize="developer">Game design and programming - <a href="http://petarov.vexelon.net">Petar Petrov</a></p>
         <br />
-        <p>Art and graphics - <a href="http://stremena.com/">Stremena Tuzsuzova</a></p>
+        <p data-localize="designer">Art and graphics - <a href="http://stremena.com/">Stremena Tuzsuzova</a></p>
         <br />
-        <p>Sound and Music - <a href="https://github.com/petarov/game-off-2012#sound-and-music">See here</a></p>
+        <p data-localize="musician">Sound and Music - <a href="https://github.com/petarov/game-off-2012#sound-and-music">See here</a></p>
     </div>
-    <div id="dialog-restart" style="display: none;">Would you like to restart the game?</div>
+    <div id="dialog-restart" data-localize="dialog-restart" style="display: none;">Would you like to restart the game?</div>
     
     <div id="fps" style="display: none;"></div>
 
@@ -71,10 +72,10 @@
                 <div id="toggle-sfx"></div>
             </div>
             <div id="menu" style="display: none;">
-                <div id="menu-start" class="button" style="left: 76px">Play Game</div>
-                <div id="menu-howto" class="button" style="left: 248px">How to Play</div>
-                <div id="menu-hiscore" class="button" style="left: 438px">Hiscores</div>
-                <div id="menu-credits" class="button" style="left: 618px">Credits</div>
+                <div id="menu-start" data-localize="start" class="button" style="left: 76px">Play Game</div>
+                <div id="menu-howto" data-localize="instructions" class="button" style="left: 248px">How to Play</div>
+                <div id="menu-hiscore" data-localize="menu-hiscores" class="button" style="left: 438px">Hiscores</div>
+                <div id="menu-credits" data-localize="credits" class="button" style="left: 618px">Credits</div>
             </div>
         </div>
     </div>
@@ -87,8 +88,12 @@
 var ver = new Date().getTime();
 window._Globals = {env:'dev', version:ver, scene:'splash'};
 var require = {waitSeconds:15, urlArgs:"bust="+ver};
+let detectedLan = navigator.language.slice(0, 2);
+detectedLan = detectedLan === "en" ? "zh" : detectedLan;
+var opts = { language: detectedLan, pathPrefix: "./locales", skipLanguage: "en-US" };
+$("[data-localize]").localize("translations", opts);
 </script>
 <script data-main="src/bootstrap" src="lib/require.js">
-</script
+</script>
 </body>
 </html>

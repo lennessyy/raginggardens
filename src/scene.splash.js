@@ -73,7 +73,7 @@ Crafty.scene("splash", function() {
                     $(this).dialog("close");
                 }
             },
-        });          
+        }).data("localize", "instructions");  
     });        
     
     $("#menu-hiscore").bind(hitEvent, function() {

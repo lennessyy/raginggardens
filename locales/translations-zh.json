@@ -1,0 +1,19 @@
+{
+    "start": "开始游戏",
+    "credits": "开发者",
+    "goal": "在三分钟内累计尽可能多的胡萝卜，可以通过吃萝卜使用技能骚扰对手",
+    "goal-control-title": "目标与操作方法",
+    "direction-control": "<span class=\"keys\">方向键</span> - 方向键操作移动方向",
+    "pull-carrot-control": "<span class=\"keys\">Z (或 Y)</span> - 按住Z或Y键可以拔起萝卜</li>",
+    "eat-carrot-control": "<span class=\"keys\">Q</span> - 吃 <span class=\"keys\">1个胡萝卜</span>来放屁把敌人臭走",
+    "totem-control": "<span class=\"keys\">W</span> - 吃 <span class=\"keys\">两个萝卜</span> 并生成一个胡萝卜图腾来迷惑对手以争取时间",
+    "instructions": "操作方法",
+    "menu-hiscores": "高分",
+    "story-title": "背景",
+    "story": "农田里的天气很好。对于一只饥饿的（忍者）兔子来说，这是个好时机，可以溜进去拔些胡萝卜吃。可惜你不是唯一有这个想法的人。一群饥饿的对手快速接近! 在3分钟内尽可能多地拔出胡萝卜。为了与对手战斗，你必须使用古老的兔子术战术。这些都是稍微非正统的。简单地呃......放屁来推开你的对手，或者使用胡萝卜上叉图腾诱饵来欺骗他们。图腾会在你当前位置产生。",
+    "dialog-restart": "再来一局？",
+    "developer": "游戏设计与开发 - <a href=\"http://petarov.vexelon.net\">Petar Petrov</a></p>",
+    "designer": "艺术与插画 - <a href=\"http://stremena.com/\">Stremena Tuzsuzova</a>",
+    "musician": "声音与音乐 - <a href=\"https://github.com/petarov/game-off-2012#sound-and-music\">See here</a>",
+    "title": "愤怒花园"
+}
