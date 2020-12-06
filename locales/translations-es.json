@@ -1,0 +1,20 @@
+{
+  "start": "Jugar un juego",
+  "credits": "Créditos",
+  "goal": "Recolecta tantas zanahorias como puedas en 3 minutos. Usa los controles para moverte y repeler a los oponentes.",
+  "goal-control-title": "Objetivo & amp; Control S",
+  "direction-control": "<span class=\"keys\">Teclas de flecha</span> - Mueve tu conejo ninja en el mapa.",
+  "arrows": "Teclas de flecha",
+  "pull-carrot-control": "<span class=\"keys\">Z (o Y)</span> - Mantén pulsado para sacar una zanahoria del suelo. Necesitas estar cerca de una zanahoria.</li>",
+  "eat-carrot-control": "<span class=\"keys\">Q</span> - Comer <span class=\"keys\">1 zanahoria</span> Y pedo para alejar a los oponentes de ti.",
+  "totem-control": "<span class=\"keys\">W</span> - Comer <span class=\"keys\">2 zanahorias</span> y generar una 'zanahoria-on-a-Tenedor' totem que atrae a los oponentes y le da tiempo para tirar más zanahorias en otros lugares en el mapa.",
+  "instructions": "Cómo jugar",
+  "menu-hiscores": "Puntuaciones altas",
+  "story-title": "Historia",
+  "story": "Es un hermoso día en el campo de agricultores. Un buen momento para que un conejo hambriento (ninja) se cuele y saque algunas zanahorias para comer. Lástima que no fueras el único con esa idea. ¡Una horda de oponentes hambrientos se acerca rápidamente! Saca tantas zanahorias como puedas en 3 minutos. Para luchar contra tus oponentes, debes usar antiguas tácticas de rabbitjutsu. Estos son un poco heterodoxos. Simplemente uhm ... tírate un pedo para alejar a tus oponentes o usa un tótem de Carrot-on-a-Fork para engañarlos. El tótem se genera en tu posición actual.",
+  "dialog-restart": "¿Quieres reiniciar el juego?",
+  "developer": "Diseño y programación de juegos- <a href=\"http://petarov.vexelon.net\">Petar Petrov</a></p>",
+  "designer": "Arte y gráficos - <a href=\"http://stremena.com/\">Stremena Tuzsuzova</a>",
+  "musician": "Sonido y musica - <a href=\"https://github.com/petarov/game-off-2012#sound-and-music\">See here</a>",
+  "title": "Jardines furiosos"
+}
