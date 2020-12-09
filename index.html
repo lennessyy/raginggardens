@@ -89,7 +89,7 @@ var ver = new Date().getTime();
 window._Globals = {env:'dev', version:ver, scene:'splash'};
 var require = {waitSeconds:15, urlArgs:"bust="+ver};
 let detectedLan = navigator.language.slice(0, 2);
-detectedLan = detectedLan === "en" ? "zh" : detectedLan;
+detectedLan = detectedLan === "en" ? "ko" : detectedLan;
 var opts = { language: detectedLan, pathPrefix: "./locales", skipLanguage: "en-US" };
 $("[data-localize]").localize("translations", opts);
 </script>

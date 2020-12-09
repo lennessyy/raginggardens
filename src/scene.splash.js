@@ -61,19 +61,24 @@ Crafty.scene("splash", function() {
     $("#version").show();
     
     $("#menu-howto").bind(hitEvent, function() {
-        // show dialog
-        $("#dialog-howto").dialog({
-            resizable: false,
-            "width": 720,
-            "height": 440,
-            modal: true,
-            "title": "How to play",
-            buttons: {
-                "Sounds legit": function() {
-                    $(this).dialog("close");
-                }
-            },
-        }).data("localize", "instructions");  
+        let path = "../locales/translations-" + detectedLan + ".json"
+        let titleText;
+        let buttonText;
+        $.getJSON( path, function( data ) {
+            titleText = data.instructions;
+            buttonText = data.ok;
+            let buttons = {};
+            buttons[buttonText] = function(){$(this).dialog("close")};
+
+            $("#dialog-howto").dialog({
+                resizable: false,
+                "width": 720,
+                "height": 440,
+                modal: true,
+                "title": titleText,
+                buttons: buttons,
+            })
+          });
     });        
     
     $("#menu-hiscore").bind(hitEvent, function() {
